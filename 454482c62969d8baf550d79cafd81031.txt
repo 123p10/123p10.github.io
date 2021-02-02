@@ -1,0 +1,3 @@
+<li>Implemented logging system on extremely memory constrained systems</li>
+<li>Developed features for mass produced embedded device in C and Python</li>
+<li>Worked on USB-C with PD (Power Delivery) contracts</li>
