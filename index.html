@@ -6,7 +6,6 @@
 		<link rel="preconnect" href="https://fonts.gstatic.com">
 		<link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet">
 		<title>Owen's Personal Site</title>
-		<script src="script.js"></script>
 	</head>
 	<body>
 		<div class="container">
@@ -21,7 +20,16 @@
 				<div class="portrait-text-parent">
 					<span class="portrait-text-content">
 						<div class="content-header">Who am I?</div>
-						*Under Construction*
+
+						I am currently a co-op student at the University of Waterloo pursuing a B.Asc in Mechatronics Engineering.
+						<b>My current areas of interest are:</b>
+						<ul>
+							<li>Embedded C</li>
+							<li>LLVM</li>
+							<li>FreeRTOS</li>
+							<li>ARM Cortex-M Devices</li>
+							<li>Robotics</li>
+						</ul>
 					</span>
 					<img class="portrait" src="portrait-1.png">
 				</div>
@@ -31,12 +39,12 @@
 							Work Experience <a id="work-experience-button" class="collapse-icon" href="javascript:void(0)" onclick="toggle(0)">[–]</a>
 						</div>
 						<div id="work-experience-content">
-							<div class="work-experience-block">
-								<span class="work-experience-img-block">
+							<div class="experience-block">
+								<span class="experience-img-block">
 									<img src="apple-black.svg">
 								</span>
-								<span class="work-experience-text-block">
-									<span class="work-experience-company">
+								<span class="experience-text-block">
+									<span class="experience-institution">
 										Apple
 										<span style="float:right">
 											Winter 2021
@@ -48,19 +56,19 @@
 										Remote
 									</span>
 								</span>
-									<span class="work-experience-body">
+									<span class="experience-body">
 										<ul>
 											<li>This is currently hidden to preserve confidentiality</li>
 										</ul>
 									</span>
 								</span>
 							</div>
-							<div class="work-experience-block">
-								<span class="work-experience-img-block">
+							<div class="experience-block">
+								<span class="experience-img-block">
 									<img src="ford-logo.png">
 								</span>
-								<span class="work-experience-text-block">
-									<span class="work-experience-company">
+								<span class="experience-text-block">
+									<span class="experience-institution">
 										Ford Motor Company
 										<span style="float:right">
 											Summer 2020
@@ -72,7 +80,7 @@
 										Remote
 									</span>
 								</span>
-									<span class="work-experience-body">
+									<span class="experience-body">
 										<ul>
 											<li>Worked on system to process vehicle core dump files into easily readable, accessible and shareable online formats using GDB and Java</li>
 											<li>Rewrote permissions system to enable complex and nested conditions while maintaining performance on system with over 1 billion database records</li>
@@ -81,12 +89,12 @@
 									</span>
 								</span>
 							</div>
-							<div class="work-experience-block">
-								<span style="background-color: #6b59ef" class="work-experience-img-block">
+							<div class="experience-block">
+								<span style="background-color: #6b59ef" class="experience-img-block">
 									<img src="groupdesk.svg">
 								</span>
-								<span class="work-experience-text-block">
-									<span class="work-experience-company">
+								<span class="experience-text-block">
+									<span class="experience-institution">
 										Groupdesk
 										<span style="float:right">
 											Summer 2019
@@ -98,7 +106,7 @@
 										Toronto, ON
 									</span>
 								</span>
-									<span class="work-experience-body">
+									<span class="experience-body">
 										<ul>
 											<li>Developed CRUD services, using Angular to remove user dependence on technicians</li>
 											<li>Built Google Analytics system from the ground up, to better understand user behaviour and identify user priorities</li>
@@ -109,8 +117,75 @@
 							</div>
 						</div>
 					</div>
-				</div>
+					<div class="projects-parent">
+						<div class="content-header projects-title">
+							Personal Projects <a id="projects-button" class="collapse-icon" href="javascript:void(0)" onclick="toggle(1)">[–]</a>
+						</div>
+						<div id="projects-content">
+							<div class="experience-block">
+								<span class="experience-img-block">
+									<!--<img src="apple-black.svg">-->
+								</span>
+								<span class="experience-text-block">
+									<span class="experience-institution">
+										Under Construction
+										<span style="float:right">
+											Under Construction
+										</span>
+									</span>
+									<span>
+										Under Construction
+										<span style="float:right">
+										Under Construction
+									</span>
+								</span>
+									<span class="experience-body">
+										<ul>
+											<li>Under Construction</li>
+										</ul>
+									</span>
+								</span>
+							</div>
+						</div>
+					</div>
+
+					<div class="education-parent">
+						<div class="content-header education-experience-title">
+							Education <a id="education-button" class="collapse-icon" href="javascript:void(0)" onclick="toggle(2)">[–]</a>
+						</div>
+						<div id="education-content">
+							<div class="experience-block">
+								<span class="experience-img-block">
+									<img src="waterloo.png">
+								</span>
+								<span class="experience-text-block">
+									<span class="experience-institution">
+										University of Waterloo
+										<span style="float:right">
+											September 2019 - April 2024
+										</span>
+									</span>
+									<span>
+										Mechatronics Engineering
+										<span style="float:right">
+										Waterloo, ON
+									</span>
+								</span>
+									<span class="experience-body">
+										<ul>
+											<li>CGPA - 92.79</li>
+											<li>MTE 262: Introduction to Microprocessors and Digital Logic</li>
+											<li>MTE 140: Data Structures and Algorithms</li>
+											<li>MTE 219: Mechanics of Deformable Solids</li>
+											<li>MTE 201: Experimental Measurement & Statistical Analysis</li>
+										</ul>
+									</span>
+								</span>
+							</div>
+						</div>
+					</div>
 			</main>
 		</div>
 	</body>
 </html>
+<script src="script.js"></script>

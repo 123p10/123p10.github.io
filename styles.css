@@ -37,19 +37,21 @@ body {
 	justify-content: space-between;
 	align-items: flex-start;
 }
+.portrait-text-content {
+	color: #404040;
+}
 .content-header {
 	font-size: 1.25rem;
 	font-weight: bold;
+	padding-top: 1rem;
+	color: black;
 }
 .collapse-icon {
 	color: grey;
 	font-size: 1rem;
 	text-decoration: none;
 }
-#work-experience-content {
-	padding-top: 1rem;
-}
-.work-experience-block {
+.experience-block {
 	height: 15rem;
 	background-color: #eaeaea;
 	border-radius: 10px;
@@ -57,7 +59,7 @@ body {
 	align-content: flex-start;
 	margin-top: 1rem;
 }
-.work-experience-img-block {
+.experience-img-block {
 	align-self: center;
 	background-color: #d2d2d2;
 	border-radius: 15px;
@@ -70,11 +72,11 @@ body {
   	justify-content: center;
   	flex-shrink: 0;
 }
-.work-experience-img-block > img {
+.experience-img-block > img {
 	max-height: 80%;
 	max-width: 80%;
 }
-.work-experience-text-block {
+.experience-text-block {
 	margin-left: 1.5rem;
 	display: flex;
 	flex-direction: column;
@@ -84,12 +86,12 @@ body {
 	padding-right: 1rem;
 
 }
-.work-experience-company {
+.experience-institution {
 	font-size: 1.5rem;
 }
-.work-experience-body {
+.experience-body {
 	padding-top: 0.25rem;
 }
-.work-experience-body > ul > li {
+.experience-body > ul > li {
 	padding-bottom: 0.5rem;
 }
