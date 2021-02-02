@@ -1,9 +1,16 @@
 nameMap = [
-	"work-experience"
+	"work-experience",
+	"projects",
+	"education"
 ];
 statusMap = [
 	true,
+	true,
+	true,
 ];
+for(let i = 0;i < nameMap.length;i++){
+	expand(i);
+}
 
 function toggle(id){
 	if(id > statusMap.length || id > nameMap.length) {
