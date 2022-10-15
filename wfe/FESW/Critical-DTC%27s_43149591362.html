@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Firmware : Critical DTC&#39;s</title>
+        <link rel="stylesheet" href="styles/site.css" type="text/css" />
+        <META http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    </head>
+
+    <body class="theme-default aui-theme-default">
+        <div id="page">
+            <div id="main" class="aui-page-panel">
+                <div id="main-header">
+                    <div id="breadcrumb-section">
+                        <ol id="breadcrumbs">
+                            <li class="first">
+                                <span><a href="index.html">Firmware</a></span>
+                            </li>
+                                                    <li>
+                                <span><a href="Firmware_9465365086.html">Firmware</a></span>
+                            </li>
+                                                    <li>
+                                <span><a href="Documentation_9513894334.html">Documentation</a></span>
+                            </li>
+                                                    <li>
+                                <span><a href="Car-Documentation_43149788126.html">Car Documentation</a></span>
+                            </li>
+                                                    <li>
+                                <span><a href="Shutdown-Conditions_43150213314.html">Shutdown Conditions</a></span>
+                            </li>
+                                                </ol>
+                    </div>
+                    <h1 id="title-heading" class="pagetitle">
+                                                <span id="title-text">
+                            Firmware : Critical DTC&#39;s
+                        </span>
+                    </h1>
+                </div>
+
+                <div id="content" class="view">
+                    <div class="page-metadata">
+                        
+        
+    
+        
+    
+        
+        
+            Created by <span class='author'> Justin Vuong</span>, last modified on Aug 14, 2022
+                        </div>
+                    <div id="main-content" class="wiki-content group">
+                    <p>Critical DTC: A fault has occurred with high safety risks. The board detecting the fault must take immediate action to handle the fault, either by shutting down or clearing the fault in some other manner. In general other boards don't need to take action, but depending on the fault some other boards may need to take action. This does not require a power cycle to clear.</p><p /><div id="expander-624752698" class="expand-container"><div id="expander-control-624752698" class="expand-control"><span class="expand-control-icon"><img style="vertical-align:middle;" class="expand-control-image" src="images/icons/grey_arrow_down.png"></span><span class="expand-control-text">CRITICAL_CELL_VOLTAGE_LOW</span></div><div id="expander-content-624752698" class="expand-content"><p><strong>Description</strong>:</p><p>From the BMU when an AMS board reports a cell with a voltage &lt; 2.5V   </p><p><strong>What happens/How to diagnose:</strong></p><ul><li><p>The calling task will stop</p></li></ul></div></div><div id="expander-1946989667" class="expand-container"><div id="expander-control-1946989667" class="expand-control"><span class="expand-control-icon"><img style="vertical-align:middle;" class="expand-control-image" src="images/icons/grey_arrow_down.png"></span><span class="expand-control-text">CRITICAL_CELL_VOLTAGE_HIGH</span></div><div id="expander-content-1946989667" class="expand-content"><p><strong>Description</strong>:</p><p>From the BMU when an AMS board reports a cell with a voltage &lt; 4.2V   </p><p><strong>What happens/How to diagnose:</strong></p></div></div><div id="expander-1642120938" class="expand-container"><div id="expander-control-1642120938" class="expand-control"><span class="expand-control-icon"><img style="vertical-align:middle;" class="expand-control-image" src="images/icons/grey_arrow_down.png"></span><span class="expand-control-text">sendDTC_CRITICAL_CELL_TEMP_HIGH</span></div><div id="expander-content-1642120938" class="expand-content"><p><strong>Description</strong>:</p><p>From the BMU when an AMS board reports a cell with a temperature &gt; 55 C</p><p><strong>What happens/How to diagnose:</strong></p></div></div><div id="expander-801498929" class="expand-container"><div id="expander-control-801498929" class="expand-control"><span class="expand-control-icon"><img style="vertical-align:middle;" class="expand-control-image" src="images/icons/grey_arrow_down.png"></span><span class="expand-control-text">sendDTC_CRITICAL_CELL_TEMP_LOW</span></div><div id="expander-content-801498929" class="expand-content"><p><strong>Description</strong>:</p><p>From the BMU when an AMS board reports a cell with a temperature &lt; 5 C</p><p><strong>What happens/How to diagnose:</strong></p></div></div><div id="expander-743482263" class="expand-container"><div id="expander-control-743482263" class="expand-control"><span class="expand-control-icon"><img style="vertical-align:middle;" class="expand-control-image" src="images/icons/grey_arrow_down.png"></span><span class="expand-control-text">CRITICAL_BPS_FAIL</span></div><div id="expander-content-743482263" class="expand-content"><p><strong>Description</strong>:</p><ul><li><p>Sent from the VCU. Not Implemented</p></li></ul><p><strong>What happens/How to diagnose:</strong></p></div></div><div id="expander-2138989852" class="expand-container"><div id="expander-control-2138989852" class="expand-control"><span class="expand-control-icon"><img style="vertical-align:middle;" class="expand-control-image" src="images/icons/grey_arrow_down.png"></span><span class="expand-control-text">CRITICAL_Brake_Pressure_FAIL</span></div><div id="expander-content-2138989852" class="expand-content"><p><strong>Description</strong>:</p><ul><li><p>Sent from the VCU. Not Implemented</p></li></ul><p><strong>What happens/How to diagnose:</strong></p></div></div><div id="expander-1483331889" class="expand-container"><div id="expander-control-1483331889" class="expand-control"><span class="expand-control-icon"><img style="vertical-align:middle;" class="expand-control-image" src="images/icons/grey_arrow_down.png"></span><span class="expand-control-text">CRITICAL_Throtte_Failure</span></div><div id="expander-content-1483331889" class="expand-content"><p><strong>Description</strong>:</p><ul><li><p>Comes from the VCU but is never sent. </p></li></ul><p><strong>What happens/How to diagnose:</strong></p></div></div>
+                    </div>
+
+                    
+                                                      
+                </div>             </div> 
+            <div id="footer" role="contentinfo">
+                <section class="footer-body">
+                    <p>Document generated by Confluence on Oct 15, 2022 01:34</p>
+                    <div id="footer-logo"><a href="http://www.atlassian.com/">Atlassian</a></div>
+                </section>
+            </div>
+        </div>     </body>
+</html>

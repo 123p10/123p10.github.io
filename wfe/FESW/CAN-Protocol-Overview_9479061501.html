@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Firmware : CAN Protocol Overview</title>
+        <link rel="stylesheet" href="styles/site.css" type="text/css" />
+        <META http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    </head>
+
+    <body class="theme-default aui-theme-default">
+        <div id="page">
+            <div id="main" class="aui-page-panel">
+                <div id="main-header">
+                    <div id="breadcrumb-section">
+                        <ol id="breadcrumbs">
+                            <li class="first">
+                                <span><a href="index.html">Firmware</a></span>
+                            </li>
+                                                    <li>
+                                <span><a href="Firmware_9465365086.html">Firmware</a></span>
+                            </li>
+                                                    <li>
+                                <span><a href="Documentation_9513894334.html">Documentation</a></span>
+                            </li>
+                                                    <li>
+                                <span><a href="Common-all-Documentation_9569468768.html">Common-all Documentation</a></span>
+                            </li>
+                                                    <li>
+                                <span><a href="9437059750.html">CAN (Control Area Network)</a></span>
+                            </li>
+                                                </ol>
+                    </div>
+                    <h1 id="title-heading" class="pagetitle">
+                                                <span id="title-text">
+                            Firmware : CAN Protocol Overview
+                        </span>
+                    </h1>
+                </div>
+
+                <div id="content" class="view">
+                    <div class="page-metadata">
+                        
+        
+    
+        
+    
+        
+        
+            Created by <span class='author'> Former user</span>, last modified on Dec 26, 2018
+                        </div>
+                    <div id="main-content" class="wiki-content group">
+                    <h3 id="CANProtocolOverview-ABriefOverviewoftheCANprotocol">A Brief Overview of the CAN protocol</h3><p>The CAN bus protocol is defined by the ISO 11898-1 standard and can be summarized like this:</p><ul><li>The physical layer uses differential transmission on a twisted pair wire.</li><li>A non-destructive bit-wise arbitration is used to control access to the bus.</li><li>The messages are small (at most eight data bytes) and are protected by a checksum.</li><li>There is no explicit address in the messages, instead, each message carries a numeric value which controls its priority on the bus, and may also serve as an identification of the contents of the message.</li><li>An elaborate error handling scheme that results in retransmitted messages when they are not properly received.</li><li>There are effective means for isolating faults and removing faulty nodes from the bus.</li></ul><p>Reference <a class="external-link" href="https://www.kvaser.com/about-can/the-can-protocol/" rel="nofollow">https://www.kvaser.com/about-can/the-can-protocol/</a></p><p>Simple explanation video: <a class="external-link" href="https://www.youtube.com/watch?v=FqLDpHsxvf8" rel="nofollow">https://www.youtube.com/watch?v=FqLDpHsxvf8</a></p><h3 id="CANProtocolOverview-CANMessageTypes">CAN Message Types</h3><p>In brief, there are a total of 4 different CAN message types:</p><ol><li>Data Frame,</li><li>Remote Frame</li><li>Error Frame, and</li><li>Overload Frame (Obsolete)</li></ol><div class="table-wrap"><table class="confluenceTable"><colgroup><col/><col/></colgroup><thead><tr><th class="confluenceTh"><p>Frame</p></th><th class="confluenceTh"><p>Description</p></th></tr></thead><tbody><tr><td class="confluenceTd">Data</td><td class="confluenceTd"><div class="content-wrapper"><p>Dedicated frame for data transmission. This comes in two configurations:</p><ul style="margin-left: 1.6em;"><li><em>Base frame format:</em> with 11 identifier bits</li><li><em>Extended frame format:</em> with 29 identifier bits</li></ul><p>Base Frame Format</p><p><span class="confluence-embedded-file-wrapper"><span class="confluence-embedded-file-wrapper"><img class="confluence-embedded-image confluence-external-resource" src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/5e/CAN-Bus-frame_in_base_format_without_stuffbits.svg/709px-CAN-Bus-frame_in_base_format_without_stuffbits.svg.png" data-image-src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/5e/CAN-Bus-frame_in_base_format_without_stuffbits.svg/709px-CAN-Bus-frame_in_base_format_without_stuffbits.svg.png" loading="lazy"></span></span></p></div></td></tr><tr><td class="confluenceTd">Remote</td><td class="confluenceTd"><p>A node requests data by sending a remote frame. This tells all nodes on the bus that one node on the bus needs a data X.</p><p>Differences between a Data Frame and a Remote Frame:</p><ul style="margin-left: 1.6em;"><li>Firstly the RTR-bit (Remote Transmission Request) is transmitted as a dominant bit in the Data Frame and secondly in the Remote Frame there is no Data Field. The DLC field indicates the data length of the requested message (not the transmitted one)</li></ul><p>RTR = 0 ; DOMINANT in data frame</p><p>RTR = 1 ; RECESSIVE in remote frame</p></td></tr><tr><td class="confluenceTd">Error</td><td class="confluenceTd"><p>The error frame consists of two different fields:</p><ul style="margin-left: 1.6em;"><li>The first field is given by the superposition of ERROR FLAGS (6–12 dominant/recessive bits) contributed from different stations.</li><li>The following second field is the ERROR DELIMITER (8 recessive bits).</li></ul></td></tr></tbody></table></div><h3 id="CANProtocolOverview-CANBitTiming">CAN Bit Timing</h3><p>Each bit on the CAN bus is, for timing purposes is divided into at least 4 quanta. These quanta are logically divided into four groups</p><ul><li>the Synchronization Segment</li><li>the Propagation Segment</li><li>the Phase Segment 1</li><li>the Phase Segment 2</li></ul><p>Here is a picture of a CAN data bit:</p><p><a class="external-link" href="http://www.kvaser.com/wp-content/uploads/2014/01/bit-timing-1.gif" rel="nofollow"><span class="confluence-embedded-file-wrapper"><span class="confluence-embedded-file-wrapper"><img class="confluence-embedded-image confluence-external-resource" alt="Bit Timing 1" src="http://www.kvaser.com/wp-content/uploads/2014/01/bit-timing-1.gif" data-image-src="http://www.kvaser.com/wp-content/uploads/2014/01/bit-timing-1.gif" loading="lazy"></span></span></a></p><p><a class="external-link" href="http://www.kvaser.com/wp-content/uploads/2014/01/bit-timing-1.gif" rel="nofollow">Reference </a><a class="external-link" href="https://www.kvaser.com/about-can/the-can-protocol/" rel="nofollow">https://www.kvaser.com/about-can/the-can-protocol/</a></p><h3 id="CANProtocolOverview-ClockSynchronization">Clock Synchronization</h3><p>In order to adjust the on-chip bus clock, the CAN controller may shorten or prolong the length of a bit by an integral number of quanta. The maximum value of these bit time adjustments are termed the Synchronization Jump Width, SJW.</p><p><strong>Hard synchronizationoccurs</strong> on the recessive-to-dominant transition of the start bit. The bit time is restarted from that edge.</p><p><strong>Resynchronizationoccurs</strong> when a bit edge doesn’t occur within the Synchronization Segment in a message. One of the Phase Segments are shortened or lengthened with an amount that depends on the phase error in the signal; the maximum amount that may be used is determined by the Synchronization Jump Width parameter.</p><h3 id="CANProtocolOverview-HardwareConfigurationofCAN(STM32HALLibrary)">Hardware Configuration of CAN (STM32 HAL Library)</h3><p><br/><strong>HAL_CAN_MspInit</strong></p><div class="table-wrap"><table class="confluenceTable"><colgroup><col/><col/></colgroup><tbody><tr><td class="confluenceTd"><p style="text-align: right;">1<br/>2<br/>3<br/>4<br/>5<br/>6<br/>7<br/>8<br/>9<br/>10<br/>11<br/>12<br/>13<br/>14<br/>15<br/>16<br/>17<br/>18<br/>19<br/>20<br/>21<br/>22<br/>23<br/>24<br/>25<br/>26</p></td><td class="confluenceTd"><p><code class="cpp keyword bold">void</code> <code class="cpp plain">HAL_CAN_MspInit(CAN_HandleTypeDef* hcan)</code><br/><code class="cpp plain">{</code><br/> <br/><code class="cpp spaces">    </code><code class="cpp plain">GPIO_InitTypeDef GPIO_InitStruct;</code><br/><code class="cpp spaces">    </code><code class="cpp keyword bold">if</code> <code class="cpp plain">(hcan-&gt;Instance == CAN)</code><br/><code class="cpp spaces">    </code><code class="cpp plain">{</code><br/> <br/><code class="cpp spaces">        </code><code class="cpp comments">/* Peripheral clock enable */</code><br/><code class="cpp spaces">        </code><code class="cpp plain">__CAN_CLK_ENABLE();</code><br/> <br/><code class="cpp spaces">        </code><code class="cpp comments">/**CAN GPIO Configuration</code><br/><code class="cpp spaces">         </code><code class="cpp comments">PB8     ------&gt; CAN_RX</code><br/><code class="cpp spaces">         </code><code class="cpp comments">PB9     ------&gt; CAN_TX</code><br/><code class="cpp spaces">         </code><code class="cpp comments">*/</code><br/><code class="cpp spaces">        </code><code class="cpp plain">GPIO_InitStruct.Pin = CAN_N_PIN | CAN_P_PIN;</code><br/><code class="cpp spaces">        </code><code class="cpp plain">GPIO_InitStruct.Mode = GPIO_MODE_AF_PP;</code><br/><code class="cpp spaces">        </code><code class="cpp plain">GPIO_InitStruct.Pull = GPIO_NOPULL;</code><br/><code class="cpp spaces">        </code><code class="cpp plain">GPIO_InitStruct.Speed = GPIO_SPEED_LOW;</code><br/><code class="cpp spaces">        </code><code class="cpp plain">GPIO_InitStruct.Alternate = GPIO_AF4_CAN;</code><br/><code class="cpp spaces">        </code><code class="cpp plain">HAL_GPIO_Init(CAN_PORT, &amp;GPIO_InitStruct);</code><br/> <br/><code class="cpp spaces">        </code><code class="cpp comments">/* System interrupt init*/</code><br/><code class="cpp spaces">        </code><code class="cpp plain">HAL_NVIC_SetPriority(CAN_INTERRUPT, CAN_PRIORITY_BASE, 0);</code><br/><code class="cpp spaces">        </code><code class="cpp plain">HAL_NVIC_EnableIRQ(CAN_INTERRUPT);</code><br/><code class="cpp spaces">    </code><code class="cpp plain">}</code><br/><code class="cpp plain">}</code></p></td></tr></tbody></table></div>
+                    </div>
+
+                    
+                                                      
+                </div>             </div> 
+            <div id="footer" role="contentinfo">
+                <section class="footer-body">
+                    <p>Document generated by Confluence on Oct 15, 2022 02:51</p>
+                    <div id="footer-logo"><a href="http://www.atlassian.com/">Atlassian</a></div>
+                </section>
+            </div>
+        </div>     </body>
+</html>

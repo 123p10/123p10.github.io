@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Firmware : Traction Control Debugging</title>
+        <link rel="stylesheet" href="styles/site.css" type="text/css" />
+        <META http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    </head>
+
+    <body class="theme-default aui-theme-default">
+        <div id="page">
+            <div id="main" class="aui-page-panel">
+                <div id="main-header">
+                    <div id="breadcrumb-section">
+                        <ol id="breadcrumbs">
+                            <li class="first">
+                                <span><a href="index.html">Firmware</a></span>
+                            </li>
+                                                    <li>
+                                <span><a href="Firmware_9465365086.html">Firmware</a></span>
+                            </li>
+                                                    <li>
+                                <span><a href="Firmware-Projects_9571009451.html">Firmware Projects</a></span>
+                            </li>
+                                                    <li>
+                                <span><a href="Traction-Control-Testing-Plans_43149755531.html">Traction Control Testing Plans</a></span>
+                            </li>
+                                                </ol>
+                    </div>
+                    <h1 id="title-heading" class="pagetitle">
+                                                <span id="title-text">
+                            Firmware : Traction Control Debugging
+                        </span>
+                    </h1>
+                </div>
+
+                <div id="content" class="view">
+                    <div class="page-metadata">
+                        
+        
+    
+        
+    
+        
+        
+            Created by <span class='author'> Owen Brake</span>, last modified by <span class='editor'> Joseph Anthony Borromeo</span> on Sep 23, 2022
+                        </div>
+                    <div id="main-content" class="wiki-content group">
+                    <h2 id="TractionControlDebugging-FirstTesttodefineproblem:">First Test to define problem:</h2><ul><li><p>Flashed all boards except rear WSBs</p></li><li><p>Running on branch traction_control_debugging</p></li><li><p>Waiting until beaglebone WIFI comes up to collect CAN logs</p></li><li><p>HV Failed, I suspect due to some merge issues</p></li><li><p>There was an issue with the precharge code which I fixed</p></li><li><p>Wiping CAN logs 2.0</p></li></ul><h2 id="TractionControlDebugging-SecondTesttodefineproblem">Second Test to define problem</h2><ul><li><p>Waiting for CAN logs to boot up again</p></li><li><p>Went to HV by pressing HV Enable</p></li><li><p>Pressing TC button did nothing</p></li><li><p>No DTC occurred on BMU side</p></li><li><p>Pressing TC again does not trigger anything</p></li><li><p>Pressing HV Enable caused normal discharge, no errors</p></li><li><p>I realise this now makes sense as you can only TC when you are at EM</p></li></ul><p>CAN Log:</p><p class="media-group"><span class="confluence-embedded-file-wrapper"><a class="confluence-embedded-file" href="attachments/43220697129/43220631618" data-nice-type="null" data-file-src="/wiki/download/attachments/43220697129/Second_Run_No_Error_At_HV?version=1&amp;modificationDate=1663768691400&amp;cacheVersion=1&amp;api=v2" data-linked-resource-id="43220631618" data-linked-resource-type="attachment" data-linked-resource-container-id="43220697129" data-linked-resource-default-alias="Second_Run_No_Error_At_HV" data-mime-type="application/octet-stream" data-has-thumbnail="true" data-linked-resource-version="1" data-media-id="fcca960c-047a-4787-bff6-c1786a383bf8" data-media-type="file"><img src="attachments/thumbnails/43220697129/43220631618" height="250"/></a></span></p><h2 id="TractionControlDebugging-ThirdTesttodefineproblem">Third Test to define problem</h2><ul><li><p>Going to serial into DCU and go: HV-&gt;EM-&gt;TC and get serial output</p></li><li><p>Motors Failed to start for some reason</p></li><li><p>Path from HV-&gt;EM did not proceed got DTC Code 16, Data 5</p></li><li><p>Reading the CAN log it seems we got no response from Motor Controllers implying CAN bus down, which is not a traction control issue but a fact that they disassembled the powertrain issue</p></li></ul><p>CAN Log:</p><p class="media-group"><span class="confluence-embedded-file-wrapper"><a class="confluence-embedded-file" href="attachments/43220697129/43220500536" data-nice-type="null" data-file-src="/wiki/download/attachments/43220697129/Third_Error_Failed_Motors?version=2&amp;modificationDate=1663769672114&amp;cacheVersion=1&amp;api=v2" data-linked-resource-id="43220500536" data-linked-resource-type="attachment" data-linked-resource-container-id="43220697129" data-linked-resource-default-alias="Third_Error_Failed_Motors" data-mime-type="application/octet-stream" data-has-thumbnail="true" data-linked-resource-version="2" data-media-id="491ab870-3902-4b3f-bb18-ca18a43ec47b" data-media-type="file"><img src="attachments/thumbnails/43220697129/43220500536" height="250"/></a></span><span class="confluence-embedded-file-wrapper"><a class="confluence-embedded-file" href="attachments/43220697129/43220500536" data-nice-type="null" data-file-src="/wiki/download/attachments/43220697129/Third_Error_Failed_Motors?version=2&amp;modificationDate=1663769672114&amp;cacheVersion=1&amp;api=v2" data-linked-resource-id="43220500536" data-linked-resource-type="attachment" data-linked-resource-container-id="43220697129" data-linked-resource-default-alias="Third_Error_Failed_Motors" data-mime-type="application/octet-stream" data-has-thumbnail="true" data-linked-resource-version="2" data-media-id="491ab870-3902-4b3f-bb18-ca18a43ec47b" data-media-type="file"><img src="attachments/thumbnails/43220697129/43220500536" height="250"/></a></span></p><h2 id="TractionControlDebugging-WhydidEMFail?">Why did EM Fail?</h2><ul><li><p>My thoughts:</p><ul><li><p>1. the phase cablings are not properly secured on the right motor</p><ul><li><p>This is possibly a cause but seems likely just a compliance or reliability or safety issue and not a fatal issue for the vehicle</p></li></ul></li><li><p>2. The RR WSB was unplugged which cut the CAN bus</p><ul><li><p>This was clearly a fatal issue</p></li><li><p>I resolved it by plugging it back in</p></li></ul></li><li><p>3. I unplugged and replugged back in the MC LV harness, I suspect this might have been a cause</p><ul><li><p>I’m not 100% certain but they seemed pretty loose so I replugged em back in</p></li></ul></li><li><p>4. Gen5MC injecting CAN noise</p><ul><li><p>To attempt to see why the MCs were not communicating I plugged in with the CAN dongle, I started Gen5MC to attempt to twiddle it with no success</p></li><li><p>I turned off Gen5MC then tried to EM, however MCComm stayed on in Windows which I believe was trying to communicate with MCs and confusing everything</p></li></ul></li></ul></li></ul><h2 id="TractionControlDebugging-FourthTesttodefineproblem">Fourth Test to define problem</h2><ul><li><p>Went HV-&gt;EM</p><ul><li><p>EM started appropriately, motors span</p></li><li><p>cooling began, fans were running</p></li><li><p>PDU serial indicated we properly source switched to DC-DC <img class="emoticon emoticon-blue-star" data-emoji-id="1f973" data-emoji-shortname=":partying_face:" data-emoji-fallback="🥳" src="images/icons/emoticons/72/1f973.png" width="16" height="16" data-emoticon-name="blue-star" alt="(blue star)"/> </p></li></ul></li><li><p>Pressed TC</p><ul><li><p>TC button stayed illuminated, vehicle came down from HV, TSAL turned off</p></li></ul></li></ul><p>CAN Log:</p><p class="media-group"><span class="confluence-embedded-file-wrapper"><a class="confluence-embedded-file" href="attachments/43220697129/43221516382" data-nice-type="Text File" data-file-src="/wiki/download/attachments/43220697129/Fourth_Error_HV_Disable_After_TC?version=1&amp;modificationDate=1663773562872&amp;cacheVersion=1&amp;api=v2" data-linked-resource-id="43221516382" data-linked-resource-type="attachment" data-linked-resource-container-id="43220697129" data-linked-resource-default-alias="Fourth_Error_HV_Disable_After_TC" data-mime-type="text/plain" data-has-thumbnail="true" data-linked-resource-version="1" data-media-id="22d945f7-7c9c-4c53-8723-af3de48aaf04" data-media-type="file"><img src="attachments/thumbnails/43220697129/43221516382" height="250"/></a></span><span class="confluence-embedded-file-wrapper"><a class="confluence-embedded-file" href="attachments/43220697129/43221516388" data-nice-type="null" data-file-src="/wiki/download/attachments/43220697129/Invalid%20file%20id%20-%2039c8d0dc-932a-4170-b6d6-d88648ce94b9?version=1&amp;modificationDate=1663773562894&amp;cacheVersion=1&amp;api=v2" data-linked-resource-id="43221516388" data-linked-resource-type="attachment" data-linked-resource-container-id="43220697129" data-linked-resource-default-alias="Invalid file id - 39c8d0dc-932a-4170-b6d6-d88648ce94b9" data-mime-type="application/octet-stream" data-has-thumbnail="true" data-linked-resource-version="1" data-media-id="39c8d0dc-932a-4170-b6d6-d88648ce94b9" data-media-type="file"><img src="attachments/thumbnails/43220697129/43221516388" height="250"/></a></span></p><h3 id="TractionControlDebugging-CANLogObservations">CAN Log Observations</h3><ul><li><p>Immediately after TC is enabled we get DTC_CODE 7, like literally the next CAN message, very suspicious</p></li><li><p>To me it’s very clear the BMU is improperly handling our button pressed for some reason <img class="emoticon emoticon-blue-star" data-emoji-id="1f914" data-emoji-shortname=":thinking:" data-emoji-fallback="🤔" src="images/icons/emoticons/72/1f914.png" width="16" height="16" data-emoticon-name="blue-star" alt="(blue star)"/> </p><ul><li><p>It’s slightly possible there are dropped CAN message in between, but I think it’s less likely</p></li><li><p>Next steps would be let’s look via UART into the BMU, see what the exact failure is, perhaps the CAN callback causes a stack overflow or misses a watchdog timer</p></li><li><p>My main suspicion is that perhaps the BMU thinks a TC press is an HV press</p></li><li><p>We should probably change our DBC file for buttonEvents to do unsigned bitfields not signed bitfields. Our DCU_buttonEvents is 5 signed bits, this means the bits are either -1 or 0 <img class="emoticon emoticon-blue-star" data-emoji-id="1f605" data-emoji-shortname=":sweat_smile:" data-emoji-fallback="😅" src="images/icons/emoticons/72/1f605.png" width="16" height="16" data-emoticon-name="blue-star" alt="(blue star)"/> </p></li></ul></li></ul><h2 id="TractionControlDebugging-FifthTesttodefineproblem:">Fifth Test to define problem:</h2><ul><li><p>Going to try replicating the fourth test, but this time with serial in BMU</p></li><li><p>Got up to HV-&gt;EM</p></li><li><p>Pressed TC and we did not descend from HV it stayed up with all LEDs illuminated (EM,HV,TC)</p></li><li><p>The last few lines from serial are here:</p></li></ul><div class="code panel pdl" style="border-width: 1px;"><div class="codeContent panelContent pdl">
+<pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: java; gutter: false; theme: Confluence" data-theme="Confluence">sing positive contactor
+Tick, VBUS, VBATT, IBUS
+258019,193.786346,192.702362,0.155122
+258030,194.068344,192.950134,0.113705
+258053,248.072342,246.896042,0.797087
+Precharge step 5 took 258059 ticks
+INFO: VBUS 248.072342
+INFO: VBatt 246.896042
+INFO: IBus 0.797087
+Finished Precharge
+Precharge done
+Received event 2
+Processing event 2
+precharge finished
+
+PEC Rate: 0 errors/10s 
+
+Command not recognised.  Enter &#39;help&#39; to view a list of available commands.
+
+bmu &gt; 
+PEC Rate: 0 errors/10s 
+DCU Button events
+
+PEC Rate: 0 errors/10s 
+DCU Button events
+DCU Button events
+DCU Button events
+DCU Button events
+DCU Button events
+DCU Button events
+DCU Button events
+DCU Button events
+DCU Button events
+
+PEC Rate: 1 errors/10s 
+
+PEC Rate: 0 errors/10s 
+
+PEC Rate: 0 errors/10s 
+
+PEC Rate: 0 errors/10s 
+
+PEC Rate: 0 errors/10s 
+
+PEC Rate: 0 errors/10s 
+
+PEC Rate: 0 errors/10s 
+
+PEC Rate: 0 errors/10s 
+
+</pre>
+</div></div><p>CAN Log:</p><p class="media-group"><span class="confluence-embedded-file-wrapper"><a class="confluence-embedded-file" href="attachments/43220697129/43221516408.csv" data-nice-type="null" data-file-src="/wiki/download/attachments/43220697129/Fifth_Error_HV_Up_After_TC.csv?version=1&amp;modificationDate=1663774993766&amp;cacheVersion=1&amp;api=v2" data-linked-resource-id="43221516408" data-linked-resource-type="attachment" data-linked-resource-container-id="43220697129" data-linked-resource-default-alias="Fifth_Error_HV_Up_After_TC.csv" data-mime-type="text/csv" data-has-thumbnail="true" data-linked-resource-version="1" data-media-id="8468f0f7-b324-48f2-a023-b3adf61baeaf" data-media-type="file"><img src="attachments/thumbnails/43220697129/43221516408" height="250"/></a></span><span class="confluence-embedded-file-wrapper"><a class="confluence-embedded-file" href="attachments/43220697129/43220828215" data-nice-type="null" data-file-src="/wiki/download/attachments/43220697129/Fifth_Error_HV_Up_After_TC?version=1&amp;modificationDate=1663775140345&amp;cacheVersion=1&amp;api=v2" data-linked-resource-id="43220828215" data-linked-resource-type="attachment" data-linked-resource-container-id="43220697129" data-linked-resource-default-alias="Fifth_Error_HV_Up_After_TC" data-mime-type="application/octet-stream" data-has-thumbnail="true" data-linked-resource-version="1" data-media-id="1ee766c8-99f5-44ab-b2b3-4172594a1977" data-media-type="file"><img src="attachments/thumbnails/43220697129/43220828215" height="250"/></a></span></p><p>CAN Observations:</p><ul><li><p>There aren’t multiple DCU Button Event CAN messages <img class="emoticon emoticon-blue-star" data-emoji-id="1f914" data-emoji-shortname=":thinking:" data-emoji-fallback="🤔" src="images/icons/emoticons/72/1f914.png" width="16" height="16" data-emoticon-name="blue-star" alt="(blue star)"/> </p><ul><li><p>By this I mean we receive 9 DCU Button Events for 1 Traction Control button press according to the serial output of the BMU. But the CAN logs only show one based on my parser, I might want to check out the actual raw CAN data.</p></li></ul></li><li><p>The fact that same test procedure (only change being which board I’m connected to serial in) results in multiple different outputs, is very suspicious. Though it should be noted that the CAN logs show the same results for every board except the BMU.</p></li><li><p>Next step I think is get a VCU serial output</p></li></ul><p /><h2 id="TractionControlDebugging-SixthTesttodefineproblem:">Sixth Test to define problem:</h2><ul><li><p>Waiting for CAN logs to boot up to wipe them</p></li><li><p>Running with serial connected to the DCU</p></li><li><p>HV-&gt;EM-&gt;TC</p></li><li><p>Stayed up at EM throughout TC button press</p></li></ul><p>Serial Trace:</p><div class="code panel pdl" style="border-width: 1px;"><div class="codeContent panelContent pdl">
+<pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: java; gutter: false; theme: Confluence" data-theme="Confluence">dcu &gt; debounceTimer Callback
+Received event 1
+Processing event 1
+Sending HV Toggle button event
+debounceTimer Callback
+Received event 3
+Processing event 3
+Response from BMU: HV Enabled
+debounceTimer Callback
+Received event 2
+Processing event 2
+Sending EM Toggle button event
+Received event 4
+Processing event 4
+Response from VCU: EM Enabled
+Kicking off buzzer
+Received event 4
+Processing event 4
+Received event 4
+Processing event 4
+Received event 4
+Processing event 4
+Received event 4
+Processing event 4
+Received event 4
+Processing event 4
+Received event 4
+Processing event 4
+Recieved an EM on state but already in EM_Enable
+Received event 4
+Processing event 4
+Received event 4
+Processing event 4
+
+Command not recognised.  Enter &#39;help&#39; to view a list of available commands.
+
+dcu &gt; debounceTimer Callback
+Received event 5
+Processing event 5
+Toggling TC
+</pre>
+</div></div><p>CAN Logs:</p><p class="media-group"><span class="confluence-embedded-file-wrapper"><a class="confluence-embedded-file" href="attachments/43220697129/43222794255" data-nice-type="null" data-file-src="/wiki/download/attachments/43220697129/Sixth_Error_HV_Up_After_TC_HV_Down_after_Second?version=1&amp;modificationDate=1663783663377&amp;cacheVersion=1&amp;api=v2" data-linked-resource-id="43222794255" data-linked-resource-type="attachment" data-linked-resource-container-id="43220697129" data-linked-resource-default-alias="Sixth_Error_HV_Up_After_TC_HV_Down_after_Second" data-mime-type="application/octet-stream" data-has-thumbnail="true" data-linked-resource-version="1" data-media-id="489e0eb0-7ebd-4a46-92be-342e9411806f" data-media-type="file"><img src="attachments/thumbnails/43220697129/43222794255" height="250"/></a></span><span class="confluence-embedded-file-wrapper"><a class="confluence-embedded-file" href="attachments/43220697129/43222302751.csv" data-nice-type="null" data-file-src="/wiki/download/attachments/43220697129/Sixth_Error_HV_Up_After_TC_HV_Down_after_Second.csv?version=1&amp;modificationDate=1663783644427&amp;cacheVersion=1&amp;api=v2" data-linked-resource-id="43222302751" data-linked-resource-type="attachment" data-linked-resource-container-id="43220697129" data-linked-resource-default-alias="Sixth_Error_HV_Up_After_TC_HV_Down_after_Second.csv" data-mime-type="text/csv" data-has-thumbnail="true" data-linked-resource-version="1" data-media-id="09285bd1-ab13-46cb-9aff-bab95704e0a2" data-media-type="file"><img src="attachments/thumbnails/43220697129/43222302751" height="250"/></a></span></p><h2 id="TractionControlDebugging-SeventhTesttodefineproblem:">Seventh Test to define problem:</h2><ul><li><p>Ran code that split the button events into 2 seperate messages</p></li><li><p>This seemed to maybe fix the issue, but turned out to be incorrect, an interesting analysis:</p><ul><li><p>The reason we get that weird EM thing where the cooling temporarily toggles off then back on is because it’s indicative of an EM bit being held high and toggling EM off then on again really quick</p></li><li><p>When I split into 2 separate messages I made a mistake, where I didn’t properly setup the VCU callback and in this case it seems I could toggle Traction Control to my heart’s delight.</p></li><li><p>However when I corrected the CAN callback it failed again</p><ul><li><p>Sus, it means something in the VCU’s CAN callback might be triggering this.</p></li></ul></li><li><p>I don’t think it’s a bug in our CAN sending code</p></li><li><p>I don’t think it’s a bug in our CAN receiving code</p></li><li><p>I think it’s a bug in our ISR code, DEBUG_PRINT_ISR turns out to be quite inefficient (it has an snprintf call)</p></li><li><p>I think we should try ripping out all the print statements in our CAN callbacks perhaps what’s happening is that the ISR is taking too long it’s failing for some reason and then the CAN message is still in the FIFO so it tries again.</p></li></ul></li></ul><p>Justin’s thoughts</p><ul><li><p>A NACK would  be shown on canalyzer logs and I never saw that</p></li><li><p /></li></ul><h1 id="TractionControlDebugging-TestIdeas">Test Ideas</h1><ul><li><p>I’m generally opposed to just writing tests because it’s not good root causing</p></li><li><p>But I will list some tests here:</p><ul><li><p>Rewrite DBC file to have unsigned bit field (Completed)</p></li><li><p>Rewrite DBC file to have multiple messges rather then 1 buttonEvents message (Completed</p></li></ul></li></ul><p /><p>We managed to fix traction control by just not having button presses control it.</p><p>The measured outcome is that: our CAN parsing stuff is all good, </p><h1 id="TractionControlDebugging-Owen+JosephsObservations">Owen + Josephs Observations</h1><ul><li><p>Button Events is 100000% correlated to Brake Light</p></li><li><p>When we sent 81 or 82 as standard CAN messages over CANalyzer we could manually trigger the brake light</p></li><li><p>When we sent 413 as a standard CAN message periodically we could trigger the buttonEvents error we are witnessing where HV comes down</p></li><li><p>When Joseph altered the CAN message in CANalyzer to be an extended CAN message with id 81 or 82 it would not trigger the brake light</p></li><li><p>When I disabled the VCU sending VCU_data to the PDU and we tried triggering the brake light over CAN using the 81/82 message we could not replicate this issue</p></li><li><p>It’s unclear why this is occuring, I shall list some next steps</p><ul><li><p>On the PDU side determine if the CAN callback is getting called an inordinate amount of times when we send the 81/82 message</p></li><li><p>It’s quite clear that the CAN callback is being called with incorrect data as I recall <a class="confluence-userlink user-mention" data-username="5f63faee3242e8006f6c012d" data-account-id="5f63faee3242e8006f6c012d" href="https://uwaterloo.atlassian.net/wiki/people/5f63faee3242e8006f6c012d?ref=confluence" target="_blank" data-linked-resource-id="1849835963" data-linked-resource-version="1" data-linked-resource-type="userinfo" data-base-url="https://uwaterloo.atlassian.net/wiki">Justin Vuong</a> saying that the PDU would print out 255 in the CAN callback</p></li><li><p>Seems like it might be a CAN filtering issue (maybe not, because why doesn’t this issue occur when VCU_Data isn’t sent)</p></li><li><p>Determine why it’s these exact messages</p></li><li><p>Validate what’s going on with extended/standard CAN ids</p></li></ul></li></ul><p /><h1 id="TractionControlDebugging-JosephCANBebugging">Joseph CAN Bebugging</h1><p>Seems like brake light issue with MSG ID 81/82 is caused due to data in the 1st byte index. Changing 0x31 to 0x00 - 0x0F did not trigger the brake light but anything higher did.</p><span class="confluence-embedded-file-wrapper image-center-wrapper"><img class="confluence-embedded-image image-center" loading="lazy" src="attachments/43220697129/43225776217.png" data-image-src="attachments/43220697129/43225776217.png" data-height="146" data-width="772" data-unresolved-comment-count="0" data-linked-resource-id="43225776217" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="image-20220923-164904.png" data-base-url="https://uwaterloo.atlassian.net/wiki" data-linked-resource-content-type="image/png" data-linked-resource-container-id="43220697129" data-linked-resource-container-version="14" data-media-id="75c520f4-e61d-4a39-97cd-8553a18e4358" data-media-type="file"></span><p />
+                    </div>
+
+                                        <div class="pageSection group">
+                        <div class="pageSectionHeader">
+                            <h2 id="attachments" class="pageSectionTitle">Attachments:</h2>
+                        </div>
+
+                        <div class="greybox" align="left">
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/43220697129/43220631618">Second_Run_No_Error_At_HV</a> (application/octet-stream)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/43220697129/43221680164">Third_Error_Failed_Motors</a> (application/octet-stream)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/43220697129/43220500536">Third_Error_Failed_Motors</a> (application/octet-stream)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/43220697129/43221516382">Fourth_Error_HV_Disable_After_TC</a> (text/plain)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/43220697129/43221516388">Invalid file id - 39c8d0dc-932a-4170-b6d6-d88648ce94b9</a> (application/octet-stream)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/43220697129/43221516408.csv">Fifth_Error_HV_Up_After_TC.csv</a> (text/csv)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/43220697129/43220828215">Fifth_Error_HV_Up_After_TC</a> (application/octet-stream)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/43220697129/43222302751.csv">Sixth_Error_HV_Up_After_TC_HV_Down_after_Second.csv</a> (text/csv)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/43220697129/43222794255">Sixth_Error_HV_Up_After_TC_HV_Down_after_Second</a> (application/octet-stream)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/43220697129/43225776217.png">image-20220923-164904.png</a> (image/png)
+                                <br/>
+                                                    </div>
+                    </div>
+                    
+                                                      
+                </div>             </div> 
+            <div id="footer" role="contentinfo">
+                <section class="footer-body">
+                    <p>Document generated by Confluence on Oct 15, 2022 01:33</p>
+                    <div id="footer-logo"><a href="http://www.atlassian.com/">Atlassian</a></div>
+                </section>
+            </div>
+        </div>     </body>
+</html>

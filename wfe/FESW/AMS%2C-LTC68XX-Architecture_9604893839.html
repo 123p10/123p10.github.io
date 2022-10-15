@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Firmware : AMS, LTC68XX Architecture</title>
+        <link rel="stylesheet" href="styles/site.css" type="text/css" />
+        <META http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    </head>
+
+    <body class="theme-default aui-theme-default">
+        <div id="page">
+            <div id="main" class="aui-page-panel">
+                <div id="main-header">
+                    <div id="breadcrumb-section">
+                        <ol id="breadcrumbs">
+                            <li class="first">
+                                <span><a href="index.html">Firmware</a></span>
+                            </li>
+                                                    <li>
+                                <span><a href="Firmware_9465365086.html">Firmware</a></span>
+                            </li>
+                                                    <li>
+                                <span><a href="Documentation_9513894334.html">Documentation</a></span>
+                            </li>
+                                                    <li>
+                                <span><a href="Board-Specific-Documentation_9567701653.html">Board Specific Documentation</a></span>
+                            </li>
+                                                    <li>
+                                <span><a href="9528803896.html">BMU (Battery Management Unit)</a></span>
+                            </li>
+                                                </ol>
+                    </div>
+                    <h1 id="title-heading" class="pagetitle">
+                                                <span id="title-text">
+                            Firmware : AMS, LTC68XX Architecture
+                        </span>
+                    </h1>
+                </div>
+
+                <div id="content" class="view">
+                    <div class="page-metadata">
+                        
+        
+    
+        
+    
+        
+        
+            Created by <span class='author'> Owen Brake</span>, last modified on May 11, 2021
+                        </div>
+                    <div id="main-content" class="wiki-content group">
+                    <h1 id="AMS,LTC68XXArchitecture-Purpose">Purpose</h1><ul style="list-style-type: square;"><li>Measure Battery Cell Voltages</li><li>Monitor thermistors inside battery box</li><li>Battery Cell Balancing</li></ul><h1 id="AMS,LTC68XXArchitecture-TechnicalOverview">Technical Overview</h1><ul style="list-style-type: square;"><li>There are 6 AMS boards on the car<ul style="list-style-type: square;"><li>All controlled by the BMU</li><li>Linked together using isoSPI</li></ul></li><li>Each AMS board is built around the(1 or more per board) LTC68XX chip</li><li>No actual WFE FW lives on the AMS boards, it is all the proprietary LTC chips connected through the isoSPI interface</li><li>Various thermistors are attached to each LTC chip<ul style="list-style-type: square;"><li>Vishay NTCALUG02A103G</li><li>A curve is developed in matlab to fit the data from the manufacturer in terms of converting voltage measurements to temperature readings.</li></ul></li></ul><h1 id="AMS,LTC68XXArchitecture-DifferencesbetweenChips">Differences between Chips</h1><h2 id="AMS,LTC68XXArchitecture-LTC6804-2">LTC6804-2</h2><ul style="list-style-type: square;"><li>Maximum of 12 cells to be monitored per chip<ul style="list-style-type: square;"><li>Since we want 14 cells per board, we use 2 LTC6804-2 chips</li></ul></li><li>Each cell is directly addressable</li></ul><h2 id="AMS,LTC68XXArchitecture-LTC6812">LTC6812</h2><ul style="list-style-type: square;"><li>Can measure up to a maximum of 15 cells per board</li><li>Not directly addressable, uses isoSPI shift register function</li></ul><h1 id="AMS,LTC68XXArchitecture-FirmwareOverview">Firmware Overview</h1><p>Since there is a semiconductor shortage (as of May 2021) we are often changing the AMS board architecture. Often changing which LTC68XX chip is used.</p><p>To resolve this, the FW has been abstracted so it's easy to switch between LTC chip configurations.</p><p>The Firmware layout is depicted below:</p><h3 id="AMS,LTC68XXArchitecture-ltc_chip.h">ltc_chip.h</h3><ul style="list-style-type: square;"><li>This is the general config file for the LTC chip architecture. Generic config settings like: NUM_CHIPS_PER_BOARD, LTC_CHIP(The ltc chip_type), NUM_BOARDS</li><li>This is used to select the AMS config to use</li></ul><h3 id="AMS,LTC68XXArchitecture-ltc_chip.c">ltc_chip.c</h3><ul style="list-style-type: square;"><li>The generic LTC driver which then interfaces with the specific LTC chip API</li></ul><h3 id="AMS,LTC68XXArchitecture-ltc_chip_interface.h">ltc_chip_interface.h</h3><ul style="list-style-type: square;"><li>Essentially the API that <em>ltc_chip.h </em>interfaces with.</li><li>Contains list of functions that each implementation of LTC driver must contain</li></ul><h3 id="AMS,LTC68XXArchitecture-ltc68XX.c">ltc68XX.c</h3><ul style="list-style-type: square;"><li>The specific implementation for each chip</li><li>The code is guarded with ifdefs to only compile the code for the specific LTC chipset</li></ul><h3 id="AMS,LTC68XXArchitecture-ltc_common.h/c">ltc_common.h/c</h3><ul style="list-style-type: square;"><li>Code used in all LTC implementation which are generic across all LTC chipsets.</li></ul><p><br/></p><h1 id="AMS,LTC68XXArchitecture-ExistingIssues">Existing Issues</h1><p>
+    
+
+            
+
+        
+     <div class="jim-error-message jim-error-message-table">
+        <table class="aui">
+            <tbody>
+                                <tr></tr>
+
+                <tr>
+                                        <th>key</th>
+                                        <th>summary</th>
+                                        <th>type</th>
+                                        <th>created</th>
+                                        <th>updated</th>
+                                        <th>due</th>
+                                        <th>assignee</th>
+                                        <th>reporter</th>
+                                        <th>priority</th>
+                                        <th>status</th>
+                                        <th>resolution</th>
+                                    </tr>
+
+                <tr>
+                    <td colspan="11">
+                        <div class="aui-message aui-message-warning">
+                            <p class="message">
+                                <span class="icon-in-pdf"></span>
+                                Unable to locate JIRA server for this macro. It may be due to Application Link configuration.
+                            </p>
+                                                    </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</p><p><br/></p><p><br/></p><p><br/></p>
+                    </div>
+
+                    
+                                                      
+                </div>             </div> 
+            <div id="footer" role="contentinfo">
+                <section class="footer-body">
+                    <p>Document generated by Confluence on Oct 15, 2022 01:34</p>
+                    <div id="footer-logo"><a href="http://www.atlassian.com/">Atlassian</a></div>
+                </section>
+            </div>
+        </div>     </body>
+</html>

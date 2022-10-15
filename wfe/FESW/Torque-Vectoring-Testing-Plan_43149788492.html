@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Firmware : Torque Vectoring Testing Plan</title>
+        <link rel="stylesheet" href="styles/site.css" type="text/css" />
+        <META http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    </head>
+
+    <body class="theme-default aui-theme-default">
+        <div id="page">
+            <div id="main" class="aui-page-panel">
+                <div id="main-header">
+                    <div id="breadcrumb-section">
+                        <ol id="breadcrumbs">
+                            <li class="first">
+                                <span><a href="index.html">Firmware</a></span>
+                            </li>
+                                                    <li>
+                                <span><a href="Firmware_9465365086.html">Firmware</a></span>
+                            </li>
+                                                    <li>
+                                <span><a href="Firmware-Projects_9571009451.html">Firmware Projects</a></span>
+                            </li>
+                                                    <li>
+                                <span><a href="Torque-Vectoring_43083105314.html">Torque Vectoring</a></span>
+                            </li>
+                                                </ol>
+                    </div>
+                    <h1 id="title-heading" class="pagetitle">
+                                                <span id="title-text">
+                            Firmware : Torque Vectoring Testing Plan
+                        </span>
+                    </h1>
+                </div>
+
+                <div id="content" class="view">
+                    <div class="page-metadata">
+                        
+        
+    
+        
+    
+        
+        
+            Created by <span class='author'> Justin Vuong</span>, last modified by <span class='editor'> Zulaikha Zakiullah</span> on Aug 08, 2022
+                        </div>
+                    <div id="main-content" class="wiki-content group">
+                    <style type='text/css'>/*<![CDATA[*/
+div.rbtoc1665797629835 {padding: 0px;}
+div.rbtoc1665797629835 ul {list-style: disc;margin-left: 0px;}
+div.rbtoc1665797629835 li {margin-left: 0px;padding-left: 0px;}
+
+/*]]>*/</style><div class='toc-macro rbtoc1665797629835'>
+<ul class='toc-indentation'>
+<li><a href='#TorqueVectoringTestingPlan-Overview'>Overview</a></li>
+<li><a href='#TorqueVectoringTestingPlan-TestingPlan'>Testing Plan</a></li>
+</ul>
+</div><h1 id="TorqueVectoringTestingPlan-Overview">Overview</h1><p>The design spec for the basic torque vectoring algorithm is here: <a href="Torque-Vectoring_43083105314.html" data-linked-resource-id="43083105314" data-linked-resource-version="2" data-linked-resource-type="page">Torque Vectoring</a> </p><p>The Jira task for torque vectoring is here: <a class="external-link" href="https://jira.uwaterloo.ca/browse/WFE-1392" rel="nofollow">WFE-1392</a></p><p>The PR for adding torque vectoring is here: <a class="external-link" data-card-appearance="inline" href="https://bitbucket.org/waterloohybrid/firmware/pull-requests/73/wfe-1392-add-torque-vectoring" rel="nofollow">https://bitbucket.org/waterloohybrid/firmware/pull-requests/73/wfe-1392-add-torque-vectoring</a> </p><h1 id="TorqueVectoringTestingPlan-TestingPlan">Testing Plan</h1><p>The torque vectoring algorithm uses <a class="external-link" href="https://bitbucket.org/waterloohybrid/firmware/src/c59e14a5337c1736b0904ecb4dba5f6ad60c11c3/vcu/Inc/motorController.h#lines-19" rel="nofollow">a macro defined here</a> and shown below:</p><div class="code panel pdl" style="border-width: 1px;"><div class="codeContent panelContent pdl">
+<pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: java; gutter: false; theme: Confluence" data-theme="Confluence">#define TORQUE_VECTOR_FACTOR 2.5f // TODO: Adjust value for this when testing </pre>
+</div></div><p>It uses it to increase torque to one motor and decrease torque on the other motor when doing a turn. For example, when making a left turn, the TV algorithm will then increase the torque on the right motor by a factor of <code>TORQUE_VECTOR_FACTOR</code> and the current steering angle. It will also decrease the torque on the left motor by a factor of those 2 values.</p><p>The value of <code>TORQUE_VECTOR_FACTOR</code> was set arbitrarily, so during testing, we’ll want to see whether this current value makes us turn too sharply, or doesn’t seem to improve turning at all. This will be up to the driver’s discretion on turning performance.</p><p>If turning feels too sharp, decrease the value of <code>TORQUE_VECTOR_FACTOR</code>.</p><p>If turning could be sharper, increase the value of <code>TORQUE_VECTOR_FACTOR</code>.</p>
+                    </div>
+
+                    
+                                                      
+                </div>             </div> 
+            <div id="footer" role="contentinfo">
+                <section class="footer-body">
+                    <p>Document generated by Confluence on Oct 15, 2022 01:33</p>
+                    <div id="footer-logo"><a href="http://www.atlassian.com/">Atlassian</a></div>
+                </section>
+            </div>
+        </div>     </body>
+</html>

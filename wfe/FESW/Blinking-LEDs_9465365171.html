@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Firmware : Blinking LEDs</title>
+        <link rel="stylesheet" href="styles/site.css" type="text/css" />
+        <META http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    </head>
+
+    <body class="theme-default aui-theme-default">
+        <div id="page">
+            <div id="main" class="aui-page-panel">
+                <div id="main-header">
+                    <div id="breadcrumb-section">
+                        <ol id="breadcrumbs">
+                            <li class="first">
+                                <span><a href="index.html">Firmware</a></span>
+                            </li>
+                                                    <li>
+                                <span><a href="Firmware_9465365086.html">Firmware</a></span>
+                            </li>
+                                                    <li>
+                                <span><a href="Getting-Started_9465365137.html">Getting Started</a></span>
+                            </li>
+                                                    <li>
+                                <span><a href="Intro-to-Firmware_9465365151.html">Intro to Firmware</a></span>
+                            </li>
+                                                    <li>
+                                <span><a href="Sample-Firmware-Project_9465365169.html">Sample Firmware Project</a></span>
+                            </li>
+                                                </ol>
+                    </div>
+                    <h1 id="title-heading" class="pagetitle">
+                                                <span id="title-text">
+                            Firmware : Blinking LEDs
+                        </span>
+                    </h1>
+                </div>
+
+                <div id="content" class="view">
+                    <div class="page-metadata">
+                        
+        
+    
+        
+    
+        
+        
+            Created by <span class='author'> Former user</span>, last modified by <span class='editor'> Former user (Deleted)</span> on Oct 08, 2018
+                        </div>
+                    <div id="main-content" class="wiki-content group">
+                    <p>This tutorial is meant to generate code using the STM32CubeMX and to flash the STM32 MCU. The code will make an LED blink periodically. I am using Windows 10 on my host machine and Linux on a VM. This tutorial assumes that you have completed setting up the firmware environment found <a class="external-link" href="https://wiki.uwaterloo.ca/display/FESW/Tool+Setup" rel="nofollow">here</a>. To check if you have GNU ARM Embedded Toolchain installed, simply type into the terminal:</p><pre><code>arm-none-eabi-gcc --version</code></pre><p>To install OpenOCD, type into the terminal:</p><pre>sudo apt-get install openocd</pre><p>FreeRTOS is not needed for this tutorial. It is very useful to have shared clipboard and shared folders enabled between your host and VM machines.</p><p>To begin the tutorial, first open the STM32CubeMX code generation tool and open a new project where you will be taken to this screen. Click on the search bar and type in the part name of your MCU. The name can be found on the packaging of the STM32 nucleo board, or on the MCU itself.</p><p><span class="confluence-embedded-file-wrapper confluence-embedded-manual-size"><img class="confluence-embedded-image" height="400" loading="lazy" src="attachments/9465365171/9465988938.png?height=400" data-image-src="attachments/9465365171/9465988938.png" data-unresolved-comment-count="0" data-linked-resource-id="9465988938" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="LED New Project.png" data-base-url="https://uwaterloo.atlassian.net/wiki" data-linked-resource-content-type="image/png" data-linked-resource-container-id="9465365171" data-linked-resource-container-version="4" data-media-id="203e9fab-dc84-427f-9220-2a0eb9990875" data-media-type="file"></span>  <span class="confluence-embedded-file-wrapper confluence-embedded-manual-size"><img class="confluence-embedded-image" height="400" loading="lazy" src="attachments/9465365171/9465988944.jpg?height=400" data-image-src="attachments/9465365171/9465988944.jpg" data-unresolved-comment-count="0" data-linked-resource-id="9465988944" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="LED MCU Name.jpg" data-base-url="https://uwaterloo.atlassian.net/wiki" data-linked-resource-content-type="image/jpeg" data-linked-resource-container-id="9465365171" data-linked-resource-container-version="4" data-media-id="4168e24f-6ce0-4dea-bef3-c28e590f4bd9" data-media-type="file"></span></p><p><br/>Make sure you choose the correct part number and the specifications listed match that of your processor.</p><p><br/></p><p><br/></p><p><span class="confluence-embedded-file-wrapper confluence-embedded-manual-size"><img class="confluence-embedded-image" height="400" loading="lazy" src="attachments/9465365171/9465988937.png?height=400" data-image-src="attachments/9465365171/9465988937.png" data-unresolved-comment-count="0" data-linked-resource-id="9465988937" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="LED MCU Select.png" data-base-url="https://uwaterloo.atlassian.net/wiki" data-linked-resource-content-type="image/png" data-linked-resource-container-id="9465365171" data-linked-resource-container-version="4" data-media-id="3b7a3370-5206-49d5-8185-94550eee62fb" data-media-type="file"></span></p><p>Once you've selected the correct MCU, click on &quot;Start Project&quot;. You will be taken to the project page. I will be using the LED on the nucleo board for this example, however you are free to use whatever pin you wish. If you are using the STM32F072 nucleo, we will select pin PA5. A menu will pop up and we will select GPIO_Output. The pin will now be highlighted.</p><p><span class="confluence-embedded-file-wrapper confluence-embedded-manual-size"><img class="confluence-embedded-image" height="400" loading="lazy" src="attachments/9465365171/9465988930.png?height=400" data-image-src="attachments/9465365171/9465988930.png" data-unresolved-comment-count="0" data-linked-resource-id="9465988930" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="LED GPIO.png" data-base-url="https://uwaterloo.atlassian.net/wiki" data-linked-resource-content-type="image/png" data-linked-resource-container-id="9465365171" data-linked-resource-container-version="4" data-media-id="7e842980-2ec9-4b1a-a05f-2e8332305707" data-media-type="file"></span></p><p><span class="confluence-embedded-file-wrapper confluence-embedded-manual-size"><img class="confluence-embedded-image" height="400" loading="lazy" src="attachments/9465365171/9465988940.png?height=400" data-image-src="attachments/9465365171/9465988940.png" data-unresolved-comment-count="0" data-linked-resource-id="9465988940" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="LED PA5.png" data-base-url="https://uwaterloo.atlassian.net/wiki" data-linked-resource-content-type="image/png" data-linked-resource-container-id="9465365171" data-linked-resource-container-version="4" data-media-id="02235314-9cff-4668-b575-4a21c0aa6cba" data-media-type="file"></span></p><p>Click on the Configuration table and then click on GPIO listed under &quot;System&quot;</p><p><span class="confluence-embedded-file-wrapper confluence-embedded-manual-size"><img class="confluence-embedded-image" height="400" loading="lazy" src="attachments/9465365171/9465988943.png?height=400" data-image-src="attachments/9465365171/9465988943.png" data-unresolved-comment-count="0" data-linked-resource-id="9465988943" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="LED System Config.png" data-base-url="https://uwaterloo.atlassian.net/wiki" data-linked-resource-content-type="image/png" data-linked-resource-container-id="9465365171" data-linked-resource-container-version="4" data-media-id="aa92d9d6-b8f9-4834-88ec-3beea6db675b" data-media-type="file"></span></p><p>A window will pop up with the pin configurations. The only pin available should be the one we highlighted earlier (PA5).  Click on the pin that's listed and type in &quot;LED&quot; in the User Label. Click apply and ok.</p><p><span class="confluence-embedded-file-wrapper confluence-embedded-manual-size"><img class="confluence-embedded-image" height="400" loading="lazy" src="attachments/9465365171/9465988941.png?height=400" data-image-src="attachments/9465365171/9465988941.png" data-unresolved-comment-count="0" data-linked-resource-id="9465988941" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="LED Pin Config.png" data-base-url="https://uwaterloo.atlassian.net/wiki" data-linked-resource-content-type="image/png" data-linked-resource-container-id="9465365171" data-linked-resource-container-version="4" data-media-id="6c7a8174-8959-4c6d-9c1f-edc3ea959fcc" data-media-type="file"></span></p><p>Then click on project→settings or alt-P to open the project settings. Choose a name and location for the project.  The toolchain folder location you can leave as is (it should update on its own). The toolchain/IDE should be Makefile. Click on the dropdown menu and choose Makefile. Click ok. Then go to project→Generate Code. Once the code has been generated, copy the project folder to the shared folder between your host and VM machines. From there you can open your VM and copy the project folder to whatever working directory on your VM that you wish. </p><p>For some reason the makefile generated does not have a command to flash the MCU. So go to the project folder and open up Makefile in a text editor. I am using gedit. You can install gedit on Linux by opening the terminal and using this command: sudo apt-get install gedit.</p><p>Scroll to the bottom and copy paste this command into the Makefile: </p><p>####################################### <br/># load <br/>####################################### <br/>load: $(BUILD_DIR)/$(TARGET).bin <br/> openocd -f interface/stlink-v2-1.cfg -f target/stm32f0x.cfg -c &quot;reset_config srst_only connect_assert_srst&quot; -c init -c &quot;reset halt&quot; -c halt -c &quot;flash write_image erase $(BUILD_DIR)/$(TARGET).bin 0x08000000&quot; -c &quot;verify_image $(BUILD_DIR)/$(TARGET).bin&quot; -c &quot;reset run&quot; -c shutdown</p><p><span class="confluence-embedded-file-wrapper confluence-embedded-manual-size"><img class="confluence-embedded-image" height="400" loading="lazy" src="attachments/9465365171/9465988936.png?height=400" data-image-src="attachments/9465365171/9465988936.png" data-unresolved-comment-count="0" data-linked-resource-id="9465988936" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="LED Makefile.png" data-base-url="https://uwaterloo.atlassian.net/wiki" data-linked-resource-content-type="image/png" data-linked-resource-container-id="9465365171" data-linked-resource-container-version="4" data-media-id="b981333e-5668-4c2b-9622-67484b02b56d" data-media-type="file"></span></p><p>Save the Makefile and exit out of the text editor.</p><p>Plug in the development board into a USB port if you haven't and on your VM, go to the Devices tab and navigate through the USB dropdown menu to find your nucleo. Click on it and an icon should pop up on your desktop.</p><p>Then you want to navigate through your project folder and open the main.c file (../project_folder/Src/main.c). You can also import the folder into Eclipse if you have it installed and open the main.c file on a workspace there. Copy the following code into the main.c file.</p><pre>HAL_GPIO_TogglePin(LED_GPIO_Port, LED_Pin); <br/>HAL_Delay(500);</pre><p><span class="confluence-embedded-file-wrapper confluence-embedded-manual-size"><img class="confluence-embedded-image" height="400" loading="lazy" src="attachments/9465365171/9465988927.png?height=400" data-image-src="attachments/9465365171/9465988927.png" data-unresolved-comment-count="0" data-linked-resource-id="9465988927" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="LED Code.png" data-base-url="https://uwaterloo.atlassian.net/wiki" data-linked-resource-content-type="image/png" data-linked-resource-container-id="9465365171" data-linked-resource-container-version="4" data-media-id="e71f06d9-7e59-453d-9b68-7551dd3843b4" data-media-type="file"></span></p><p>Save the file and exit the text editor. Right-click on the project directory and open terminal. Type make clean to delete any objects and then type make all to recreate the assets with the current changes. When you use the make all command, it is important that there aren't any compilation errors and that the .hex and .bin files were created.</p><p><span class="confluence-embedded-file-wrapper confluence-embedded-manual-size"><img class="confluence-embedded-image" height="400" loading="lazy" src="attachments/9465365171/9465988934.png?height=400" data-image-src="attachments/9465365171/9465988934.png" data-unresolved-comment-count="0" data-linked-resource-id="9465988934" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="LED make clean.png" data-base-url="https://uwaterloo.atlassian.net/wiki" data-linked-resource-content-type="image/png" data-linked-resource-container-id="9465365171" data-linked-resource-container-version="4" data-media-id="7f850df4-d01f-4200-851c-abb2e66e45ae" data-media-type="file"></span></p><p><span class="confluence-embedded-file-wrapper confluence-embedded-manual-size"><img class="confluence-embedded-image" height="400" loading="lazy" src="attachments/9465365171/9465988933.png?height=400" data-image-src="attachments/9465365171/9465988933.png" data-unresolved-comment-count="0" data-linked-resource-id="9465988933" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="LED make all 2.png" data-base-url="https://uwaterloo.atlassian.net/wiki" data-linked-resource-content-type="image/png" data-linked-resource-container-id="9465365171" data-linked-resource-container-version="4" data-media-id="54b50fc9-960e-4580-90fd-91eff437efd4" data-media-type="file"></span></p><p>Once all the assets are created run the command &quot;make load&quot; that we copy pasted earlier.</p><p><span class="confluence-embedded-file-wrapper confluence-embedded-manual-size"><img class="confluence-embedded-image" height="400" loading="lazy" src="attachments/9465365171/9465988935.png?height=400" data-image-src="attachments/9465365171/9465988935.png" data-unresolved-comment-count="0" data-linked-resource-id="9465988935" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="LED make load.png" data-base-url="https://uwaterloo.atlassian.net/wiki" data-linked-resource-content-type="image/png" data-linked-resource-container-id="9465365171" data-linked-resource-container-version="4" data-media-id="1a0e7827-b6f8-42e3-b3ad-8c867c575a18" data-media-type="file"></span></p><p>The LED on the nucleo should be flashing.</p>
+                    </div>
+
+                                        <div class="pageSection group">
+                        <div class="pageSectionHeader">
+                            <h2 id="attachments" class="pageSectionTitle">Attachments:</h2>
+                        </div>
+
+                        <div class="greybox" align="left">
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/9465365171/9465988927.png">LED Code.png</a> (image/png)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/9465365171/9465988928.png">LED Directory.png</a> (image/png)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/9465365171/9465988929.png">LED Generate Code.png</a> (image/png)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/9465365171/9465988930.png">LED GPIO.png</a> (image/png)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/9465365171/9465988931.png">LED Main file.png</a> (image/png)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/9465365171/9465988932.png">LED make all 1.png</a> (image/png)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/9465365171/9465988933.png">LED make all 2.png</a> (image/png)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/9465365171/9465988934.png">LED make clean.png</a> (image/png)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/9465365171/9465988935.png">LED make load.png</a> (image/png)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/9465365171/9465988936.png">LED Makefile.png</a> (image/png)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/9465365171/9465988937.png">LED MCU Select.png</a> (image/png)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/9465365171/9465988938.png">LED New Project.png</a> (image/png)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/9465365171/9465988939.png">LED node.png</a> (image/png)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/9465365171/9465988940.png">LED PA5.png</a> (image/png)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/9465365171/9465988941.png">LED Pin Config.png</a> (image/png)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/9465365171/9465988942.png">LED Project Name Location.png</a> (image/png)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/9465365171/9465988943.png">LED System Config.png</a> (image/png)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/9465365171/9465988944.jpg">LED MCU Name.jpg</a> (image/jpeg)
+                                <br/>
+                                                    </div>
+                    </div>
+                    
+                                                      
+                </div>             </div> 
+            <div id="footer" role="contentinfo">
+                <section class="footer-body">
+                    <p>Document generated by Confluence on Oct 15, 2022 01:32</p>
+                    <div id="footer-logo"><a href="http://www.atlassian.com/">Atlassian</a></div>
+                </section>
+            </div>
+        </div>     </body>
+</html>

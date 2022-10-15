@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Firmware : Watchdog Timer</title>
+        <link rel="stylesheet" href="styles/site.css" type="text/css" />
+        <META http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    </head>
+
+    <body class="theme-default aui-theme-default">
+        <div id="page">
+            <div id="main" class="aui-page-panel">
+                <div id="main-header">
+                    <div id="breadcrumb-section">
+                        <ol id="breadcrumbs">
+                            <li class="first">
+                                <span><a href="index.html">Firmware</a></span>
+                            </li>
+                                                    <li>
+                                <span><a href="Firmware_9465365086.html">Firmware</a></span>
+                            </li>
+                                                    <li>
+                                <span><a href="Documentation_9513894334.html">Documentation</a></span>
+                            </li>
+                                                    <li>
+                                <span><a href="Common-all-Documentation_9569468768.html">Common-all Documentation</a></span>
+                            </li>
+                                                </ol>
+                    </div>
+                    <h1 id="title-heading" class="pagetitle">
+                                                <span id="title-text">
+                            Firmware : Watchdog Timer
+                        </span>
+                    </h1>
+                </div>
+
+                <div id="content" class="view">
+                    <div class="page-metadata">
+                        
+        
+    
+        
+    
+        
+        
+            Created by <span class='author'> Former user</span> on May 12, 2020
+                        </div>
+                    <div id="main-content" class="wiki-content group">
+                    <p>The watchdog module in common-all is a used to control the <a class="external-link" href="https://os.mbed.com/cookbook/WatchDog-Timer" rel="nofollow">hardware watchdog timer </a>(WDT) on the microcontrollers, and interface it with RTOS tasks and the state machines. Since the concept of a hardware WDT works best with non-RTOS code that uses a single main loop, the watchdog module has to act as an intermediary between the RTOS tasks and state machines, and the hardware WDT. The way it does this is repeatedly checking in with each of the RTOS tasks and state machines, ensuring they respond within their specified timeouts. Simultaneously, it resets the hardware WDT periodically to prevent reset. If any of the tasks or state machines monitored by the module fail to meet their checkin, then it stops resetting the hardware WDT causing a reset after first sending out a DTC.</p><h2 id="WatchdogTimer-MonitoringRTOStasks">Monitoring RTOS tasks</h2><p>The watchdog module is capable of monitoring RTOS tasks. Each RTOS task registers with the watchdog module on startup, specifying a unique id, and a timeout period. It adds this information about the task to an internal data structure. Then, as the monitored task runs it repeatedly checks in with the watchdog module, who save the time of checkin. Then, the watchdog module periodically compares the last checkin time with the current time, and if the time elapsed since the checkin is larger than that tasks timeout, it raises an error.</p><h3 id="WatchdogTimer-UsingthewatchdogmodulewithRTOStasks">Using the watchdog module with RTOS tasks</h3><ol><li>Register the task with the watchdog module by calling registerTaskToWatch()<ol><li>id: A unique id to represent the task</li><li>timeoutTicks: the maximum interval between checkins, in RTOS ticks</li><li>isFSMTask: set to false</li><li>fsmHandle: set to NULL</li></ol></li><li>At the end of your task loop, call watchdogTaskCheckIn() with the id specified on registering the task</li></ol><h2 id="WatchdogTimer-MonitoringStateMachines">Monitoring State Machines</h2><p>State machines are implemented as RTOS tasks, however they have some differences compared to normal RTOS tasks which means the same pattern of checking in at the end of the task loop doesn't work. Namely, state machines spend most of their time waiting for events, and the time between events varies greatly, so a specified timeout period isn't possible. Instead, state machines are monitored by having the watchdog module send fake events to the state machine. Internally, the state machine driver in common-all responds to these events once it receives them. A timeout is then set between when the watchdog module sends the event and when it receives a response from the state machine. Since the state machine can only process one event (and therefore one transition function) at a time, if the state machine gets stuck processing event, it won't respond to the event from the watchdog module, causing a timeout and error.</p><h3 id="WatchdogTimer-UsingthewatchdogmodulewithStateMachines">Using the watchdog module with State Machines</h3><ol><li>Register the state machine with the watchdog module by calling registerTaskToWatch()<ol><li>id: A unique id to represent the task</li><li>timeoutTicks: the maximum interval between receiving an event from the watchdog module and the state machine responding to the event</li><li>isFSMTask: set to true</li><li>fsmHandle: pass in a pointer to the fsmHandle for the state machine</li></ol></li><li>The state machine will automatically respond to the watchdog module, so there is no need to call watchdogTaskCheckin()</li></ol><h2 id="WatchdogTimer-CommonProblems">Common Problems</h2><p>A common problem when using the watchdog module occurs when using delays in software in a task/state machine monitored by the state machine. If the delay exceeds the specified timeout for the task (or the delay combined with the other processing time of the tasks exceeds the timeout), then it will cause a watchdog error. To avoid this, ideally avoid using long delays. If this is not possible, you can temporarily change the watchdog timeout by calling watchdogTaskChangeTimeout, then change it back after the delay. </p>
+                    </div>
+
+                    
+                                                      
+                </div>             </div> 
+            <div id="footer" role="contentinfo">
+                <section class="footer-body">
+                    <p>Document generated by Confluence on Oct 15, 2022 02:51</p>
+                    <div id="footer-logo"><a href="http://www.atlassian.com/">Atlassian</a></div>
+                </section>
+            </div>
+        </div>     </body>
+</html>

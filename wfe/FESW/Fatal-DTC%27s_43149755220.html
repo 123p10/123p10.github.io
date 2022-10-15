@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Firmware : Fatal DTC&#39;s</title>
+        <link rel="stylesheet" href="styles/site.css" type="text/css" />
+        <META http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    </head>
+
+    <body class="theme-default aui-theme-default">
+        <div id="page">
+            <div id="main" class="aui-page-panel">
+                <div id="main-header">
+                    <div id="breadcrumb-section">
+                        <ol id="breadcrumbs">
+                            <li class="first">
+                                <span><a href="index.html">Firmware</a></span>
+                            </li>
+                                                    <li>
+                                <span><a href="Firmware_9465365086.html">Firmware</a></span>
+                            </li>
+                                                    <li>
+                                <span><a href="Documentation_9513894334.html">Documentation</a></span>
+                            </li>
+                                                    <li>
+                                <span><a href="Car-Documentation_43149788126.html">Car Documentation</a></span>
+                            </li>
+                                                    <li>
+                                <span><a href="Shutdown-Conditions_43150213314.html">Shutdown Conditions</a></span>
+                            </li>
+                                                </ol>
+                    </div>
+                    <h1 id="title-heading" class="pagetitle">
+                                                <span id="title-text">
+                            Firmware : Fatal DTC&#39;s
+                        </span>
+                    </h1>
+                </div>
+
+                <div id="content" class="view">
+                    <div class="page-metadata">
+                        
+        
+    
+        
+    
+        
+        
+            Created by <span class='author'> Justin Vuong</span>, last modified on Jul 31, 2022
+                        </div>
+                    <div id="main-content" class="wiki-content group">
+                    <p>Fatal DTC: An unrecoverable fault has occurred with high safety risks. The board detecting this fault must shut down in a safe manner immediately, and all other boards must also shut down in a safe manner immediately. To clear the fault, a power cycle must occur (and the fault should be manually diagnosed)</p><p /><div id="expander-1673946058" class="expand-container"><div id="expander-control-1673946058" class="expand-control"><span class="expand-control-icon"><img style="vertical-align:middle;" class="expand-control-image" src="images/icons/grey_arrow_down.png"></span><span class="expand-control-text">FATAL_IMD_Failure</span></div><div id="expander-content-1673946058" class="expand-content"><p><strong>Description</strong>:</p><p>This is sent from the BMU.</p><p>The Insulation Monitoring Device (IMD) is used to check if HV is shorted to ground.  HV is the negative or positive contact coming out of the HV battery.  These cannot be electrically connected to any part of the car (frame, LV Ground, etc.) The only thing the HV battery contacts are connected to is the motor controllers.  If the IMD senses that the HV battery contacts have continuity to the frame (checks the front and rear) then a signal is sent to the BMU. The IMD has a status pin that toggles at a specific duty cycle and frequency.  By toggling frequency, it toggles different states</p><p /><p>This DTC is sent when the IMD returns a fault. The data of the DTC values are:</p><p>0- IMDSTATUS_Normal,</p><p>1- IMDSTATUS_Undervoltage</p><p>2- IMDSTATUS_SST_Good</p><p>3- IMDSTATUS_SST_Bad</p><p>4- IMDSTATUS_Device_Error</p><p>5- IDSTATUS_Fault_Earth</p><p>6- IMDSTATUS_Invalid</p><p>7- IMDSTATUS_HV_Short,</p><p /><p><strong>What happens/How to diagnose:</strong></p><ul><li><p>The type of the failure will be printed to the BMU’s console</p></li></ul><p><code>IMD Status: [Status]</code></p><ul><li><p>Triggers HV_Fault and power cycle is required as the calling task will enter <code>BatteryTaskError()</code></p></li></ul></div></div><div id="expander-50799105" class="expand-container"><div id="expander-control-50799105" class="expand-control"><span class="expand-control-icon"><img style="vertical-align:middle;" class="expand-control-image" src="images/icons/grey_arrow_down.png"></span><span class="expand-control-text">FATAL_BMU_ERROR</span></div><div id="expander-content-50799105" class="expand-content"><p><strong>Description</strong>:</p><p>This comes from the BMU and has 2 sources:</p><ol><li><p>A fault event is sent to the state machines</p><ol><li><p><code>EV_HV_Fault</code></p><ol><li><p>imd failure</p></li><li><p>BatteryTaskError</p></li><li><p>Received a fatal DTC</p></li><li><p><code>hvFault</code> CLI command </p></li><li><p>IL Failed </p></li><li><p>HVIL Failed</p></li></ol></li><li><p><code>EV_PrechargeDischarge_Fail</code></p></li><li><p><code>EV_Charge_Error</code></p></li></ol></li><li><p>Read from <code>IBusQueue</code> failed</p></li></ol><p /><p><strong>What happens/How to diagnose:</strong></p><ul><li><p>Read the CLI message from the BMU console and find the root of the error</p></li><li><p>Power cycle is required as the calling task will enter <code>BatteryTaskError()</code></p></li></ul></div></div><div id="expander-506477155" class="expand-container"><div id="expander-control-506477155" class="expand-control"><span class="expand-control-icon"><img style="vertical-align:middle;" class="expand-control-image" src="images/icons/grey_arrow_down.png"></span><span class="expand-control-text">FATAL_Charger_ERROR</span></div><div id="expander-content-506477155" class="expand-content"><p><strong>Description</strong>:</p><p>Sent from the BMU when the charger reports that it is in a failed state</p><p /><p><strong>What happens/How to diagnose:</strong></p><ul><li><p>Charging could stop if this issue persists and the BMU will stop and a power cycle is required as the calling task will enter <code>BatteryTaskError()</code></p></li></ul></div></div><div id="expander-1594003927" class="expand-container"><div id="expander-control-1594003927" class="expand-control"><span class="expand-control-icon"><img style="vertical-align:middle;" class="expand-control-image" src="images/icons/grey_arrow_down.png"></span><span class="expand-control-text">FATAL_[xxx]_MissedHeartbeat</span></div><div id="expander-content-1594003927" class="expand-content"><p><strong>Description</strong>:</p><p>Board [xxx] missed its heartbeat. Heartbeat signals are sent out every 1 second and a heartbeat from one of the boards has not been processed in the last 2.5 seconds</p><p> </p><p><strong>What happens/How to diagnose:</strong></p><ul><li><p>See the CLI for which board hasn't sent a heartbeat and make sure it is functional</p></li></ul></div></div><div id="expander-1746169330" class="expand-container"><div id="expander-control-1746169330" class="expand-control"><span class="expand-control-icon"><img style="vertical-align:middle;" class="expand-control-image" src="images/icons/grey_arrow_down.png"></span><span class="expand-control-text">FATAL_WatchdogTaskMissedCheckIn</span></div><div id="expander-content-1746169330" class="expand-content"><p><strong>Description</strong>:</p><p>A watchdog makes sure that tasks are still running as they require the task to check in before a timeout. In this case, the task-specific timeout was reached </p><p><strong>What happens/How to diagnose:</strong></p><ul><li><p>See CLI output</p></li><li><p>Power cycle is required as the calling task will enter <code>Error_Handler()</code></p></li></ul></div></div><div id="expander-1860877331" class="expand-container"><div id="expander-control-1860877331" class="expand-control"><span class="expand-control-icon"><img style="vertical-align:middle;" class="expand-control-image" src="images/icons/grey_arrow_down.png"></span><span class="expand-control-text">FATAL_PDU_HV_Critical</span></div><div id="expander-content-1860877331" class="expand-content"><p><strong>Description</strong>:</p><p>This comes from the PDU when something has triggered a critical failure event. It is triggered from the PDU receives a Fatal DTC or from the CLI command <code>critical</code> </p><p>  </p><p><strong>What happens/How to diagnose:</strong></p><ul><li><p>The PDU will be fine but other boards will stop </p></li></ul></div></div><div id="expander-863774589" class="expand-container"><div id="expander-control-863774589" class="expand-control"><span class="expand-control-icon"><img style="vertical-align:middle;" class="expand-control-image" src="images/icons/grey_arrow_down.png"></span><span class="expand-control-text">FATAL_LV_CUTTOFF_BOARDS_OFF</span></div><div id="expander-content-863774589" class="expand-content"><p><strong>Description</strong>:</p><p>This comes from the PDU when it detects &lt; 10V on the LV bus and the <code>lvCuttoff</code> CLI command</p><p><strong>What happens/How to diagnose:</strong></p><ul><li><p>The PDU will be fine but other boards will stop </p></li></ul></div></div><div id="expander-2142132171" class="expand-container"><div id="expander-control-2142132171" class="expand-control"><span class="expand-control-icon"><img style="vertical-align:middle;" class="expand-control-image" src="images/icons/grey_arrow_down.png"></span><span class="expand-control-text">FATAL_EM_ENABLE_FAILED</span></div><div id="expander-content-2142132171" class="expand-content"><p><strong>Description</strong>:</p><p>This comes from the VCU not being able to EM enable which is triggered when:</p><ol><li><p>The VCU sends a request to the PDU to turn on the MC but it doesn’t respond within 1 second</p></li><li><p>The VCU failed to send MC settings</p></li></ol><p><strong>What happens/How to diagnose:</strong></p><ul><li><p>The VCU will be fine but send the fatal DTC was sent the other boards will stop</p></li></ul></div></div><div id="expander-1558910877" class="expand-container"><div id="expander-control-1558910877" class="expand-control"><span class="expand-control-icon"><img style="vertical-align:middle;" class="expand-control-image" src="images/icons/grey_arrow_down.png"></span><span class="expand-control-text">FATAL_DCU_CAN_Timeout</span></div><div id="expander-content-1558910877" class="expand-content"><p><strong>Description</strong>:</p><p>Sent from the VCU only in the CLI command <code>dcuTimeout</code>. Used for testing I assume</p><p><strong>What happens/How to diagnose:</strong></p><ul><li><p>The VCU will be fine but send the fatal DTC was sent the other boards will stop</p></li></ul></div></div><div id="expander-1694583689" class="expand-container"><div id="expander-control-1694583689" class="expand-control"><span class="expand-control-icon"><img style="vertical-align:middle;" class="expand-control-image" src="images/icons/grey_arrow_down.png"></span><span class="expand-control-text">FATAL_VCU_F7_ERROR</span></div><div id="expander-content-1694583689" class="expand-content"><p><strong>Description</strong>:</p><p>Sent from the VCU it receives a fatal DTC</p><p><strong>What happens/How to diagnose:</strong></p><ul><li><p>Figure out who sent the  original DTC</p></li></ul></div></div>
+                    </div>
+
+                    
+                                                      
+                </div>             </div> 
+            <div id="footer" role="contentinfo">
+                <section class="footer-body">
+                    <p>Document generated by Confluence on Oct 15, 2022 01:34</p>
+                    <div id="footer-logo"><a href="http://www.atlassian.com/">Atlassian</a></div>
+                </section>
+            </div>
+        </div>     </body>
+</html>

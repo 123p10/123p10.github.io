@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Firmware : How to pull/reset CAN logs</title>
+        <link rel="stylesheet" href="styles/site.css" type="text/css" />
+        <META http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    </head>
+
+    <body class="theme-default aui-theme-default">
+        <div id="page">
+            <div id="main" class="aui-page-panel">
+                <div id="main-header">
+                    <div id="breadcrumb-section">
+                        <ol id="breadcrumbs">
+                            <li class="first">
+                                <span><a href="index.html">Firmware</a></span>
+                            </li>
+                                                    <li>
+                                <span><a href="Firmware_9465365086.html">Firmware</a></span>
+                            </li>
+                                                    <li>
+                                <span><a href="Documentation_9513894334.html">Documentation</a></span>
+                            </li>
+                                                    <li>
+                                <span><a href="Testing-Documentation_43249729647.html">Testing Documentation</a></span>
+                            </li>
+                                                </ol>
+                    </div>
+                    <h1 id="title-heading" class="pagetitle">
+                                                <span id="title-text">
+                            Firmware : How to pull/reset CAN logs
+                        </span>
+                    </h1>
+                </div>
+
+                <div id="content" class="view">
+                    <div class="page-metadata">
+                        
+        
+    
+        
+    
+        
+        
+            Created by <span class='author'> Justin Vuong</span> on Oct 06, 2022
+                        </div>
+                    <div id="main-content" class="wiki-content group">
+                    <p>If you are on a Windows machine download: git bash</p><p>If you are on linux/mac open a terminal window</p><p /><p>Connect to the beaglebone’s wifi</p><div class="code panel pdl" style="border-width: 1px;"><div class="codeContent panelContent pdl">
+<pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: java; gutter: false; theme: Confluence" data-theme="Confluence">SSID: WFE-6C60
+password: firmware</pre>
+</div></div><h1 id="Howtopull/resetCANlogs-HowtoviewCANlogs">How to view CAN logs</h1><p>Ssh into the BB</p><div class="code panel pdl" style="border-width: 1px;"><div class="codeContent panelContent pdl">
+<pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: java; gutter: false; theme: Confluence" data-theme="Confluence">#Your local computer terminal
+ssh debian@192.168.7.2 # password is &quot;tmppwd&quot; no quotation marks</pre>
+</div></div><p>All can logs are in the directory ~/can_monitor_logs</p><h1 id="Howtopull/resetCANlogs-Howtopulllogs">How to pull logs</h1><p> scp the directory to your local computer</p><div class="code panel pdl" style="border-width: 1px;"><div class="codeContent panelContent pdl">
+<pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: java; gutter: false; theme: Confluence" data-theme="Confluence">#Your local computer terminal
+scp -r debian@192.168.7.2:~/can_monitor_logs .</pre>
+</div></div><p>Now move the files to a new directory. ssh into the BB</p><ul><li><p><strong>MAKE SURE THAT YOU COORDINATE THE &lt;folder_name&gt; USED IN THIS PART WITH THE PERSON TAKING NOTES </strong></p></li></ul><div class="code panel pdl" style="border-width: 1px;"><div class="codeContent panelContent pdl">
+<pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: java; gutter: false; theme: Confluence" data-theme="Confluence">#Your local computer terminal
+ssh debian@192.168.7.2 # password is &quot;tmppwd&quot; no quotation marks</pre>
+</div></div><div class="code panel pdl" style="border-width: 1px;"><div class="codeContent panelContent pdl">
+<pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: java; gutter: false; theme: Confluence" data-theme="Confluence">#On the beaglebone terminal
+cd can_monitor_logs
+mkdir &lt;folder_name&gt;
+mv *.log &lt;folder_name&gt;</pre>
+</div></div><h1 id="Howtopull/resetCANlogs-Validatethatthelogsarefine">Validate that the logs are fine</h1><p>Navigate to your firmware repo in the command line. We want to convert the candump output to csv’s that we can read and process</p><div class="code panel pdl" style="border-width: 1px;"><div class="codeContent panelContent pdl">
+<pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: java; gutter: false; theme: Confluence" data-theme="Confluence">#Your local computer terminal
+cd beaglebone/app/wfe/post_processing/
+#Replace AugXXXXXX.csv with your filename and make sure its identifiable for the note taker
+python3 parse_candump.py candump_log.log &gt; AugXXXXXX.csv
+python parse_log.py -r &quot;CurrentBusHV\\d&quot; graph -ymin 0 -ymax 400 AugXXXXXX.csv
+python parse_log.py -r &quot;VoltageCell0\\d&quot; graph -ymin 0 -ymax 4.2 AugXXXXXX.csv</pre>
+</div></div><p>We want to see a graph that changes over time</p><p />
+                    </div>
+
+                    
+                                                      
+                </div>             </div> 
+            <div id="footer" role="contentinfo">
+                <section class="footer-body">
+                    <p>Document generated by Confluence on Oct 15, 2022 02:51</p>
+                    <div id="footer-logo"><a href="http://www.atlassian.com/">Atlassian</a></div>
+                </section>
+            </div>
+        </div>     </body>
+</html>

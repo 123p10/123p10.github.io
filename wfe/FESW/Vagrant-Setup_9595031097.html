@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Firmware : Vagrant Setup</title>
+        <link rel="stylesheet" href="styles/site.css" type="text/css" />
+        <META http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    </head>
+
+    <body class="theme-default aui-theme-default">
+        <div id="page">
+            <div id="main" class="aui-page-panel">
+                <div id="main-header">
+                    <div id="breadcrumb-section">
+                        <ol id="breadcrumbs">
+                            <li class="first">
+                                <span><a href="index.html">Firmware</a></span>
+                            </li>
+                                                    <li>
+                                <span><a href="Firmware_9465365086.html">Firmware</a></span>
+                            </li>
+                                                    <li>
+                                <span><a href="Getting-Started_9465365137.html">Getting Started</a></span>
+                            </li>
+                                                    <li>
+                                <span><a href="Intro-to-Firmware_9465365151.html">Intro to Firmware</a></span>
+                            </li>
+                                                    <li>
+                                <span><a href="Tool-Setup_9465365152.html">Tool Setup</a></span>
+                            </li>
+                                                </ol>
+                    </div>
+                    <h1 id="title-heading" class="pagetitle">
+                                                <span id="title-text">
+                            Firmware : Vagrant Setup
+                        </span>
+                    </h1>
+                </div>
+
+                <div id="content" class="view">
+                    <div class="page-metadata">
+                        
+        
+    
+        
+    
+        
+        
+            Created by <span class='author'> zzakiull@uwaterloo.ca</span>, last modified by <span class='editor'> Zulaikha Zakiullah</span> on Oct 10, 2022
+                        </div>
+                    <div id="main-content" class="wiki-content group">
+                    <p><span style="color: rgb(77,81,86);">Vagrant is an open-source software product for building and maintaining portable virtual software development environments. We will be using it to create an Ubuntu VM for VirtualBox.</span></p><p><span style="color: rgb(77,81,86);">The repo on Bitbucket can be found <a class="external-link" href="https://bitbucket.org/waterloohybrid/vagrant/src/master/" rel="nofollow">here</a>.</span></p><p><span style="color: rgb(77,81,86);">Table of Contents:</span></p><p><span style="color: rgb(77,81,86);"><style type='text/css'>/*<![CDATA[*/
+div.rbtoc1665797519770 {padding: 0px;}
+div.rbtoc1665797519770 ul {list-style: disc;margin-left: 0px;}
+div.rbtoc1665797519770 li {margin-left: 0px;padding-left: 0px;}
+
+/*]]>*/</style><div class='toc-macro rbtoc1665797519770'>
+<ul class='toc-indentation'>
+<li><a href='#VagrantSetup-Prerequisites'>Prerequisites</a></li>
+<li><a href='#VagrantSetup-GettingStarted'>Getting Started</a></li>
+<li><a href='#VagrantSetup-InstallingSTM32CubeMX(Optional)'>Installing STM32CubeMX (Optional)</a></li>
+<li><a href='#VagrantSetup-CheckingSTLink'>Checking ST Link</a></li>
+<li><a href='#VagrantSetup-StartingFresh'>Starting Fresh</a></li>
+<li><a href='#VagrantSetup-KnownIssues'>Known Issues</a></li>
+<li><a href='#VagrantSetup-VagrantCommands'>Vagrant Commands</a></li>
+<li><a href='#VagrantSetup-FurtherReferences'>Further References</a></li>
+<li><a href='#VagrantSetup-NextSteps'>Next Steps</a></li>
+</ul>
+</div></span></p><h2 id="VagrantSetup-Prerequisites"><span style="color: rgb(77,81,86);">Prerequisites</span></h2><ul><li>Install the latest version of <a class="external-link" href="https://www.vagrantup.com/downloads" rel="nofollow">Vagrant</a></li><li>Install the latest version of <a class="external-link" href="https://www.virtualbox.org/wiki/Downloads" rel="nofollow">VirtualBox</a></li><li>Install the matching <a class="external-link" href="https://www.virtualbox.org/wiki/Downloads" rel="nofollow">VirtualBox Extension Pack</a> to get USB data</li></ul><p>After installing the above, verify the Vagrant installation worked by opening a new command prompt or console, and checking that <strong>vagrant</strong> is available:</p><div class="code panel pdl" style="border-width: 1px;"><div class="codeContent panelContent pdl">
+<pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: java; gutter: false; theme: Confluence" data-theme="Confluence">$ vagrant
+Usage: vagrant [options] &lt;command&gt; [&lt;args&gt;]
+
+    -v, --version                    Print the version and exit.
+    -h, --help                       Print this help.
+
+# ...</pre>
+</div></div><p>If on Linux, add your user to the <strong>vboxusers</strong> group:</p><div class="code panel pdl" style="border-width: 1px;"><div class="codeContent panelContent pdl">
+<pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: java; gutter: false; theme: Confluence" data-theme="Confluence">sudo usermod -a -G vboxusers $USER</pre>
+</div></div><h2 id="VagrantSetup-GettingStarted"><span style="color: rgb(77,81,86);">Getting Started</span></h2><p>Make sure everything under <strong>Prerequisites</strong> is installed and you have an SSH key added to your host computer for Bitbucket access. Refer to <a class="external-link" href="https://wiki.uwaterloo.ca/display/FESW/.ssh+Key+Set+Up+-+BitBucket" rel="nofollow">this document</a> on SSH key setup.</p><p>Then, run:</p><div class="code panel pdl" style="border-width: 1px;"><div class="codeContent panelContent pdl">
+<pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: java; gutter: false; theme: Confluence" data-theme="Confluence">git clone git@bitbucket.org:waterloohybrid/vagrant.git &amp;&amp; cd vagrant
+vagrant up
+vagrant reload</pre>
+</div></div><p><span style="color: rgb(36,41,46);">(This could take a while to complete.)</span></p><p><span style="letter-spacing: 0.0px;color: rgb(36,41,46);">The commands above only need to be run the first time you set up the VM</span><span style="letter-spacing: 0.0px;color: rgb(36,41,46);">. Otherwise, the next time you want to work with it, you can just run <strong>vagrant up</strong></span><span style="color: rgb(36,41,46);"><span> </span>from the<strong> vagrant/</strong></span><span style="letter-spacing: 0.0px;color: rgb(36,41,46);"><span> </span>directory.</span></p><p><span style="color: rgb(36,41,46);">After it's done, you should see a login window like this:</span></p><p><span class="confluence-embedded-file-wrapper confluence-embedded-manual-size"><img class="confluence-embedded-image confluence-thumbnail" height="250" loading="lazy" src="attachments/9595031097/9595031105.png?height=250" data-image-src="attachments/9595031097/9595031105.png" data-unresolved-comment-count="0" data-linked-resource-id="9595031105" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="vagrant_vm_login.PNG" data-base-url="https://uwaterloo.atlassian.net/wiki" data-linked-resource-content-type="image/png" data-linked-resource-container-id="9595031097" data-linked-resource-container-version="30" data-media-id="7934f486-590e-4a51-b3c6-aa0bb3fc94dc" data-media-type="file"></span></p><p>Do not maximize the window when on the login page (for some reason, the screen activity freezes). Click on the user &quot;vagrant&quot; and log in with the password: <strong>vagrant</strong>. After you've logged in, you can maximize the window.</p><p>The <strong>shared/</strong> directory in the VM will be shared between your host operating system and the virtual environment. The location in your computer is:</p><div class="code panel pdl" style="border-width: 1px;"><div class="codeContent panelContent pdl">
+<pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: java; gutter: false; theme: Confluence" data-theme="Confluence">/&lt;path-to-vagrant-repo&gt;/shared/</pre>
+</div></div><p>To turn off the machine, run <strong>vagrant halt</strong>.</p><h2 id="VagrantSetup-InstallingSTM32CubeMX(Optional)">Installing STM32CubeMX (Optional)</h2><p><span style="color: rgb(23,43,77);">Go<span> </span></span><a class="external-link" href="https://www.st.com/en/development-tools/stm32cubemx.html#get-software" rel="nofollow" style="text-decoration: none;">here</a><span style="color: rgb(23,43,77);"><span> </span>and click &quot;Get Software&quot;<span> </span></span><span style="color: rgb(23,43,77);">for<span> </span></span><strong>Linux</strong><span style="color: rgb(23,43,77);"><span> </span>(you will have to make an account). Once you've downloaded the package, unzip it in the<span> shared/</span></span><span style="color: rgb(23,43,77);"><span> </span>directory.</span></p><p><span style="color: rgb(23,43,77);">Once in the VM, open a terminal and run:</span></p><div class="code panel pdl" style="border-width: 1px;"><div class="codeContent panelContent pdl">
+<pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: java; gutter: false; theme: Confluence" data-theme="Confluence">cd ~/shared/en.stm32cubemx-lin_v&lt;VERSION&gt;
+chmod 777 SetupSTM32CubeMX-&lt;VERSION&gt;
+./SetupSTM32CubeMX-&lt;VERSION&gt;</pre>
+</div></div><p><span style="color: rgb(23,43,77);">(Replace <strong>&lt;VERSION&gt;</strong></span><span style="color: rgb(23,43,77);"><span> </span>with the version number you've downloaded.)</span></p><p><span style="color: rgb(23,43,77);">An installation wizard should open. Follow through it until it's finished (accept the terms and use the default installation path).</span></p><p>Now STM32CubeMX is installed, but it would be nice to have a launcher that we can add to the desktop or pin to the taskbar.</p><p>Go to this repository's<span> </span><a class="external-link" href="https://bitbucket.org/waterloohybrid/vagrant/downloads/" rel="nofollow" style="text-decoration: none;">Downloads</a><span> </span>page and download <strong>stm32cubemx.desktop</strong> and <strong>stm32cubemx.png</strong> to the shared/ directory.</p><p>Then, in a terminal on the VM, run:</p><div class="code panel pdl" style="border-width: 1px;"><div class="codeContent panelContent pdl">
+<pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: java; gutter: false; theme: Confluence" data-theme="Confluence">mv ~/shared/stm32cubemx.png ~/.local/share/applications/
+mv ~/shared/stm32cubemx.desktop ~/Desktop/</pre>
+</div></div><p><span style="color: rgb(23,43,77);">Double click on the <strong>stm32cubemx.desktop </strong></span><span style="color: rgb(23,43,77);">file that's now on your VM desktop. Click &quot;Trust and Launch&quot; on the popup dialog. The application should open and you now have a desktop launcher for STM32CubeMX. However, it won't be listed as an application until you restart your VM with <strong>vagrant reload </strong></span><span style="color: rgb(23,43,77);">in a terminal on your host computer. (Make sure you're in the directory containing the Vagrantfile when running vagrant </span><span style="color: rgb(23,43,77);">commands.)</span></p><h2 id="VagrantSetup-CheckingSTLink">Checking ST Link</h2><p>The Vagrantfile is configured to automatically attach the ST Link to the VM, but we should make sure.</p><p>First, check that your host computer detects the STM32 board when it's connected. If it's detected, with the board still connected, go into the VM, open a terminal, and run:</p><div class="code panel pdl" style="border-width: 1px;"><div class="codeContent panelContent pdl">
+<pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: java; gutter: false; theme: Confluence" data-theme="Confluence">lsusb</pre>
+</div></div><p>You should see the following output:</p><div class="code panel pdl" style="border-width: 1px;"><div class="codeContent panelContent pdl">
+<pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: java; gutter: false; theme: Confluence" data-theme="Confluence">Bus 001 Device 001: ID 1d6b:0002 Linux Foundation 2.0 root hub
+Bus 002 Device 002: ID 0483:374b STMicroelectronics ST-LINK/V2.1 (Nucleo-F103RB)
+Bus 002 Device 001: ID 1d6b:0001 Linux Foundation 1.1 root hub</pre>
+</div></div><p><br/></p><h2 id="VagrantSetup-StartingFresh">Starting Fresh</h2><p>If you have the VM set up already but would like to delete it and re-install it, run the following:</p><div class="code panel pdl" style="border-width: 1px;"><div class="codeContent panelContent pdl">
+<pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: java; gutter: false; theme: Confluence" data-theme="Confluence">vagrant destroy
+vagrant box remove ubuntu/bionic64</pre>
+</div></div><p>This will delete the VM and remove it from the list of machines in VirtualBox. Then, you can follow the steps in <strong>Getting Started</strong> again.</p><h2 id="VagrantSetup-KnownIssues">Known Issues</h2><ul><li>For whatever reason, when on the login page, the window activity freezes when you maximize it. When you restore down the window, it works again. After logging in though, maximizing the window doesn't freeze the activity anymore.</li><li>Running <strong>sudo reboot</strong> or <strong>sudo shutdown -r now</strong> in the VM causes issues with the mounted shared folder. So whenever a restart is required, run <strong>vagrant reload</strong> from the host computer instead.</li></ul><h2 id="VagrantSetup-VagrantCommands"><span style="color: rgb(77,81,86);">Vagrant Commands</span></h2><p>Make sure you're in the directory containing the Vagrantfile when running any of the below commands.</p><p>Turn on or resume the VM with the command <strong>vagrant up</strong>.</p><p>Shut down the VM with the command <strong>vagrant halt</strong>.</p><p>Hibernate the VM with the command <strong>vagrant suspend</strong>.</p><p>Restart the VM with the command <strong>vagrant reload</strong>.</p><p>SSH to the VM with the command <strong>vagrant ssh</strong>. To exit the SSH session, run <strong>exit</strong> or <strong>logout</strong>. (Exiting the session does <u>not</u> shut down the VM!)</p><p>Delete the VM with the command <strong>vagrant destroy</strong>. Use this when you want to start fresh again.</p><p>For an extensive list of all Vagrant commands, run <strong>vagrant help</strong>.</p><h2 id="VagrantSetup-FurtherReferences"><span style="color: rgb(77,81,86);">Further References</span></h2><p>For further reference, you can check these out:</p><ul><li><a class="external-link" href="https://learn.hashicorp.com/tutorials/vagrant/getting-started-index?in=vagrant/getting-started" rel="nofollow">Vagrant Quick Start</a></li><li><a class="external-link" href="https://github.com/hashicorp/vagrant" rel="nofollow">Vagrant Source Code</a></li><li><a class="external-link" href="https://app.vagrantup.com/boxes/search" rel="nofollow">Discover Vagrant Boxes</a></li></ul><h2 id="VagrantSetup-NextSteps"><span style="color: rgb(77,81,86);">Next Steps</span></h2><p>Follow the advances setup guide found below:</p><p><a href="Advanced-Setup_9465365154.html" data-linked-resource-id="9465365154" data-linked-resource-version="4" data-linked-resource-type="page">Advanced Setup</a></p>
+                    </div>
+
+                                        <div class="pageSection group">
+                        <div class="pageSectionHeader">
+                            <h2 id="attachments" class="pageSectionTitle">Attachments:</h2>
+                        </div>
+
+                        <div class="greybox" align="left">
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/9595031097/9595031105.png">vagrant_vm_login.PNG</a> (image/png)
+                                <br/>
+                                                    </div>
+                    </div>
+                    
+                                                      
+                </div>             </div> 
+            <div id="footer" role="contentinfo">
+                <section class="footer-body">
+                    <p>Document generated by Confluence on Oct 15, 2022 01:31</p>
+                    <div id="footer-logo"><a href="http://www.atlassian.com/">Atlassian</a></div>
+                </section>
+            </div>
+        </div>     </body>
+</html>

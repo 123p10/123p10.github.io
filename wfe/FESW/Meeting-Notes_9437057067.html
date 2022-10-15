@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Firmware : Meeting Notes</title>
+        <link rel="stylesheet" href="styles/site.css" type="text/css" />
+        <META http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    </head>
+
+    <body class="theme-default aui-theme-default">
+        <div id="page">
+            <div id="main" class="aui-page-panel">
+                <div id="main-header">
+                    <div id="breadcrumb-section">
+                        <ol id="breadcrumbs">
+                            <li class="first">
+                                <span><a href="index.html">Firmware</a></span>
+                            </li>
+                                                    <li>
+                                <span><a href="Firmware_9465365086.html">Firmware</a></span>
+                            </li>
+                                                    <li>
+                                <span><a href="Firmware-Projects_9571009451.html">Firmware Projects</a></span>
+                            </li>
+                                                    <li>
+                                <span><a href="9465365100.html">Firmware Projects Archive (2017-2020)</a></span>
+                            </li>
+                                                    <li>
+                                <span><a href="Telemetry-Software_9458811640.html">Telemetry Software</a></span>
+                            </li>
+                                                </ol>
+                    </div>
+                    <h1 id="title-heading" class="pagetitle">
+                                                <span id="title-text">
+                            Firmware : Meeting Notes
+                        </span>
+                    </h1>
+                </div>
+
+                <div id="content" class="view">
+                    <div class="page-metadata">
+                        
+        
+    
+        
+    
+        
+        
+            Created by <span class='author'> Former user</span>, last modified by <span class='editor'> Former user</span> on Jan 25, 2018
+                        </div>
+                    <div id="main-content" class="wiki-content group">
+                    <p><strong>01/17/18:</strong></p><ul><li>Sorted logistic issues - git, confluence, Hipchat </li><li>Walked new member through project </li><li>Outlining tasks for next few weeks</li></ul><p><strong>01/24/18:</strong></p><p><br/></p><p>      <u>BACK-END</u><strong><br/></strong></p><ul><li>Structure will most likely be radio → serial → parser → JSON / Avro → Kafka → Spark Streaming → Cassandra </li><li>thinking about using mosquitto, Apache nifi as ideas to input to Kafka</li><li>not too sure as to Kafka input sources for the stream in (looking like json / avro)</li><li>text files are inopportune b/c will be tricky reading and writing to at the same time</li><li>Redis seems to be a Kafka competitor, will not use it</li><li>Need to work on building using Kafka and Streams (aiming for end of January)</li><li>might need to push final project due date to end of February, didn't realize this aspect would be so difficult (too much data) </li><li>connecting back to front might be a pickle; front currently is piled into an html file; not exactly a project style (express) app </li></ul><p>     <u>FRONT-END</u></p><ul><li>Car image with associated suspension &amp; tire pressure (David)</li><li>Accumulator Temperature color reformatting (Alex)</li><li>Brake and throttle element implementation (Andy)</li><li>Battery, speed, accumulator voltage remodelling (Alex)</li><li>IMU Implementation (Not assigned)</li><li>Fix general format (Not assigned)</li><li>Data to graph implementation - Drag &amp; drop (Not assigned)</li></ul><p><span class="confluence-embedded-file-wrapper confluence-embedded-manual-size"><img class="confluence-embedded-image" height="250" loading="lazy" src="attachments/9437057067/9437057128.jpg?height=250" data-image-src="attachments/9437057067/9437057128.jpg" data-unresolved-comment-count="0" data-linked-resource-id="9437057128" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="Meeting_Notes_24:01:18.jpg" data-base-url="https://uwaterloo.atlassian.net/wiki" data-linked-resource-content-type="image/jpeg" data-linked-resource-container-id="9437057067" data-linked-resource-container-version="7" data-media-id="318d269a-96f3-4244-afd4-ffb04374c967" data-media-type="file"></span></p>
+                    </div>
+
+                                        <div class="pageSection group">
+                        <div class="pageSectionHeader">
+                            <h2 id="attachments" class="pageSectionTitle">Attachments:</h2>
+                        </div>
+
+                        <div class="greybox" align="left">
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/9437057067/9437057128.jpg">Meeting_Notes_24:01:18.jpg</a> (image/jpeg)
+                                <br/>
+                                                    </div>
+                    </div>
+                    
+                                                      
+                </div>             </div> 
+            <div id="footer" role="contentinfo">
+                <section class="footer-body">
+                    <p>Document generated by Confluence on Oct 15, 2022 01:32</p>
+                    <div id="footer-logo"><a href="http://www.atlassian.com/">Atlassian</a></div>
+                </section>
+            </div>
+        </div>     </body>
+</html>

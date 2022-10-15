@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Firmware : Command Line Interface</title>
+        <link rel="stylesheet" href="styles/site.css" type="text/css" />
+        <META http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    </head>
+
+    <body class="theme-default aui-theme-default">
+        <div id="page">
+            <div id="main" class="aui-page-panel">
+                <div id="main-header">
+                    <div id="breadcrumb-section">
+                        <ol id="breadcrumbs">
+                            <li class="first">
+                                <span><a href="index.html">Firmware</a></span>
+                            </li>
+                                                    <li>
+                                <span><a href="Firmware_9465365086.html">Firmware</a></span>
+                            </li>
+                                                    <li>
+                                <span><a href="Documentation_9513894334.html">Documentation</a></span>
+                            </li>
+                                                    <li>
+                                <span><a href="Firmware-Development-Documentation_9569468780.html">Firmware Development Documentation</a></span>
+                            </li>
+                                                </ol>
+                    </div>
+                    <h1 id="title-heading" class="pagetitle">
+                                                <span id="title-text">
+                            Firmware : Command Line Interface
+                        </span>
+                    </h1>
+                </div>
+
+                <div id="content" class="view">
+                    <div class="page-metadata">
+                        
+        
+    
+        
+    
+        
+        
+            Created by <span class='author'> Former user</span>, last modified by <span class='editor'> zzakiull@uwaterloo.ca</span> on Jul 20, 2021
+                        </div>
+                    <div id="main-content" class="wiki-content group">
+                    <div class="contentLayout2">
+<div class="columnLayout single" data-layout="single">
+<div class="cell normal" data-type="normal">
+<div class="innerCell">
+<p><style type='text/css'>/*<![CDATA[*/
+div.rbtoc1665802301553 {padding: 0px;}
+div.rbtoc1665802301553 ul {list-style: disc;margin-left: 0px;}
+div.rbtoc1665802301553 li {margin-left: 0px;padding-left: 0px;}
+
+/*]]>*/</style><div class='toc-macro rbtoc1665802301553'>
+<ul class='toc-indentation'>
+<li><a href='#CommandLineInterface-UsingtheCLI'>Using the CLI</a>
+<ul class='toc-indentation'>
+<li><a href='#CommandLineInterface-CoolTerm'>CoolTerm</a></li>
+<li><a href='#CommandLineInterface-Picocom'>Picocom</a></li>
+</ul>
+</li>
+<li><a href='#CommandLineInterface-AddingCLICommands'>Adding CLI Commands</a></li>
+</ul>
+</div></p><h1 id="CommandLineInterface-UsingtheCLI">Using the CLI</h1><p>All the boards have a command line interface, accessible over UART. To connect to it, use the st-link programming board as you normally would to program. To view the CLI, you can use CoolTerm or Picocom.</p><h2 id="CommandLineInterface-CoolTerm">CoolTerm</h2><p>Download CoolTerm here: <a class="external-link" href="https://freeware.the-meiers.org" rel="nofollow">https://freeware.the-meiers.org</a>). The settings required are:</p><ul><li>Baud Rate<ul><li>F0 board: 57600 </li><li>F7 board: 230400</li></ul></li><li>Turn on Local Echo</li><li>Enable tab separated text with separator 16 (optional)</li><li>Handle BS and Del characters</li></ul><p><strong>Note:</strong> If you are using a Mac, you may have to use ctrl+J to send commands to your board</p><h2 id="CommandLineInterface-Picocom">Picocom</h2><p>Picocom is a minimal dumb-terminal emulation program. To download it, run:</p><div class="code panel pdl" style="border-width: 1px;"><div class="codeContent panelContent pdl">
+<pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: java; gutter: false; theme: Confluence" data-theme="Confluence">sudo apt-get install picocom</pre>
+</div></div><p>An example of opening a picocom session would be:</p><div class="code panel pdl" style="border-width: 1px;"><div class="codeContent panelContent pdl">
+<pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: java; gutter: false; theme: Confluence" data-theme="Confluence">picocom /dev/ttyACM0 -b 57600 --echo --omap crcrlf --imap lfcrlf --emap lfcrlf</pre>
+</div></div><p>This does the following:</p><ul><li>Connect to device /dev/ttyACM0 (your device may be something else, e.g. /dev/ttyUSB0)</li><li>Set baud rate to 57600</li><li>Turn on local echo</li><li>Translate `\r` to `\r\n` before being written to serial port (--omap)</li><li>Translate <span style="color: rgb(23,43,77);">`\n` to `\r\n` after being read from serial port (–imap)</span></li><li>Translate `\n` with `\r\n` before being locally echoed to terminal (–emap)</li></ul><p>When running on your own device, keep the --echo, --omap, --imap, and --emap settings the same as the example. The only things you may need to change are device (e.g. /dev/ttyUSB0 instead of /dev/ttyACM0) and baud rate (set to 57600 if using F0 board and 230400 if using F7 board).</p><p>To exit a picocom session, enter Ctrl+A and then Ctrl+X.</p><p>For a full list of possible commands, read the picocom documentation here: <a class="external-link" href="https://github.com/npat-efault/picocom/blob/1acf1ddabaf3576b4023c4f6f09c5a3e4b086fb8/picocom.1.md" rel="nofollow">https://github.com/npat-efault/picocom/blob/1acf1ddabaf3576b4023c4f6f09c5a3e4b086fb8/picocom.1.md</a></p></div>
+</div>
+</div>
+<div class="columnLayout single" data-layout="single">
+<div class="cell normal" data-type="normal">
+<div class="innerCell">
+<h1 id="CommandLineInterface-AddingCLICommands">Adding CLI Commands</h1><p>The CLI is programmed using FreeRTOS+CLI. The repositories for each board have a something_mock.c file which implements all the CLI commands through the FreeRTOS+CLI API. For more information on the API, read the documentation here on how to work with it: <a class="external-link" href="https://www.freertos.org/FreeRTOS-Plus/FreeRTOS_Plus_CLI/FreeRTOS_Plus_Command_Line_Interface.html" rel="nofollow">https://www.freertos.org/FreeRTOS-Plus/FreeRTOS_Plus_CLI/FreeRTOS_Plus_Command_Line_Interface.html</a></p></div>
+</div>
+</div>
+</div>
+                    </div>
+
+                    
+                                                      
+                </div>             </div> 
+            <div id="footer" role="contentinfo">
+                <section class="footer-body">
+                    <p>Document generated by Confluence on Oct 15, 2022 02:51</p>
+                    <div id="footer-logo"><a href="http://www.atlassian.com/">Atlassian</a></div>
+                </section>
+            </div>
+        </div>     </body>
+</html>

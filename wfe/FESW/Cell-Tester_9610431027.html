@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Firmware : Cell Tester</title>
+        <link rel="stylesheet" href="styles/site.css" type="text/css" />
+        <META http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    </head>
+
+    <body class="theme-default aui-theme-default">
+        <div id="page">
+            <div id="main" class="aui-page-panel">
+                <div id="main-header">
+                    <div id="breadcrumb-section">
+                        <ol id="breadcrumbs">
+                            <li class="first">
+                                <span><a href="index.html">Firmware</a></span>
+                            </li>
+                                                    <li>
+                                <span><a href="Firmware_9465365086.html">Firmware</a></span>
+                            </li>
+                                                    <li>
+                                <span><a href="Documentation_9513894334.html">Documentation</a></span>
+                            </li>
+                                                    <li>
+                                <span><a href="Non-Board-Firmware_9610431025.html">Non-Board Firmware</a></span>
+                            </li>
+                                                </ol>
+                    </div>
+                    <h1 id="title-heading" class="pagetitle">
+                                                <span id="title-text">
+                            Firmware : Cell Tester
+                        </span>
+                    </h1>
+                </div>
+
+                <div id="content" class="view">
+                    <div class="page-metadata">
+                        
+        
+    
+        
+    
+        
+        
+            Created by <span class='author'> Owen Brake</span>, last modified on Jun 30, 2021
+                        </div>
+                    <div id="main-content" class="wiki-content group">
+                    <p>The Cell Tester Firmware is for testing the various battery cells on the car.</p><p>The architecture of the Cell Tester Hardware is shown below:</p><p><span class="confluence-embedded-file-wrapper confluence-embedded-manual-size"><img class="confluence-embedded-image" height="400" loading="lazy" src="attachments/9610431027/9612623887.png?height=400" data-image-src="attachments/9610431027/9612623887.png" data-unresolved-comment-count="0" data-linked-resource-id="9612623887" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="High Level Diagram.png" data-base-url="https://uwaterloo.atlassian.net/wiki" data-linked-resource-content-type="image/png" data-linked-resource-container-id="9610431027" data-linked-resource-container-version="3" data-media-id="ff44c392-69cd-48de-9100-a2907d282a69" data-media-type="file"></span></p><ul><li class="dropdown-item format-h1 active"><a class="external-link" href="https://wiki.uwaterloo.ca/pages/resumedraft.action?draftId=211716673&amp;draftShareId=e2ad4c11-49c9-43bb-a4fd-66f2a6ef9184&amp;" rel="nofollow">Heading 1</a></li></ul><p>The firmware for the Cell Tester is hosted on bitbucket, here: <a class="external-link" href="https://bitbucket.org/waterloohybrid/celltester/src" rel="nofollow">https://bitbucket.org/waterloohybrid/celltester/src</a></p><p><strong>Note</strong>: Currently the new CellTester is on a seperate branch as it should be tested before merging. You can access the new CellTester in 2 ways:</p><ol><li>Pull the repo above, and switch branches: e.g run: &quot;git checkout WFE-1152-single-executable&quot;<ol><li><a class="external-link" href="https://bitbucket.org/waterloohybrid/celltester/src/WFE-1152-single-executable/" rel="nofollow">https://bitbucket.org/waterloohybrid/celltester/src/WFE-1152-single-executable/</a></li></ol></li><li>Just download this zip file I created: <a class="external-link" href="https://drive.google.com/file/d/19MKmafatVIJuMqtZUfX91WoHni6RsKY7/view?usp=sharing" rel="nofollow">https://drive.google.com/file/d/19MKmafatVIJuMqtZUfX91WoHni6RsKY7/view?usp=sharing</a></li></ol><p>The Cell Tester software is broken up into 2 components:</p><ul style="list-style-type: square;"><li>Arduino (Measuring) Firmware</li><li>Python (Data Processing) Software</li></ul><h1 id="CellTester-Python,DataProcessing">Python, Data Processing</h1><h2 id="CellTester-UsingthePythonExecutable">Using the Python Executable</h2><p>To run the data processing/reading, the user should enter the <code>CellTester/Python </code>directory.</p><p>Then the user should run <code>python main.py &lt;command&gt; &lt;arguments&gt;</code></p><h3 id="CellTester-TestCommand">Test Command</h3><p>This is the main command for testing the battery cell.</p><p>The test command takes in arguments detailed below that specify what datapoints to record and where to record them.</p><h4 id="CellTester-Arguments">Arguments</h4><ul style="list-style-type: square;"><li>-o &lt;path_to_csv&gt;<ul style="list-style-type: square;"><li>Provides the CSV file to write the Cell Data to, if the CSV file is non empty it will append cell data, preserving old cell data</li><li>If this is not provided by default it outputs to <code>CellTester/Python/output/CellTester_&lt;timestamp&gt;.csv</code></li></ul></li><li><p>-v</p><ul style="list-style-type: square;"><li>Tells the program to record the OCV( Open Circuit Voltage ) of the cells in the CSV</li></ul></li><li>-r<ul style="list-style-type: square;"><li>Tells the program to record the internal resistance of the cells in the CSV</li></ul></li><li>-t<ul style="list-style-type: square;"><li>Tells the program to record the temperatures of the cells</li><li>This includes the:<ul style="list-style-type: square;"><li>Ambient Temperature</li><li>Positive Terminal Temperature</li><li>Middle Terminal Temperature</li><li>Negative Terminal Temperature</li></ul></li></ul></li><li>-i<ul style="list-style-type: square;"><li>Tells the program to record the loaded Cell current measured</li></ul></li></ul><p>The test command will retrieve information from the Arduino and process that data into a human readable CSV for one cell.</p><p>Once the readings are taken the user is then prompted if they want to run the test again perhaps on a 2nd cell.</p><p>The user can input:</p><ul style="list-style-type: square;"><li>c<ul style="list-style-type: square;"><li>To &quot;continue&quot; and read data again from the Arduino potentially on the next cell</li></ul></li><li>q<ul style="list-style-type: square;"><li>To &quot;quit&quot; and exit the program</li></ul></li></ul><p>The user can thus continuously test cells by attaching a cell, running the test, attaching a new cell after the test is complete and pressing 'c'.</p><p>Repeating this process over and over until all the cells of the battery are tested.</p><p><br/></p><h3 id="CellTester-Requirements">Requirements</h3><ul style="list-style-type: square;"><li>Python 3</li></ul><p><br/></p><p><br/></p><p><br/></p>
+                    </div>
+
+                                        <div class="pageSection group">
+                        <div class="pageSectionHeader">
+                            <h2 id="attachments" class="pageSectionTitle">Attachments:</h2>
+                        </div>
+
+                        <div class="greybox" align="left">
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/9610431027/9612623887.png">High Level Diagram.png</a> (image/png)
+                                <br/>
+                                                    </div>
+                    </div>
+                    
+                                                      
+                </div>             </div> 
+            <div id="footer" role="contentinfo">
+                <section class="footer-body">
+                    <p>Document generated by Confluence on Oct 15, 2022 02:51</p>
+                    <div id="footer-logo"><a href="http://www.atlassian.com/">Atlassian</a></div>
+                </section>
+            </div>
+        </div>     </body>
+</html>

@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Firmware : Fall 2021 Plan</title>
+        <link rel="stylesheet" href="styles/site.css" type="text/css" />
+        <META http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    </head>
+
+    <body class="theme-default aui-theme-default">
+        <div id="page">
+            <div id="main" class="aui-page-panel">
+                <div id="main-header">
+                    <div id="breadcrumb-section">
+                        <ol id="breadcrumbs">
+                            <li class="first">
+                                <span><a href="index.html">Firmware</a></span>
+                            </li>
+                                                    <li>
+                                <span><a href="Firmware_9465365086.html">Firmware</a></span>
+                            </li>
+                                                    <li>
+                                <span><a href="Firmware-Term-Planning_9622782543.html">Firmware Term Planning</a></span>
+                            </li>
+                                                </ol>
+                    </div>
+                    <h1 id="title-heading" class="pagetitle">
+                                                <span id="title-text">
+                            Firmware : Fall 2021 Plan
+                        </span>
+                    </h1>
+                </div>
+
+                <div id="content" class="view">
+                    <div class="page-metadata">
+                        
+        
+    
+        
+    
+        
+        
+            Created by <span class='author'> Owen Brake</span>, last modified on Oct 31, 2021
+                        </div>
+                    <div id="main-content" class="wiki-content group">
+                    <div><h1 id="Fall2021Plan-October31,2021">October 31, 2021</h1><h2 id="Fall2021Plan-Updates:">Updates:</h2><ul style="list-style-type: square;"><li>2021 car blocked by beaglebones not being soldered</li><li>Some battery balancing issues</li><li>Soldering beaglebones tuesday</li><li>Create a task for CAN logging automatically</li><li>Create DTCs on Dashboard PR is up just need to add comments to the DTCs</li><li>Need to work out what to do on WSB, what is it's purpose.</li><li>Owen needs to review PRs</li></ul><h2 id="Fall2021Plan-Tasksfornewmembers">Tasks for new members</h2><ul><li>mono repo</li><li>Flashing all boards at once using UART over CAN once mono repo is done </li><li>Confluence documentation</li><li>Traction control and torque vectoring research</li><li>Storing the telemetry data on the BB on startup. Create a new file for each time the car is started up and dump the data in the files. With this we can say that at this point (GPS) we are going this speed (IMU)</li></ul><h1 id="Fall2021Plan-October6,2021">October 6, 2021</h1><h2 id="Fall2021Plan-Priorities:">Priorities:</h2></div><ol><li>2021 Vehicle Testing / Getting 2022 Car working<br/><ol><li>This involves bringing up new 2022 AMS board</li><li>Running the various tests as shown on the subpages of this page <a href="Car-Testing-Procedure_9612624515.html" data-linked-resource-id="9612624515" data-linked-resource-version="5" data-linked-resource-type="page">Car Testing Procedure</a></li><li>Pushing the 2021 car to it's limits to attempt to identify and resolve any bugs</li><li>Members:<ol><li>Ryan Erler is heading this up right now in collaboration with tractive and electrical members</li></ol></li></ol></li><li>Logging, Beaglebone, Heads up Display<ol><li>We need to improve CAN logging<ol><li>This functionality should already exist</li><li>We need to ensure that it's working as expected</li><li>We need to create the proper hooks to make it easy to view the CAN logs</li></ol></li><li>We need to improve our general logging<ol><li>This includes things like IMU/GPS (though these are less of a priority)</li></ol></li><li>We need to make more use of the heads up display<ol><li>Display DTCs</li><li>Attempt to make human readable errors so the driver can react to them</li></ol></li><li>These features will help make sure our car is functioning properly and that non firmware members can detect and resolve car issues<ol><li>This can also improve our scores with judges</li></ol></li><li>Members:<ol><li>Zulaikha is heading this up now in particular CAN logging</li></ol></li></ol></li><li>Endurance Mode<ol><li>This is a feature that we are implementing to improve our car's score</li><li>Endurance mode is a feature to attempt to get the vehicle to travel as far as possible</li><li>There is an endurance event at our competitions</li><li>The process for endurance mode is generally:<ol><li>Compute Battery SoC</li><li>Compute distance travelled and rate of discharge</li><li>Restrict/Inform driver on speed to ensure completion of the race</li></ol></li><li>Members:<ol><li>This is Justin's current task</li></ol></li></ol></li><li>Traction Control, Torque Vectoring<ol><li>These are 2 features which would help improve vehicle performance</li><li>They are low priority until the above features are complete</li></ol></li><li>WSB<ol><li>Low priority</li><li>Goal right now is just get them on the car</li><li>They fill very little actual function</li></ol></li><li>Quality of Life (monorepo, linting, unit testing)<ol><li>These are things we'd like to have but are not critical to car performance</li><li>Should be given to new members</li></ol></li></ol><h2 id="Fall2021Plan-ExtraNotes">Extra Notes</h2><ul style="list-style-type: square;"><li>We need to buy new beaglebones ASAP</li><li>CAN bootloader is on the backburner until higher priority issues are resolved</li><li>We are prioritizing risk management over feature completion</li></ul><h1 id="Fall2021Plan-September18">September 18</h1><h2 id="Fall2021Plan-TaskstobeDonebyMidJanuary">Tasks to be Done by Mid January</h2><ul style="list-style-type: square;"><li>Vehicle Testing Procedure</li><li>Endurance Mode (maybe a bit later because of chassis delay)</li></ul><h3 id="Fall2021Plan-StretchGoals">Stretch Goals</h3><ul style="list-style-type: square;"><li>WSB</li><li>Improving Endurance Mode</li><li>Vehicle Telemetry (very stretch, less important)</li></ul><h3 id="Fall2021Plan-PlanIdeas">Plan Ideas</h3><ul style="list-style-type: square;"><li>Regenerative Braking</li><li>Torque Vectoring</li></ul><p><br/></p><h1 id="Fall2021Plan-October31">October 31</h1>
+                    </div>
+
+                    
+                                                      
+                </div>             </div> 
+            <div id="footer" role="contentinfo">
+                <section class="footer-body">
+                    <p>Document generated by Confluence on Oct 15, 2022 02:51</p>
+                    <div id="footer-logo"><a href="http://www.atlassian.com/">Atlassian</a></div>
+                </section>
+            </div>
+        </div>     </body>
+</html>

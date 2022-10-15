@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Firmware : STM32CubeMX Installation - macOS</title>
+        <link rel="stylesheet" href="styles/site.css" type="text/css" />
+        <META http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    </head>
+
+    <body class="theme-default aui-theme-default">
+        <div id="page">
+            <div id="main" class="aui-page-panel">
+                <div id="main-header">
+                    <div id="breadcrumb-section">
+                        <ol id="breadcrumbs">
+                            <li class="first">
+                                <span><a href="index.html">Firmware</a></span>
+                            </li>
+                                                    <li>
+                                <span><a href="Firmware_9465365086.html">Firmware</a></span>
+                            </li>
+                                                    <li>
+                                <span><a href="Getting-Started_9465365137.html">Getting Started</a></span>
+                            </li>
+                                                    <li>
+                                <span><a href="Intro-to-Firmware_9465365151.html">Intro to Firmware</a></span>
+                            </li>
+                                                    <li>
+                                <span><a href="Tool-Setup_9465365152.html">Tool Setup</a></span>
+                            </li>
+                                                </ol>
+                    </div>
+                    <h1 id="title-heading" class="pagetitle">
+                                                <span id="title-text">
+                            Firmware : STM32CubeMX Installation - macOS
+                        </span>
+                    </h1>
+                </div>
+
+                <div id="content" class="view">
+                    <div class="page-metadata">
+                        
+        
+    
+        
+    
+        
+        
+            Created by <span class='author'> Former user</span> on Sep 29, 2018
+                        </div>
+                    <div id="main-content" class="wiki-content group">
+                    <h2 id="STM32CubeMXInstallation-macOS-Note">Note</h2><p>This is a slightly outdated guide.  As of writing, the stm32cubemx download contains files for windows, Mac and linux compatibility.  All that is needed is to scroll to the bottom of the page below and download stm32cubemx: <a class="external-link" href="https://my.st.com/content/my_st_com/en/products/development-tools/software-development-tools/stm32-software-development-tools/stm32-configurators-and-code-generators/stm32cubemx.license=1535579028450.html" rel="nofollow">https://my.st.com/content/my_st_com/en/products/development-tools/software-development-tools/stm32-software-development-tools/stm32-configurators-and-code-generators/stm32cubemx.license=1535579028450.html</a></p><h2 id="STM32CubeMXInstallation-macOS-Step-by-stepguide">Step-by-step guide</h2><ol><li>If you know you have Java installed, proceed to step 2. If you are unsure, open the Terminal and type &quot;java -version&quot; and press Enter.<br/><ol><li>If you get a message beginning with something resembling &quot;java version &quot;1.8&quot;&quot;, proceed to step 2.</li><li>If you get an error, go to this page and download Java under &quot;<span style="color: rgb(0,0,0);">Java SE Development Kit 8u144&quot;</span>: <a class="external-link" href="http://www.oracle.com/technetwork/java/javase/downloads/jdk8-downloads-2133151.html" rel="nofollow">http://www.oracle.com/technetwork/java/javase/downloads/jdk8-downloads-2133151.html</a>. Once Java is installed, proceed to step 2.</li></ol></li><li>Go to <a class="external-link" href="http://www.st.com/content/st_com/en/products/development-tools/software-development-tools/stm32-software-development-tools/stm32-configurators-and-code-generators/stm32cubemx.html" rel="nofollow">http://www.st.com/content/st_com/en/products/development-tools/software-development-tools/stm32-software-development-tools/stm32-configurators-and-code-generators/stm32cubemx.html</a></li><li>Click &quot;Get Software&quot;. This will bring you to the bottom of the page where the download button is.<br/><span class="confluence-embedded-file-wrapper confluence-embedded-manual-size"><img class="confluence-embedded-image" height="250" loading="lazy" src="attachments/9465365162/9465365165.png?height=250" data-image-src="attachments/9465365162/9465365165.png" data-unresolved-comment-count="0" data-linked-resource-id="9465365165" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="Screen Shot 2017-09-15 at 3.09.16 PM.png" data-base-url="https://uwaterloo.atlassian.net/wiki" data-linked-resource-content-type="image/png" data-linked-resource-container-id="9465365162" data-linked-resource-container-version="1" data-media-id="01ff8575-470b-46b2-bd39-dfc3093769ab" data-media-type="file"></span></li><li>Click the &quot;Get Software&quot; button.<br/><span class="confluence-embedded-file-wrapper confluence-embedded-manual-size"><img class="confluence-embedded-image" height="250" loading="lazy" src="attachments/9465365162/9465365163.png?height=250" data-image-src="attachments/9465365162/9465365163.png" data-unresolved-comment-count="0" data-linked-resource-id="9465365163" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="Screen Shot 2017-09-15 at 8.08.50 PM.png" data-base-url="https://uwaterloo.atlassian.net/wiki" data-linked-resource-content-type="image/png" data-linked-resource-container-id="9465365162" data-linked-resource-container-version="1" data-media-id="4b8a6c19-d9a7-4c8b-8617-7f997b981051" data-media-type="file"></span></li><li>Enter the required information in the pop up form and click &quot;Download&quot;.</li><li>One the .zip archive has finished downloading, extract it to your Desktop.</li><li>Open Finder and locate the &quot;en.stm32cubemx&quot; folder on your desktop.</li><li>Open the folder and right click on the &quot;SetupSTM32CubeMX-4.22.1.exe&quot; file (version number may be different).</li><li>Hold down the option key and click on &quot;Copy &quot;SetupSTM32CubeMX-4.22.1.exe&quot; as Pathname&quot;.</li><li>Open the Terminal and type &quot;java -jar &quot; (with a space after jar) and then press Command+V to paste the path to the setup file.</li><li>Press Enter</li><li>After a few seconds, the STM32CubeMX should launch. Use it to install the application on your computer.</li><li>Once you have it installed, you can open the application like any other by pressing Command + Space to bring up Spotlight Search and then typing &quot;STM32CubeMX&quot;.</li></ol><p>If you encounter any difficulties, don't hesitate to shoot me an email at mdcbonne@edu.uwaterloo.ca</p><p><br/></p>
+                    </div>
+
+                                        <div class="pageSection group">
+                        <div class="pageSectionHeader">
+                            <h2 id="attachments" class="pageSectionTitle">Attachments:</h2>
+                        </div>
+
+                        <div class="greybox" align="left">
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/9465365162/9465365163.png">Screen Shot 2017-09-15 at 8.08.50 PM.png</a> (image/png)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/9465365162/9465365164.png">Screen Shot 2017-09-15 at 3.11.16 PM.png</a> (image/png)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/9465365162/9465365165.png">Screen Shot 2017-09-15 at 3.09.16 PM.png</a> (image/png)
+                                <br/>
+                                                    </div>
+                    </div>
+                    
+                                                      
+                </div>             </div> 
+            <div id="footer" role="contentinfo">
+                <section class="footer-body">
+                    <p>Document generated by Confluence on Oct 15, 2022 01:32</p>
+                    <div id="footer-logo"><a href="http://www.atlassian.com/">Atlassian</a></div>
+                </section>
+            </div>
+        </div>     </body>
+</html>

@@ -1,0 +1,602 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Firmware : Endurance Mode</title>
+        <link rel="stylesheet" href="styles/site.css" type="text/css" />
+        <META http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    </head>
+
+    <body class="theme-default aui-theme-default">
+        <div id="page">
+            <div id="main" class="aui-page-panel">
+                <div id="main-header">
+                    <div id="breadcrumb-section">
+                        <ol id="breadcrumbs">
+                            <li class="first">
+                                <span><a href="index.html">Firmware</a></span>
+                            </li>
+                                                    <li>
+                                <span><a href="Firmware_9465365086.html">Firmware</a></span>
+                            </li>
+                                                    <li>
+                                <span><a href="Firmware-Projects_9571009451.html">Firmware Projects</a></span>
+                            </li>
+                                                </ol>
+                    </div>
+                    <h1 id="title-heading" class="pagetitle">
+                                                <span id="title-text">
+                            Firmware : Endurance Mode
+                        </span>
+                    </h1>
+                </div>
+
+                <div id="content" class="view">
+                    <div class="page-metadata">
+                        
+        
+    
+        
+    
+        
+        
+            Created by <span class='author'> Owen Brake</span>, last modified by <span class='editor'> Alexander Cholmsky</span> on May 02, 2022
+                        </div>
+                    <div id="main-content" class="wiki-content group">
+                    <h2 id="EnduranceMode-Overview">Overview  </h2><div class="table-wrap"><table data-layout="default" data-local-id="762bda5d-d032-477d-89d6-c277712ae3cb" class="confluenceTable"><colgroup><col style="width: 150.0px;"/><col style="width: 610.0px;"/></colgroup><tbody><tr><td data-highlight-colour="#e3fcef" class="confluenceTd"><p><strong>Event</strong></p></td><td class="confluenceTd"><p>Endurance</p></td></tr><tr><td data-highlight-colour="#e3fcef" class="confluenceTd"><p><strong>Applicable Components</strong></p></td><td class="confluenceTd"><ul><li><p>Accumulator/Battery</p></li><li><p>Motors</p></li></ul></td></tr><tr><td data-highlight-colour="#e3fcef" class="confluenceTd"><p><strong>Jira Ticket</strong></p></td><td class="confluenceTd"><p><a class="external-link" href="https://jira.uwaterloo.ca/browse/WFE-1168" rel="nofollow">https://jira.uwaterloo.ca/browse/WFE-1168</a></p></td></tr><tr><td data-highlight-colour="#e3fcef" class="confluenceTd"><p><strong>Progress</strong></p></td><td class="confluenceTd"><p>Development in Progress</p></td></tr><tr><td data-highlight-colour="#e3fcef" class="confluenceTd"><p><strong>Owner</strong></p></td><td class="confluenceTd"><p>Owen Brake</p></td></tr><tr><td data-highlight-colour="#e3fcef" class="confluenceTd"><p><strong>Creation Date</strong></p></td><td class="confluenceTd"><p>Winter/Spring 2021</p></td></tr><tr><td data-highlight-colour="#e3fcef" class="confluenceTd"><p><strong>Summary</strong></p></td><td class="confluenceTd"><p>Method to maximize vehicle distance and complete endurance competition (44km) in most efficient manner.</p></td></tr></tbody></table></div><h2 id="EnduranceMode-Requirements">Requirements</h2><div class="table-wrap"><table data-layout="default" data-local-id="2ee4a113-a310-4483-bd7c-909e340868c2" class="confluenceTable"><colgroup><col style="width: 112.0px;"/><col style="width: 568.0px;"/></colgroup><tbody><tr><th data-highlight-colour="#e6fcff" class="confluenceTh"><p><strong>UX</strong></p></th><th data-highlight-colour="#ffffff" class="confluenceTh"><ul><li><p>Driver should be able to toggle into and out of endurance mode</p></li><li><p>Driver should be able to abort endurance mode anytime during driving</p></li><li><p>Driver should have some indication of whether they are in endurance mode</p></li></ul></th></tr><tr><td data-highlight-colour="#e6fcff" class="confluenceTd"><p><strong>Vehicle Performance</strong></p></td><td class="confluenceTd"><ul><li><p>Vehicle must be able to complete endurance distance</p></li><li><p>Vehicle should not be excessively slow so as to achieve a good time and efficiency in endurance competition</p></li></ul></td></tr></tbody></table></div><h2 id="EnduranceMode-Design-UX">Design - UX</h2><h3 id="EnduranceMode-DesignUX-ButtonTrigger">Design UX - Button Trigger</h3><p>The TC (Traction Control) and TV (Torque Vectoring) buttons are not used on the current 2021 car dashboard. They could be used to toggle in and out of endurance mode.</p><h3 id="EnduranceMode-DesignUX-Dashboard">Design UX - Dashboard</h3><p>The driver needs a way to know when they’re in endurance mode. It would probably be smart to have an indication on the dashboard that indicates to the driver they’re in endurance mode.</p><p>It would also be a very nice thing to add a State of Charge Indicator on the dashboard. This should be the bare minimum for endurance mode. Basically provide State of Charge info to the driver and let them manage the car’s speed along the track.</p><h2 id="EnduranceMode-Design-VehiclePerformance">Design - Vehicle Performance</h2><h3 id="EnduranceMode-DesignVehiclePerformance-DriverManaged">Design Vehicle Performance - Driver Managed</h3><p>Essentially, just let the driver look at the state of charge indicator and make a judgement on how fast to go to finish the race.</p><div class="table-wrap"><table data-layout="default" data-local-id="f44d78f0-0a27-4b73-bcce-f73c01cd91ce" class="confluenceTable"><colgroup><col style="width: 340.0px;"/><col style="width: 340.0px;"/></colgroup><tbody><tr><th class="confluenceTh"><p><strong>Pros</strong></p></th><th class="confluenceTh"><p><strong>Cons</strong></p></th></tr><tr><td class="confluenceTd"><p>Dead simple</p></td><td class="confluenceTd"><p>Relies on driver to have experience and incredible skill</p></td></tr><tr><td class="confluenceTd"><p>Unobtrusive, very low chance it will cause the driver to mess up</p></td><td class="confluenceTd"><p>Not rigorous, probably not the best method we can use</p></td></tr></tbody></table></div><h3 id="EnduranceMode-DesignVehiclePerformance-DriverFeedback">Design Vehicle Performance - Driver Feedback</h3><p>In this feature selection it combines the driver managed feature with a little bit more nuance. The car is constantly measuring the distance traveled and the energy expended over that distance. Using that we get: </p><span class="confluence-embedded-file-wrapper image-center-wrapper"><img class="confluence-embedded-image image-center" loading="lazy" src="attachments/19415171148/42594926938.png" data-image-src="attachments/19415171148/42594926938.png" data-height="73" data-width="569" data-unresolved-comment-count="0" data-linked-resource-id="42594926938" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="image-20211124-035231.png" data-base-url="https://uwaterloo.atlassian.net/wiki" data-linked-resource-content-type="image/png" data-linked-resource-container-id="19415171148" data-linked-resource-container-version="18" data-media-id="7fa8373d-335b-4a46-957e-9edaa0769964" data-media-type="file"></span><p>Performing a linear extrapolation you can compute the remaining range left:</p><span class="confluence-embedded-file-wrapper image-center-wrapper"><img class="confluence-embedded-image image-center" loading="lazy" src="attachments/19415171148/42595155979.png" data-image-src="attachments/19415171148/42595155979.png" data-height="75" data-width="634" data-unresolved-comment-count="0" data-linked-resource-id="42595155979" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="image-20211124-035646.png" data-base-url="https://uwaterloo.atlassian.net/wiki" data-linked-resource-content-type="image/png" data-linked-resource-container-id="19415171148" data-linked-resource-container-version="18" data-media-id="6b599190-5164-41a6-a884-3eed2628e30e" data-media-type="file"></span><p>We can display this information to the driver on the dashboard. If they appear to not have enough range to complete the course, then inform the driver they need to slow down (See appendix about nuance in this).</p><div class="table-wrap"><table data-layout="default" data-local-id="e1f4a5b1-8c74-4b7e-a1cb-5e1c31f44c30" class="confluenceTable"><colgroup><col style="width: 340.0px;"/><col style="width: 340.0px;"/></colgroup><tbody><tr><th class="confluenceTh"><p><strong>Pros</strong></p></th><th class="confluenceTh"><p><strong>Cons</strong></p></th></tr><tr><td class="confluenceTd"><p>Still fairly simple</p></td><td class="confluenceTd"><p>Driver has to constantly glance at dashboard</p></td></tr><tr><td class="confluenceTd"><p>Unobtrusive, very low chance it will cause the driver to mess up</p></td><td class="confluenceTd"><p>Still relies much on driver experience and skill.</p></td></tr></tbody></table></div><p /><h3 id="EnduranceMode-DesignVehiclePerformance-FeedbackController">Design Vehicle Performance - Feedback Controller</h3><h4 id="EnduranceMode-Description">Description</h4><p>This is what is sort of expected for “Endurance mode“.</p><p>Essentially we need to design a feedback controller which modifies the throttle pedal map based on the remaining range. I’ve designed a feedback controller which I think could apply to our use case. The diagram shown below is a PID controller which uses the expected endurance competition distance and the current remaining vehicle range as the error variable. Then the error is passed through our PID controller and is used as feedback into our motor throttle algorithm.</p><div class="ap-container" id="ap-com.mxgraph.confluence.plugins.diagramly__drawio794725606327909990">
+
+  <div class="ap-content " id="embedded-com.mxgraph.confluence.plugins.diagramly__drawio794725606327909990"></div>
+  <script class="ap-iframe-body-script">
+  (function(){
+    var data = {
+    "addon_key":"com.mxgraph.confluence.plugins.diagramly",
+    "uniqueKey":"com.mxgraph.confluence.plugins.diagramly__drawio794725606327909990",
+    "key":"drawio",
+     "moduleType":"dynamicContentMacros",      "moduleLocation":"content",         "cp":"/wiki",
+            "general":"",
+    "w":"",
+    "h":"",
+    "url":"https://ac.draw.io/connect/confluence/viewer-1-4-42.html?ceoId=19415171148&diagramName=Endurance+Mode+Feedback.drawio&revision=6&width=1023&height=687&tbstyle=&simple=0&lbox=1&zoom=1&links=&owningPageId=19415171148&displayName=Endurance+Mode+Feedback.drawio&contentId=&custContentId=42594501263&contentVer=6&inComment=0&aspect=&pCenter=0&hiRes=&templateUrl=&tmpBuiltIn=&xdm_e=https%3A%2F%2Fuwaterloo.atlassian.net&xdm_c=channel-com.mxgraph.confluence.plugins.diagramly__drawio794725606327909990&cp=%2Fwiki&xdm_deprecated_addon_key_do_not_use=com.mxgraph.confluence.plugins.diagramly&lic=active&cv=1000.0.0-dac6569778fc",
+        "structuredContext": "{\"license\":{\"active\":true},\"confluence\":{\"editor\":{\"version\":\"\\\"v2\\\"\"},\"macro\":{\"outputType\":\"html_export\",\"hash\":\"46433a66-49f9-4f08-9af4-6d9a827f2126\",\"id\":\"46433a66-49f9-4f08-9af4-6d9a827f2126\"},\"content\":{\"type\":\"page\",\"version\":\"18\",\"id\":\"19415171148\"},\"space\":{\"key\":\"FESW\",\"id\":\"9437446145\"}}}",
+    "contentClassifier":"content",
+    "productCtx":"{\"page.id\":\"19415171148\",\"macro.hash\":\"46433a66-49f9-4f08-9af4-6d9a827f2126\",\"page.type\":\"page\",\"macro.localId\":\"8bb0c30f-5475-43c7-adfa-5e7036b95f30\",\"simple\":\"0\",\"inComment\":\"0\",\": = | RAW | = :\":\"zoom=1|simple=0|inComment=0|pageId=19415171148|custContentId=42594501263|lbox=1|diagramDisplayName=Endurance Mode Feedback.drawio|contentVer=6|revision=6|baseUrl=https://uwaterloo.atlassian.net/wiki|diagramName=Endurance Mode Feedback.drawio|pCenter=0|width=1023|links=|tbstyle=|height=687\",\"space.id\":\"9437446145\",\"diagramDisplayName\":\"Endurance Mode Feedback.drawio\",\"diagramName\":\"Endurance Mode Feedback.drawio\",\"links\":\"\",\"tbstyle\":\"\",\"user.isExternalCollaborator\":\"false\",\"height\":\"687\",\"space.key\":\"FESW\",\"user.id\":\"606cc77cef87dd0068585264\",\"content.version\":\"18\",\"page.title\":\"Endurance Mode\",\"zoom\":\"1\",\"macro.body\":\"\",\"pageId\":\"19415171148\",\"custContentId\":\"42594501263\",\"macro.truncated\":\"false\",\"lbox\":\"1\",\"content.type\":\"page\",\"output.type\":\"html_export\",\"contentVer\":\"6\",\"page.version\":\"18\",\"revision\":\"6\",\"user.key\":\"8a7f808a788babb00178a8ec767d4328\",\"baseUrl\":\"https://uwaterloo.atlassian.net/wiki\",\"pCenter\":\"0\",\"content.id\":\"19415171148\",\"width\":\"1023\",\"macro.id\":\"46433a66-49f9-4f08-9af4-6d9a827f2126\",\"editor.version\":\"\\\"v2\\\"\"}",
+    "timeZone":"UTC",
+    "origin":"https://ac.draw.io",
+    "hostOrigin":"https://uwaterloo.atlassian.net",
+    "sandbox":"allow-downloads allow-forms allow-modals allow-popups allow-scripts allow-same-origin allow-top-navigation-by-user-activation allow-storage-access-by-user-activation",    "pearApp":"true",        "apiMigrations": {
+        "gdpr": true
+    }
+}
+;
+    if(window.AP && window.AP.subCreate) {
+      window._AP.appendConnectAddon(data);
+    } else {
+      require(['ac/create'], function(create){
+        create.appendConnectAddon(data);
+      });
+    }
+
+    // For Confluence App Analytics. This code works in conjunction with CFE's ConnectSupport.js.
+    // Here, we add a listener to the initial HTML page that stores events if the ConnectSupport component
+    // has not mounted yet. In CFE, we process the missed event data and disable this initial listener.
+    const __MAX_EVENT_ARRAY_SIZE__ = 20;
+    const connectAppAnalytics = "ecosystem.confluence.connect.analytics";
+    window.connectHost.onIframeEstablished((eventData) => {
+      if (!window.__CONFLUENCE_CONNECT_SUPPORT_LOADED__) {
+        let events = JSON.parse(window.localStorage.getItem(connectAppAnalytics)) || [];
+        if (events.length >= __MAX_EVENT_ARRAY_SIZE__) {
+          events.shift();
+        }
+        events.push(eventData);
+        window.localStorage.setItem(connectAppAnalytics, JSON.stringify(events));
+      }
+    });
+
+  }());
+</script>
+
+</div>
+<p>I’ve attached some PID controller documentation in the Appendix.</p><p>As a summary of the above chart.</p><ol><li><p>Determine how much the vehicle has currently travelled</p></li><li><p>Determine how much range the vehicle has left</p></li><li><p>Subtract the remaining range from the endurance competition to get the error value</p></li><li><p>If the error value is &lt; 0, then the driver will finish the course so perform no corrections, else continue</p></li><li><p>Plug the error into the PID controller to get the throttle feedback</p></li><li><p>Clip the feedback at some maximum value, we don’t want the endurance mode calculation to stop the vehicle</p></li></ol><p>The PID equation is shown simply below, where E is the error value (Competition Distance - Vehicle Range).</p><span class="confluence-embedded-file-wrapper image-center-wrapper"><img class="confluence-embedded-image image-center" loading="lazy" src="attachments/19415171148/42595189003.png" data-image-src="attachments/19415171148/42595189003.png" data-height="63" data-width="638" data-unresolved-comment-count="0" data-linked-resource-id="42595189003" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="image-20211124-045654.png" data-base-url="https://uwaterloo.atlassian.net/wiki" data-linked-resource-content-type="image/png" data-linked-resource-container-id="19415171148" data-linked-resource-container-version="18" data-media-id="4f6c377d-e7a2-4b63-9dc5-7db402f17436" data-media-type="file"></span><p>This model is a bit complex but it would provide us with a robust, accurate feedback loop to ensure we go the maximum distance in the maximum speed.</p><h4 id="EnduranceMode-PotentialIssues">Potential Issues</h4><p>There are some roadblocks as detailed below. </p><p>The first one is PID tuning. The Kp and Ki values are constants which must be tuned. I’ve only tuned PID constants on rapid motion devices. This PID controller would be on a system where the Kp, Ki values would have to be tested over the entire range &gt;40km.  These values could be tested on a dyno (dynamometer), but I am unsure of our access to one, and it would still take hours in between tuning because the vehicle has to traverse and then recharge the battery.</p><p>The second one is the potential for intrusion on driver behaviour. We really don’t want to have our endurance mode negatively affect our performance due to some programming error. So to prevent this there will be 2 solutions: 1 is there will be a cap on the feedback loop effect so the loop cannot force the throttle to 0 or some arbitrary low value, 2 there will be an endurance mode abort button which turns off this feedback loop and just lets the driver drive.</p><div class="table-wrap"><table data-layout="default" data-local-id="896cfe3a-a50e-4b97-b7ea-0512db4bb74e" class="confluenceTable"><colgroup><col style="width: 340.0px;"/><col style="width: 340.0px;"/></colgroup><tbody><tr><th class="confluenceTh"><p><strong>Pros</strong></p></th><th class="confluenceTh"><p><strong>Cons</strong></p></th></tr><tr><td class="confluenceTd"><p>Accurate</p></td><td class="confluenceTd"><p>Tuning PID controller will be difficult</p></td></tr><tr><td class="confluenceTd"><p>Would provide the most correct “endurance mode“, with truly, mathematically determining the fastest long distance run</p></td><td class="confluenceTd"><p>Very complex</p></td></tr><tr><td class="confluenceTd"><p>Very cool to show judges</p></td><td class="confluenceTd"><p>Potentially intrusive</p><ul><li><p>Though we will have an abort button</p></li></ul></td></tr></tbody></table></div><h1 id="EnduranceMode-Appendix">Appendix</h1><p>Note, there are some nuances here which haven’t been discussed. First, it’s assumed that the faster you drive the more energy is expended but this isn’t true. We should work with tractive on this.</p><p>As shown in the below figure, maintaining a speed of 40mph is actually the most optimal speed for a Model X, driving slower than that will result in lower range.</p><p>We should maybe perform some dyno testing for this.</p><span class="confluence-embedded-file-wrapper image-center-wrapper"><img class="confluence-embedded-image image-center" loading="lazy" src="attachments/19415171148/42594828648.png" data-image-src="attachments/19415171148/42594828648.png" data-height="450" data-width="600" data-unresolved-comment-count="0" data-linked-resource-id="42594828648" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="image-20211124-035841.png" data-base-url="https://uwaterloo.atlassian.net/wiki" data-linked-resource-content-type="image/png" data-linked-resource-container-id="19415171148" data-linked-resource-container-version="18" data-media-id="8177f94c-7eae-49ff-9637-564eeb69f641" data-media-type="file"></span><p /><p><a class="external-link" data-card-appearance="inline" href="https://spin.atomicobject.com/2016/06/28/intro-pid-control/" rel="nofollow">https://spin.atomicobject.com/2016/06/28/intro-pid-control/</a> </p>
+                    </div>
+
+                                        <div class="pageSection group">
+                        <div class="pageSectionHeader">
+                            <h2 id="attachments" class="pageSectionTitle">Attachments:</h2>
+                        </div>
+
+                        <div class="greybox" align="left">
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/19415171148/42594926938.png">image-20211124-035231.png</a> (image/png)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/19415171148/42595155979.png">image-20211124-035646.png</a> (image/png)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/19415171148/42594828648.png">image-20211124-035841.png</a> (image/png)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/19415171148/42594828675.tmp">~drawio~606cc77cef87dd0068585264~Endurance Mode Feedback.drawio.tmp</a> (application/vnd.jgraph.mxfile)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/19415171148/42595156002.tmp">~drawio~606cc77cef87dd0068585264~Endurance Mode Feedback.drawio.tmp</a> (application/vnd.jgraph.mxfile)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/19415171148/42594926946.tmp">~drawio~606cc77cef87dd0068585264~Endurance Mode Feedback.drawio.tmp</a> (application/vnd.jgraph.mxfile)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/19415171148/42594501195.tmp">~drawio~606cc77cef87dd0068585264~Endurance Mode Feedback.drawio.tmp</a> (application/vnd.jgraph.mxfile)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/19415171148/42594501204.tmp">~drawio~606cc77cef87dd0068585264~Endurance Mode Feedback.drawio.tmp</a> (application/vnd.jgraph.mxfile)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/19415171148/42594795965.tmp">~drawio~606cc77cef87dd0068585264~Endurance Mode Feedback.drawio.tmp</a> (application/vnd.jgraph.mxfile)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/19415171148/42594795974.tmp">~drawio~606cc77cef87dd0068585264~Endurance Mode Feedback.drawio.tmp</a> (application/vnd.jgraph.mxfile)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/19415171148/42594926955.tmp">~drawio~606cc77cef87dd0068585264~Endurance Mode Feedback.drawio.tmp</a> (application/vnd.jgraph.mxfile)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/19415171148/42594828684.tmp">~drawio~606cc77cef87dd0068585264~Endurance Mode Feedback.drawio.tmp</a> (application/vnd.jgraph.mxfile)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/19415171148/42595156011.tmp">~drawio~606cc77cef87dd0068585264~Endurance Mode Feedback.drawio.tmp</a> (application/vnd.jgraph.mxfile)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/19415171148/42594828693.tmp">~drawio~606cc77cef87dd0068585264~Endurance Mode Feedback.drawio.tmp</a> (application/vnd.jgraph.mxfile)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/19415171148/42595156020.tmp">~drawio~606cc77cef87dd0068585264~Endurance Mode Feedback.drawio.tmp</a> (application/vnd.jgraph.mxfile)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/19415171148/42594828702.tmp">~drawio~606cc77cef87dd0068585264~Endurance Mode Feedback.drawio.tmp</a> (application/vnd.jgraph.mxfile)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/19415171148/42594828711.tmp">~drawio~606cc77cef87dd0068585264~Endurance Mode Feedback.drawio.tmp</a> (application/vnd.jgraph.mxfile)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/19415171148/42595156029.tmp">~drawio~606cc77cef87dd0068585264~Endurance Mode Feedback.drawio.tmp</a> (application/vnd.jgraph.mxfile)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/19415171148/42594828720.tmp">~drawio~606cc77cef87dd0068585264~Endurance Mode Feedback.drawio.tmp</a> (application/vnd.jgraph.mxfile)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/19415171148/42594926964.tmp">~drawio~606cc77cef87dd0068585264~Endurance Mode Feedback.drawio.tmp</a> (application/vnd.jgraph.mxfile)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/19415171148/42595156038.tmp">~drawio~606cc77cef87dd0068585264~Endurance Mode Feedback.drawio.tmp</a> (application/vnd.jgraph.mxfile)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/19415171148/42595156047.tmp">~drawio~606cc77cef87dd0068585264~Endurance Mode Feedback.drawio.tmp</a> (application/vnd.jgraph.mxfile)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/19415171148/42594795983.tmp">~drawio~606cc77cef87dd0068585264~Endurance Mode Feedback.drawio.tmp</a> (application/vnd.jgraph.mxfile)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/19415171148/42594926973.tmp">~drawio~606cc77cef87dd0068585264~Endurance Mode Feedback.drawio.tmp</a> (application/vnd.jgraph.mxfile)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/19415171148/42595156056.tmp">~drawio~606cc77cef87dd0068585264~Endurance Mode Feedback.drawio.tmp</a> (application/vnd.jgraph.mxfile)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/19415171148/42594828729.tmp">~drawio~606cc77cef87dd0068585264~Endurance Mode Feedback.drawio.tmp</a> (application/vnd.jgraph.mxfile)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/19415171148/42595156065.tmp">~drawio~606cc77cef87dd0068585264~Endurance Mode Feedback.drawio.tmp</a> (application/vnd.jgraph.mxfile)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/19415171148/42594926982.tmp">~drawio~606cc77cef87dd0068585264~Endurance Mode Feedback.drawio.tmp</a> (application/vnd.jgraph.mxfile)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/19415171148/42594926991.tmp">~drawio~606cc77cef87dd0068585264~Endurance Mode Feedback.drawio.tmp</a> (application/vnd.jgraph.mxfile)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/19415171148/42594927000.tmp">~drawio~606cc77cef87dd0068585264~Endurance Mode Feedback.drawio.tmp</a> (application/vnd.jgraph.mxfile)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/19415171148/42594828738.tmp">~drawio~606cc77cef87dd0068585264~Endurance Mode Feedback.drawio.tmp</a> (application/vnd.jgraph.mxfile)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/19415171148/42594828747.tmp">~drawio~606cc77cef87dd0068585264~Endurance Mode Feedback.drawio.tmp</a> (application/vnd.jgraph.mxfile)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/19415171148/42594927009.tmp">~drawio~606cc77cef87dd0068585264~Endurance Mode Feedback.drawio.tmp</a> (application/vnd.jgraph.mxfile)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/19415171148/42594828756.tmp">~drawio~606cc77cef87dd0068585264~Endurance Mode Feedback.drawio.tmp</a> (application/vnd.jgraph.mxfile)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/19415171148/42594501213.tmp">~drawio~606cc77cef87dd0068585264~Endurance Mode Feedback.drawio.tmp</a> (application/vnd.jgraph.mxfile)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/19415171148/42594828765.tmp">~drawio~606cc77cef87dd0068585264~Endurance Mode Feedback.drawio.tmp</a> (application/vnd.jgraph.mxfile)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/19415171148/42594795992.tmp">~drawio~606cc77cef87dd0068585264~Endurance Mode Feedback.drawio.tmp</a> (application/vnd.jgraph.mxfile)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/19415171148/42594796001.tmp">~drawio~606cc77cef87dd0068585264~Endurance Mode Feedback.drawio.tmp</a> (application/vnd.jgraph.mxfile)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/19415171148/42595156074.tmp">~drawio~606cc77cef87dd0068585264~Endurance Mode Feedback.drawio.tmp</a> (application/vnd.jgraph.mxfile)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/19415171148/42594796010.tmp">~drawio~606cc77cef87dd0068585264~Endurance Mode Feedback.drawio.tmp</a> (application/vnd.jgraph.mxfile)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/19415171148/42595156083.tmp">~drawio~606cc77cef87dd0068585264~Endurance Mode Feedback.drawio.tmp</a> (application/vnd.jgraph.mxfile)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/19415171148/42594927018.tmp">~drawio~606cc77cef87dd0068585264~Endurance Mode Feedback.drawio.tmp</a> (application/vnd.jgraph.mxfile)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/19415171148/42594927027.tmp">~drawio~606cc77cef87dd0068585264~Endurance Mode Feedback.drawio.tmp</a> (application/vnd.jgraph.mxfile)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/19415171148/42594796019.tmp">~drawio~606cc77cef87dd0068585264~Endurance Mode Feedback.drawio.tmp</a> (application/vnd.jgraph.mxfile)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/19415171148/42594501222.tmp">~drawio~606cc77cef87dd0068585264~Endurance Mode Feedback.drawio.tmp</a> (application/vnd.jgraph.mxfile)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/19415171148/42594796028.tmp">~drawio~606cc77cef87dd0068585264~Endurance Mode Feedback.drawio.tmp</a> (application/vnd.jgraph.mxfile)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/19415171148/42594828774.tmp">~drawio~606cc77cef87dd0068585264~Endurance Mode Feedback.drawio.tmp</a> (application/vnd.jgraph.mxfile)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/19415171148/42595156092.tmp">~drawio~606cc77cef87dd0068585264~Endurance Mode Feedback.drawio.tmp</a> (application/vnd.jgraph.mxfile)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/19415171148/42594796037.tmp">~drawio~606cc77cef87dd0068585264~Endurance Mode Feedback.drawio.tmp</a> (application/vnd.jgraph.mxfile)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/19415171148/42594828783.tmp">~drawio~606cc77cef87dd0068585264~Endurance Mode Feedback.drawio.tmp</a> (application/vnd.jgraph.mxfile)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/19415171148/42594828792.tmp">~drawio~606cc77cef87dd0068585264~Endurance Mode Feedback.drawio.tmp</a> (application/vnd.jgraph.mxfile)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/19415171148/42594828801.tmp">~drawio~606cc77cef87dd0068585264~Endurance Mode Feedback.drawio.tmp</a> (application/vnd.jgraph.mxfile)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/19415171148/42594927036.tmp">~drawio~606cc77cef87dd0068585264~Endurance Mode Feedback.drawio.tmp</a> (application/vnd.jgraph.mxfile)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/19415171148/42594927045.tmp">~drawio~606cc77cef87dd0068585264~Endurance Mode Feedback.drawio.tmp</a> (application/vnd.jgraph.mxfile)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/19415171148/42594828810.tmp">~drawio~606cc77cef87dd0068585264~Endurance Mode Feedback.drawio.tmp</a> (application/vnd.jgraph.mxfile)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/19415171148/42594796046.tmp">~drawio~606cc77cef87dd0068585264~Endurance Mode Feedback.drawio.tmp</a> (application/vnd.jgraph.mxfile)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/19415171148/42594796055.tmp">~drawio~606cc77cef87dd0068585264~Endurance Mode Feedback.drawio.tmp</a> (application/vnd.jgraph.mxfile)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/19415171148/42594927054.tmp">~drawio~606cc77cef87dd0068585264~Endurance Mode Feedback.drawio.tmp</a> (application/vnd.jgraph.mxfile)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/19415171148/42594927063.tmp">~drawio~606cc77cef87dd0068585264~Endurance Mode Feedback.drawio.tmp</a> (application/vnd.jgraph.mxfile)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/19415171148/42594927072.tmp">~drawio~606cc77cef87dd0068585264~Endurance Mode Feedback.drawio.tmp</a> (application/vnd.jgraph.mxfile)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/19415171148/42594796064.tmp">~drawio~606cc77cef87dd0068585264~Endurance Mode Feedback.drawio.tmp</a> (application/vnd.jgraph.mxfile)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/19415171148/42594796073.tmp">~drawio~606cc77cef87dd0068585264~Endurance Mode Feedback.drawio.tmp</a> (application/vnd.jgraph.mxfile)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/19415171148/42594927081.tmp">~drawio~606cc77cef87dd0068585264~Endurance Mode Feedback.drawio.tmp</a> (application/vnd.jgraph.mxfile)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/19415171148/42594501231.tmp">~drawio~606cc77cef87dd0068585264~Endurance Mode Feedback.drawio.tmp</a> (application/vnd.jgraph.mxfile)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/19415171148/42594927090.tmp">~drawio~606cc77cef87dd0068585264~Endurance Mode Feedback.drawio.tmp</a> (application/vnd.jgraph.mxfile)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/19415171148/42594927099.tmp">~drawio~606cc77cef87dd0068585264~Endurance Mode Feedback.drawio.tmp</a> (application/vnd.jgraph.mxfile)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/19415171148/42594796082.tmp">~drawio~606cc77cef87dd0068585264~Endurance Mode Feedback.drawio.tmp</a> (application/vnd.jgraph.mxfile)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/19415171148/42594501240.tmp">~drawio~606cc77cef87dd0068585264~Endurance Mode Feedback.drawio.tmp</a> (application/vnd.jgraph.mxfile)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/19415171148/42594796091.tmp">~drawio~606cc77cef87dd0068585264~Endurance Mode Feedback.drawio.tmp</a> (application/vnd.jgraph.mxfile)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/19415171148/42594501249.tmp">~drawio~606cc77cef87dd0068585264~Endurance Mode Feedback.drawio.tmp</a> (application/vnd.jgraph.mxfile)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/19415171148/42594796100.tmp">~drawio~606cc77cef87dd0068585264~Endurance Mode Feedback.drawio.tmp</a> (application/vnd.jgraph.mxfile)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/19415171148/42594828670.tmp">~drawio~606cc77cef87dd0068585264~Endurance Mode Feedback.drawio.tmp</a> (application/vnd.jgraph.mxfile)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/19415171148/42595156250.drawio">Endurance Mode Feedback.drawio</a> (application/vnd.jgraph.mxfile)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/19415171148/42594501410.png">Endurance Mode Feedback.drawio.png</a> (image/png)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/19415171148/42594927117.tmp">~Endurance Mode Feedback.drawio.tmp</a> (application/vnd.jgraph.mxfile)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/19415171148/42595156111.tmp">~Endurance Mode Feedback.drawio.tmp</a> (application/vnd.jgraph.mxfile)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/19415171148/42594828834.tmp">~Endurance Mode Feedback.drawio.tmp</a> (application/vnd.jgraph.mxfile)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/19415171148/42594828843.tmp">~Endurance Mode Feedback.drawio.tmp</a> (application/vnd.jgraph.mxfile)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/19415171148/42594828856.tmp">~Endurance Mode Feedback.drawio.tmp</a> (application/vnd.jgraph.mxfile)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/19415171148/42594796146.tmp">~Endurance Mode Feedback.drawio.tmp</a> (application/vnd.jgraph.mxfile)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/19415171148/42594796155.tmp">~Endurance Mode Feedback.drawio.tmp</a> (application/vnd.jgraph.mxfile)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/19415171148/42595156132.tmp">~Endurance Mode Feedback.drawio.tmp</a> (application/vnd.jgraph.mxfile)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/19415171148/42594501301.tmp">~Endurance Mode Feedback.drawio.tmp</a> (application/vnd.jgraph.mxfile)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/19415171148/42594501314.tmp">~Endurance Mode Feedback.drawio.tmp</a> (application/vnd.jgraph.mxfile)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/19415171148/42595188749.tmp">~Endurance Mode Feedback.drawio.tmp</a> (application/vnd.jgraph.mxfile)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/19415171148/42595188758.tmp">~Endurance Mode Feedback.drawio.tmp</a> (application/vnd.jgraph.mxfile)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/19415171148/42594796180.tmp">~Endurance Mode Feedback.drawio.tmp</a> (application/vnd.jgraph.mxfile)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/19415171148/42595156161.tmp">~Endurance Mode Feedback.drawio.tmp</a> (application/vnd.jgraph.mxfile)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/19415171148/42595156178.tmp">~Endurance Mode Feedback.drawio.tmp</a> (application/vnd.jgraph.mxfile)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/19415171148/42594796193.tmp">~Endurance Mode Feedback.drawio.tmp</a> (application/vnd.jgraph.mxfile)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/19415171148/42595156187.tmp">~Endurance Mode Feedback.drawio.tmp</a> (application/vnd.jgraph.mxfile)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/19415171148/42595188775.tmp">~Endurance Mode Feedback.drawio.tmp</a> (application/vnd.jgraph.mxfile)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/19415171148/42594796210.tmp">~Endurance Mode Feedback.drawio.tmp</a> (application/vnd.jgraph.mxfile)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/19415171148/42595188792.tmp">~Endurance Mode Feedback.drawio.tmp</a> (application/vnd.jgraph.mxfile)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/19415171148/42594828913.tmp">~Endurance Mode Feedback.drawio.tmp</a> (application/vnd.jgraph.mxfile)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/19415171148/42594828930.tmp">~Endurance Mode Feedback.drawio.tmp</a> (application/vnd.jgraph.mxfile)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/19415171148/42594501347.tmp">~Endurance Mode Feedback.drawio.tmp</a> (application/vnd.jgraph.mxfile)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/19415171148/42594927154.tmp">~Endurance Mode Feedback.drawio.tmp</a> (application/vnd.jgraph.mxfile)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/19415171148/42594796227.tmp">~Endurance Mode Feedback.drawio.tmp</a> (application/vnd.jgraph.mxfile)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/19415171148/42595156212.tmp">~Endurance Mode Feedback.drawio.tmp</a> (application/vnd.jgraph.mxfile)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/19415171148/42594927167.tmp">~Endurance Mode Feedback.drawio.tmp</a> (application/vnd.jgraph.mxfile)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/19415171148/42594796240.tmp">~Endurance Mode Feedback.drawio.tmp</a> (application/vnd.jgraph.mxfile)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/19415171148/42594501388.tmp">~Endurance Mode Feedback.drawio.tmp</a> (application/vnd.jgraph.mxfile)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/19415171148/42595188813.tmp">~Endurance Mode Feedback.drawio.tmp</a> (application/vnd.jgraph.mxfile)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/19415171148/42594828951.tmp">~Endurance Mode Feedback.drawio.tmp</a> (application/vnd.jgraph.mxfile)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/19415171148/42595188826.tmp">~Endurance Mode Feedback.drawio.tmp</a> (application/vnd.jgraph.mxfile)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/19415171148/42594828968.tmp">~Endurance Mode Feedback.drawio.tmp</a> (application/vnd.jgraph.mxfile)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/19415171148/42595156241.tmp">~Endurance Mode Feedback.drawio.tmp</a> (application/vnd.jgraph.mxfile)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/19415171148/42594501401.tmp">~Endurance Mode Feedback.drawio.tmp</a> (application/vnd.jgraph.mxfile)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/19415171148/42594501423.tmp">~Endurance Mode Feedback.drawio.tmp</a> (application/vnd.jgraph.mxfile)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/19415171148/42595188949.drawio">Endurance Mode Feedback.drawio</a> (application/vnd.jgraph.mxfile)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/19415171148/42594501537.png">Endurance Mode Feedback.drawio.png</a> (image/png)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/19415171148/42595188843.tmp">~Endurance Mode Feedback.drawio.tmp</a> (application/vnd.jgraph.mxfile)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/19415171148/42594796285.tmp">~Endurance Mode Feedback.drawio.tmp</a> (application/vnd.jgraph.mxfile)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/19415171148/42594501445.tmp">~Endurance Mode Feedback.drawio.tmp</a> (application/vnd.jgraph.mxfile)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/19415171148/42594927196.tmp">~Endurance Mode Feedback.drawio.tmp</a> (application/vnd.jgraph.mxfile)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/19415171148/42595156275.tmp">~Endurance Mode Feedback.drawio.tmp</a> (application/vnd.jgraph.mxfile)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/19415171148/42594501459.tmp">~Endurance Mode Feedback.drawio.tmp</a> (application/vnd.jgraph.mxfile)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/19415171148/42594796299.tmp">~Endurance Mode Feedback.drawio.tmp</a> (application/vnd.jgraph.mxfile)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/19415171148/42595188877.tmp">~Endurance Mode Feedback.drawio.tmp</a> (application/vnd.jgraph.mxfile)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/19415171148/42595188895.tmp">~Endurance Mode Feedback.drawio.tmp</a> (application/vnd.jgraph.mxfile)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/19415171148/42594796313.tmp">~Endurance Mode Feedback.drawio.tmp</a> (application/vnd.jgraph.mxfile)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/19415171148/42594501473.tmp">~Endurance Mode Feedback.drawio.tmp</a> (application/vnd.jgraph.mxfile)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/19415171148/42595188909.tmp">~Endurance Mode Feedback.drawio.tmp</a> (application/vnd.jgraph.mxfile)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/19415171148/42594501487.tmp">~Endurance Mode Feedback.drawio.tmp</a> (application/vnd.jgraph.mxfile)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/19415171148/42594501501.tmp">~Endurance Mode Feedback.drawio.tmp</a> (application/vnd.jgraph.mxfile)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/19415171148/42594927234.tmp">~Endurance Mode Feedback.drawio.tmp</a> (application/vnd.jgraph.mxfile)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/19415171148/42594501519.tmp">~Endurance Mode Feedback.drawio.tmp</a> (application/vnd.jgraph.mxfile)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/19415171148/42594829009.tmp">~Endurance Mode Feedback.drawio.tmp</a> (application/vnd.jgraph.mxfile)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/19415171148/42594796355.tmp">~Endurance Mode Feedback.drawio.tmp</a> (application/vnd.jgraph.mxfile)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/19415171148/42594927252.tmp">~Endurance Mode Feedback.drawio.tmp</a> (application/vnd.jgraph.mxfile)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/19415171148/42595188939.tmp">~Endurance Mode Feedback.drawio.tmp</a> (application/vnd.jgraph.mxfile)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/19415171148/42594829031.tmp">~Endurance Mode Feedback.drawio.tmp</a> (application/vnd.jgraph.mxfile)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/19415171148/42594927324.drawio">Endurance Mode Feedback.drawio</a> (application/vnd.jgraph.mxfile)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/19415171148/42594796417.png">Endurance Mode Feedback.drawio.png</a> (image/png)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/19415171148/42594829041.tmp">~Endurance Mode Feedback.drawio.tmp</a> (application/vnd.jgraph.mxfile)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/19415171148/42595188971.tmp">~Endurance Mode Feedback.drawio.tmp</a> (application/vnd.jgraph.mxfile)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/19415171148/42595156341.tmp">~Endurance Mode Feedback.drawio.tmp</a> (application/vnd.jgraph.mxfile)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/19415171148/42595188981.tmp">~Endurance Mode Feedback.drawio.tmp</a> (application/vnd.jgraph.mxfile)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/19415171148/42594829051.tmp">~Endurance Mode Feedback.drawio.tmp</a> (application/vnd.jgraph.mxfile)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/19415171148/42594796381.tmp">~Endurance Mode Feedback.drawio.tmp</a> (application/vnd.jgraph.mxfile)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/19415171148/42594796391.tmp">~Endurance Mode Feedback.drawio.tmp</a> (application/vnd.jgraph.mxfile)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/19415171148/42594501562.tmp">~Endurance Mode Feedback.drawio.tmp</a> (application/vnd.jgraph.mxfile)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/19415171148/42594927286.tmp">~Endurance Mode Feedback.drawio.tmp</a> (application/vnd.jgraph.mxfile)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/19415171148/42594829073.tmp">~Endurance Mode Feedback.drawio.tmp</a> (application/vnd.jgraph.mxfile)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/19415171148/42594927304.tmp">~Endurance Mode Feedback.drawio.tmp</a> (application/vnd.jgraph.mxfile)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/19415171148/42594829083.tmp">~Endurance Mode Feedback.drawio.tmp</a> (application/vnd.jgraph.mxfile)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/19415171148/42594927314.tmp">~Endurance Mode Feedback.drawio.tmp</a> (application/vnd.jgraph.mxfile)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/19415171148/42594501614.tmp">~Endurance Mode Feedback.drawio.tmp</a> (application/vnd.jgraph.mxfile)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/19415171148/42594796460.drawio">Endurance Mode Feedback.drawio</a> (application/vnd.jgraph.mxfile)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/19415171148/42595156401.png">Endurance Mode Feedback.drawio.png</a> (image/png)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/19415171148/42595189003.png">image-20211124-045654.png</a> (image/png)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/19415171148/42594796450.tmp">~Endurance Mode Feedback.drawio.tmp</a> (application/vnd.jgraph.mxfile)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/19415171148/42594796129.tmp">~Endurance Mode Feedback.drawio.tmp</a> (application/vnd.jgraph.mxfile)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/19415171148/43041194150.drawio">Endurance Mode Feedback.drawio</a> (application/vnd.jgraph.mxfile)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/19415171148/43040605535.png">Endurance Mode Feedback.drawio.png</a> (image/png)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/19415171148/42659447136.zip">Testing_Segment.zip</a> (application/zip)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/19415171148/42594501258.drawio">Endurance Mode Feedback.drawio</a> (application/vnd.jgraph.mxfile)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/19415171148/42594796109.png">Endurance Mode Feedback.drawio.png</a> (image/png)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/19415171148/43218468873.pdf">wkrpt300.pdf</a> (application/pdf)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/19415171148/43215915374.pdf">Neuralink-1.pdf</a> (application/pdf)
+                                <br/>
+                                                    </div>
+                    </div>
+                    
+                                                      
+                </div>             </div> 
+            <div id="footer" role="contentinfo">
+                <section class="footer-body">
+                    <p>Document generated by Confluence on Oct 15, 2022 01:33</p>
+                    <div id="footer-logo"><a href="http://www.atlassian.com/">Atlassian</a></div>
+                </section>
+            </div>
+        </div>     </body>
+</html>

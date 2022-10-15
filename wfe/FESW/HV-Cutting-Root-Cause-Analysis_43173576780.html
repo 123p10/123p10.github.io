@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Firmware : HV Cutting Root Cause Analysis</title>
+        <link rel="stylesheet" href="styles/site.css" type="text/css" />
+        <META http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    </head>
+
+    <body class="theme-default aui-theme-default">
+        <div id="page">
+            <div id="main" class="aui-page-panel">
+                <div id="main-header">
+                    <div id="breadcrumb-section">
+                        <ol id="breadcrumbs">
+                            <li class="first">
+                                <span><a href="index.html">Firmware</a></span>
+                            </li>
+                                                    <li>
+                                <span><a href="Firmware_9465365086.html">Firmware</a></span>
+                            </li>
+                                                    <li>
+                                <span><a href="2022-Testing-Events_43168073494.html">2022 Testing Events</a></span>
+                            </li>
+                                                    <li>
+                                <span><a href="43168006866.html">Testing Event (August 13, 2022)</a></span>
+                            </li>
+                                                </ol>
+                    </div>
+                    <h1 id="title-heading" class="pagetitle">
+                                                <span id="title-text">
+                            Firmware : HV Cutting Root Cause Analysis
+                        </span>
+                    </h1>
+                </div>
+
+                <div id="content" class="view">
+                    <div class="page-metadata">
+                        
+        
+    
+        
+    
+        
+        
+            Created by <span class='author'> Owen Brake</span>, last modified on Aug 18, 2022
+                        </div>
+                    <div id="main-content" class="wiki-content group">
+                    <ul><li><p>What can cause a Warning Contactors Open Impending:</p><ul><li><p>Failure in precharge</p><ul><li><p>Unlikely since we are at HV</p></li></ul></li><li><p>notification to discharge into PCDC task</p></li></ul></li><li><p>What triggers a notification?</p><ul><li><p>Cockpit BRB button press</p><ul><li><p>Unlikely since cockpit BRB was never pressed, but possible that the line was triggered</p></li><li><p>We should’ve gotten an ilStatus, but it is possible IL broke?</p></li></ul></li><li><p>handleFault called</p><ul><li><p>Really only trigged by EV_HV_Fault</p></li><li><p>Received Fatal DTC from another board</p></li><li><p>BatteryTaskError</p></li><li><p>IMD error</p><ul><li><p>Should see LEDs on dashboard light up?</p></li></ul></li><li><p>IL Broken</p></li></ul></li><li><p>startDischarge Function called</p><ul><li><p>Only occurs if DCU sends a button event</p></li><li><p>Probably wouldn’t flash LEDs?</p></li></ul></li></ul></li><li><p>what can cause DCU LEDs to flash?</p><ul><li><p>Only occurs if recieved fatal DTC or if _handleError is called</p></li></ul></li></ul><p /><p>So it seems the likely cause is some board hit a fatal DTC or called Error_Handler resulting in a fatal DTC</p><p>I pray some fool didn’t fuck up and put an Error_Handler where they shouldn’t.</p><p>Fatal DTCs:</p><ul><li><p>Contactor Welded Shut Pos</p></li><li><p>Contactor Welded Shut Neg</p><ul><li><p>Both extremely unlikely caz contactors are not welded, also I don’t think it’s implemented</p></li></ul></li><li><p>Contactor Coil Failure Pos</p></li><li><p>Contactor Coil Failure Neg</p></li><li><p>Contactor Precharge Stuck on</p></li><li><p>Contactor Precharge Stuck off</p></li><li><p>Contactor Precharge resistor short</p></li><li><p>Contactor Precharge resistor open</p><ul><li><p>All above extremely unlikely because yet again we’re already precharged I also don’t think these are implemented</p></li></ul></li><li><p>EM Enabled failure</p><ul><li><p>We are already at EM so probably unlikely</p></li></ul></li><li><p>Boards Turning off</p></li><li><p>Boards off</p></li><li><p>LV cuttoff boards off</p><ul><li><p>LV to the boards stayed on so the above are unlikely</p></li></ul></li><li><p>PDU HV Critical</p><ul><li><p>This only occurs if we’ve also recieved a fatal dtc already</p></li></ul></li><li><p>PDU Unknown Error</p><ul><li><p>Seems like something that doesn’t really happen</p></li></ul></li><li><p>VCU Unknown Error</p><ul><li><p>Messed up state machine transition</p></li><li><p>EM Fault</p><ul><li><p>Recieved Fatal DTC from other boards</p></li></ul></li></ul></li><li><p>BMU Unknown Error</p><ul><li><p>TBD</p></li><li><p>handleFault triggered (see above)</p></li><li><p>If reading current off of bus failed for some reason, perhaps I could add some fault tolerance to this?</p><ul><li><p>But it seems impossible for this to happen</p></li></ul></li></ul></li><li><p>DCU Unknown Error</p><ul><li><p>Never seems to be called</p></li></ul></li><li><p>Beaglebone Unknown Error</p><ul><li><p>Never called</p></li></ul></li><li><p>DCU CAN Timeout</p><ul><li><p>Never seems to be called</p></li></ul></li><li><p>Precharge Failed</p></li><li><p>Discharge Failed</p><ul><li><p>Both unlikely as we are not precharging or discharging</p></li></ul></li><li><p>IMD Failure</p><ul><li><p>Seems to be impossible since IMD LED did not light up</p></li></ul></li><li><p>WatchdogTaskMissedCheckIn</p><ul><li><p>This is very plausible could be a DCU thing</p></li><li><p>I’ll rewrite DCU code</p></li></ul></li><li><p>WatchdogReset</p></li><li><p>Missed Heartbeats</p><ul><li><p>TBD</p></li></ul></li><li><p>BMU Charger</p></li><li><p>Charge Cart Error</p><p /></li></ul><p /><p>StateBMS is Failure_Fatal right before contactors open</p><p>There is some weird stuff: InverterCommandRight: Enable Bridge was sent in the same seocnd that contactors open</p><p>Doesn’t seem like Error_Handler is ever called in a non init function or a place that would plausibly be triggered</p><h1 id="HVCuttingRootCauseAnalysis-PlausibleSituations">Plausible Situations</h1><ul><li><p>WatchdogTaskMissedCheckIn is triggered by a task watchdog check in being missed:</p><ul><li><p>DCU has been noted to have stack overflows?</p></li><li><p>Increase BMU task periods</p></li></ul></li><li><p>This weird nonsense with oscillating VoltageCell69 is messing stuff up:</p></li></ul><span class="confluence-embedded-file-wrapper image-center-wrapper confluence-embedded-manual-size"><img class="confluence-embedded-image image-center" width="680" loading="lazy" src="attachments/43173576780/43173675276.png?width=680" data-image-src="attachments/43173576780/43173675276.png" data-height="880" data-width="884" data-unresolved-comment-count="0" data-linked-resource-id="43173675276" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="image-20220818-194932.png" data-base-url="https://uwaterloo.atlassian.net/wiki" data-linked-resource-content-type="image/png" data-linked-resource-container-id="43173576780" data-linked-resource-container-version="9" data-media-id="b1635ca0-d660-4bdb-819d-2be5b22eb0f8" data-media-type="file"></span><ul><li><p>low cell voltage warnings flooded other boards causing watchdog timeouts</p><ul><li><p>They are only sent onece per cell but it’s a possibility</p></li></ul></li><li><p>IL actually broke</p><ul><li><p>Unclear why this would happen since no adjustments were required after to start the vehicle’s HV</p></li></ul></li></ul>
+                    </div>
+
+                                        <div class="pageSection group">
+                        <div class="pageSectionHeader">
+                            <h2 id="attachments" class="pageSectionTitle">Attachments:</h2>
+                        </div>
+
+                        <div class="greybox" align="left">
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/43173576780/43173675276.png">image-20220818-194932.png</a> (image/png)
+                                <br/>
+                                                    </div>
+                    </div>
+                    
+                                                      
+                </div>             </div> 
+            <div id="footer" role="contentinfo">
+                <section class="footer-body">
+                    <p>Document generated by Confluence on Oct 15, 2022 02:52</p>
+                    <div id="footer-logo"><a href="http://www.atlassian.com/">Atlassian</a></div>
+                </section>
+            </div>
+        </div>     </body>
+</html>

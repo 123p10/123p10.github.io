@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Firmware : Emergency Shutdown Procedure</title>
+        <link rel="stylesheet" href="styles/site.css" type="text/css" />
+        <META http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    </head>
+
+    <body class="theme-default aui-theme-default">
+        <div id="page">
+            <div id="main" class="aui-page-panel">
+                <div id="main-header">
+                    <div id="breadcrumb-section">
+                        <ol id="breadcrumbs">
+                            <li class="first">
+                                <span><a href="index.html">Firmware</a></span>
+                            </li>
+                                                    <li>
+                                <span><a href="Firmware_9465365086.html">Firmware</a></span>
+                            </li>
+                                                    <li>
+                                <span><a href="Documentation_9513894334.html">Documentation</a></span>
+                            </li>
+                                                    <li>
+                                <span><a href="Car-Documentation_43149788126.html">Car Documentation</a></span>
+                            </li>
+                                                    <li>
+                                <span><a href="Car-Testing-Procedure_9612624515.html">Car Testing Procedure</a></span>
+                            </li>
+                                                </ol>
+                    </div>
+                    <h1 id="title-heading" class="pagetitle">
+                                                <span id="title-text">
+                            Firmware : Emergency Shutdown Procedure
+                        </span>
+                    </h1>
+                </div>
+
+                <div id="content" class="view">
+                    <div class="page-metadata">
+                        
+        
+    
+        
+    
+        
+        
+            Created by <span class='author'> Owen Brake</span>, last modified by <span class='editor'> Ryan Erler</span> on Dec 12, 2021
+                        </div>
+                    <div id="main-content" class="wiki-content group">
+                    <h1 id="EmergencyShutdownProcedure-Preliminary">Preliminary</h1><h2 id="EmergencyShutdownProcedure-Summary">Summary</h2><p>Activating emergency shutdown events at various times in the car lifecycle.</p><p><br/></p><p>There are 4 states of the car that each E-stop needs to be tested at:</p><ul><li>Off - activate the E-stop when the car is off and try to turn it on.  There should be an error the moment the car is turned on</li><li>LV - Turn on LV and activate E-stop.  The car should get an error when the E-stop is pressed.</li><li>HV - Turn on the HV and activate E-stop. The car should get an error when E-stop is pressed.</li><li>EM enable - Turn on HV and EM enable and activate E-stop.  The car should exit EM state and get an error when E-stop is pressed.<ul><li>Testing should also happen when the motors are running.  This should immediately stop the motors.</li></ul></li></ul><p>When an error happens, in all except 2 cases the car will get a critical error and enter error state.</p><p><strong>The various E-stops:</strong></p><ul><li>Brake over travel switch</li></ul><div><span class="confluence-embedded-file-wrapper confluence-embedded-manual-size"><img class="confluence-embedded-image" height="250" loading="lazy" src="attachments/9620751639/42622681123.jpeg?height=250" data-image-src="attachments/9620751639/42622681123.jpeg" data-unresolved-comment-count="0" data-linked-resource-id="42622681123" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="IMG_2113.jpeg" data-base-url="https://uwaterloo.atlassian.net/wiki" data-linked-resource-content-type="image/jpeg" data-linked-resource-container-id="9620751639" data-linked-resource-container-version="6" data-media-id="ecf10e23-d5d2-45b8-8d7c-b4a544d20d8a" data-media-type="file"></span></div><ul><li>Crash switch</li><ul><li>tripped by shaking it</li><li>reset by click</li></ul></ul><ul><li>Driver E-stop button<ul><li>This does not trigger a critical error.</li><li><span class="confluence-embedded-file-wrapper confluence-embedded-manual-size"><img class="confluence-embedded-image" height="250" loading="lazy" src="attachments/9620751639/42622517526.jpeg?height=250" data-image-src="attachments/9620751639/42622517526.jpeg" data-unresolved-comment-count="0" data-linked-resource-id="42622517526" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="IMG_2116.jpeg" data-base-url="https://uwaterloo.atlassian.net/wiki" data-linked-resource-content-type="image/jpeg" data-linked-resource-container-id="9620751639" data-linked-resource-container-version="6" data-media-id="1009e757-002a-4695-993d-b894f745a2c6" data-media-type="file"></span></li></ul></li><li>Tractive system master switch</li><ul><li>This does not trigger a critical error.</li></ul></ul><div><span class="confluence-embedded-file-wrapper confluence-embedded-manual-size"><img class="confluence-embedded-image" height="250" loading="lazy" src="attachments/9620751639/42622648584.jpeg?height=250" data-image-src="attachments/9620751639/42622648584.jpeg" data-unresolved-comment-count="0" data-linked-resource-id="42622648584" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="IMG_2117.jpeg" data-base-url="https://uwaterloo.atlassian.net/wiki" data-linked-resource-content-type="image/jpeg" data-linked-resource-container-id="9620751639" data-linked-resource-container-version="6" data-media-id="0491c78b-0cd2-4257-b324-ce57893498b8" data-media-type="file"></span></div><ul><li>Both BRB</li></ul><div><span class="confluence-embedded-file-wrapper confluence-embedded-manual-size"><img class="confluence-embedded-image" height="250" loading="lazy" src="attachments/9620751639/42622550431.jpeg?height=250" data-image-src="attachments/9620751639/42622550431.jpeg" data-unresolved-comment-count="0" data-linked-resource-id="42622550431" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="IMG_2114.jpeg" data-base-url="https://uwaterloo.atlassian.net/wiki" data-linked-resource-content-type="image/jpeg" data-linked-resource-container-id="9620751639" data-linked-resource-container-version="6" data-media-id="02bb6d86-82bf-4b82-8b7f-d571b2582ce9" data-media-type="file"></span></div><div><span class="confluence-embedded-file-wrapper confluence-embedded-manual-size"><img class="confluence-embedded-image" height="250" loading="lazy" src="attachments/9620751639/42622681122.jpeg?height=250" data-image-src="attachments/9620751639/42622681122.jpeg" data-unresolved-comment-count="0" data-linked-resource-id="42622681122" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="IMG_2115.jpeg" data-base-url="https://uwaterloo.atlassian.net/wiki" data-linked-resource-content-type="image/jpeg" data-linked-resource-container-id="9620751639" data-linked-resource-container-version="6" data-media-id="6264e2a4-1140-4855-893f-ab47b0169cd8" data-media-type="file"></span></div><ul><li>Tractive system path Positive connector interlock</li><li>Tractive system path Negative connector interlock</li><li>Charger connector interlock</li><li>TSMP connector interlock</li><li>HVD interlock</li></ul><p><br/></p>
+                    </div>
+
+                                        <div class="pageSection group">
+                        <div class="pageSectionHeader">
+                            <h2 id="attachments" class="pageSectionTitle">Attachments:</h2>
+                        </div>
+
+                        <div class="greybox" align="left">
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/9620751639/42622681122.jpeg">IMG_2115.jpeg</a> (image/jpeg)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/9620751639/42622550431.jpeg">IMG_2114.jpeg</a> (image/jpeg)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/9620751639/42622681123.jpeg">IMG_2113.jpeg</a> (image/jpeg)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/9620751639/42622648584.jpeg">IMG_2117.jpeg</a> (image/jpeg)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/9620751639/42622517526.jpeg">IMG_2116.jpeg</a> (image/jpeg)
+                                <br/>
+                                                    </div>
+                    </div>
+                    
+                                                      
+                </div>             </div> 
+            <div id="footer" role="contentinfo">
+                <section class="footer-body">
+                    <p>Document generated by Confluence on Oct 15, 2022 01:34</p>
+                    <div id="footer-logo"><a href="http://www.atlassian.com/">Atlassian</a></div>
+                </section>
+            </div>
+        </div>     </body>
+</html>

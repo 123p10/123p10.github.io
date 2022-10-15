@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Firmware : Potentiometers</title>
+        <link rel="stylesheet" href="styles/site.css" type="text/css" />
+        <META http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    </head>
+
+    <body class="theme-default aui-theme-default">
+        <div id="page">
+            <div id="main" class="aui-page-panel">
+                <div id="main-header">
+                    <div id="breadcrumb-section">
+                        <ol id="breadcrumbs">
+                            <li class="first">
+                                <span><a href="index.html">Firmware</a></span>
+                            </li>
+                                                    <li>
+                                <span><a href="Firmware_9465365086.html">Firmware</a></span>
+                            </li>
+                                                    <li>
+                                <span><a href="Firmware-Projects_9571009451.html">Firmware Projects</a></span>
+                            </li>
+                                                    <li>
+                                <span><a href="9465365100.html">Firmware Projects Archive (2017-2020)</a></span>
+                            </li>
+                                                    <li>
+                                <span><a href="Firmware-Sensor-Projects_9437059755.html">Firmware Sensor Projects</a></span>
+                            </li>
+                                                </ol>
+                    </div>
+                    <h1 id="title-heading" class="pagetitle">
+                                                <span id="title-text">
+                            Firmware : Potentiometers
+                        </span>
+                    </h1>
+                </div>
+
+                <div id="content" class="view">
+                    <div class="page-metadata">
+                        
+        
+    
+        
+    
+        
+        
+            Created by <span class='author'> Former user</span>, last modified by <span class='editor'> Former user</span> on Oct 27, 2017
+                        </div>
+                    <div id="main-content" class="wiki-content group">
+                    <div class="contentLayout2">
+<div class="columnLayout two-left-sidebar" data-layout="two-left-sidebar">
+<div class="cell aside" data-type="aside">
+<div class="innerCell">
+<h2 id="Potentiometers-ProjectProperties">Project Properties</h2><div class='plugin-tabmeta-details'><div class="table-wrap"><table class="confluenceTable"><tbody><tr><th colspan="1" class="confluenceTh">Project ID</th><td colspan="1" class="confluenceTd">FW-13</td></tr><tr><th class="confluenceTh">Status</th><td class="confluenceTd"><img class="wysiwyg-unknown-macro" src="plugins/servlet/confluence/placeholder/unknown-macro"/></td></tr><tr><th colspan="1" class="confluenceTh">Upcoming Deadline</th><td colspan="1" class="confluenceTd"><time datetime="2017-09-01" class="date-past">01 Sep 2017</time> </td></tr><tr><th colspan="1" class="confluenceTh">Project Deadline</th><td colspan="1" class="confluenceTd"><time datetime="2017-10-27" class="date-past">27 Oct 2017</time> </td></tr><tr><th class="confluenceTh">Manager</th><td class="confluenceTd"> </td></tr><tr><th class="confluenceTh">Project Lead</th><td class="confluenceTd"><a class="confluence-userlink user-mention" data-username="6155f62e64ff0100711667c3" data-account-id="6155f62e64ff0100711667c3" href="https://uwaterloo.atlassian.net/wiki/people/6155f62e64ff0100711667c3?ref=confluence" target="_blank" data-base-url="https://uwaterloo.atlassian.net/wiki">Former user (Deleted)</a></td></tr><tr><th colspan="1" class="confluenceTh">Support</th><td colspan="1" class="confluenceTd"><p> </p></td></tr></tbody></table></div></div></div>
+</div>
+<div class="cell normal" data-type="normal">
+<div class="innerCell">
+<h2 id="Potentiometers-ProjectDeliverables">Project Deliverables</h2><p><button class='aui-button create-from-template-button'data-space-key='FESW' href='https://uwaterloo.atlassian.net/wiki?templateId=917549&amp;spaceKey=FESW&amp;newSpaceKey=FESW'data-template-id='917549'disabled='true' >New Deliverable</button></p><p><div class="table-wrap"><table class="aui metadata-summary-macro FW13" data-cql="label = &quot;FW13&quot; and space = currentSpace ( )" data-headings="Deadline,Responsible,Status,Priority,Type" data-first-column-heading="Title" data-count-comments="false" data-count-likes="false"data-total-pages="1" data-page-size="1000" data-sort-by="Deadline" data-reverse-sort="false" data-blueprint-present="false" data-current-space-key="FESW" data-current-content-id="9437059800"><thead><tr><th>Title</th><th>Deadline</th><th>Responsible</th><th>Status</th><th>Priority</th><th>Type</th></tr></thead><tbody><tr><td class="title" data-content-id="9437059800"><a href="/wiki/spaces/FESW/pages/9437059800/Potentiometers">Potentiometers</a></td><td>&nbsp;</td><td>&nbsp;</td><td><img class="wysiwyg-unknown-macro" src="plugins/servlet/confluence/placeholder/unknown-macro"/></td><td>&nbsp;</td><td>&nbsp;</td></tr></tbody></table></div></p><p><em><br/></em></p></div>
+</div>
+</div>
+<div class="columnLayout single" data-layout="single">
+<div class="cell normal" data-type="normal">
+<div class="innerCell">
+<h2 id="Potentiometers-ProjectDescription">Project Description</h2><ul><li>Design schematic diagram</li><li>Build the circuit involving the component</li><li>Code the component on micro-controller</li></ul></div>
+</div>
+</div>
+<div class="columnLayout two-equal" data-layout="two-equal">
+<div class="cell normal" data-type="normal">
+<div class="innerCell">
+<h2 id="Potentiometers-SupportingInformation,ProjectDetails">Supporting Information, Project Details</h2><p><strong>Simulation:</strong></p><ol><li>Implement 2 potentiometers to the micro-controller</li><li>Code the two GPIO pins such that:<br/>- The analogue signal from the potentiometers are converted to digital signals<br/>- The signals should be compared with each other ensuring equality (Under Coding)<br/>- In the case where both the digital values are equal, this voltage will be used to speed up or down the blinking of a <em>green </em>LED<br/>- In the case where both digital values are <strong>not </strong>equal, no <em>green </em>light will be emitted; instead, a warning will be given to the user in terms of a <em>red </em>LED which blinks at 250 ms to grab attention. (Under Coding)</li><li>Draw and design the schematic diagram</li></ol><p><strong>Relevant Links:</strong></p><ul style="list-style-type: square;"><li><strong><a class="external-link" href="https://en.wikipedia.org/wiki/Potentiometer" rel="nofollow">https://en.wikipedia.org/wiki/Potentiometer</a></strong></li><li><strong><a class="external-link" href="http://www.resistorguide.com/potentiometer/" rel="nofollow">http://www.resistorguide.com/potentiometer/</a></strong></li><li><strong><a class="external-link" href="https://startingelectronics.org/tutorials/STM32-microcontrollers/" rel="nofollow">https://startingelectronics.org/tutorials/STM32-microcontrollers/</a></strong></li><li><strong><a class="external-link" href="http://embedded-lab.com/blog/stm32-tutorials/" rel="nofollow">http://embedded-lab.com/blog/stm32-tutorials/</a></strong></li><li><strong><a class="external-link" href="http://www.st.com/content/ccc/resource/technical/document/user_manual/2f/77/25/0f/5c/38/48/80/DM00122015.pdf/files/DM00122015.pdf/jcr:content/translations/en.DM00122015.pdf" rel="nofollow">http://www.st.com/content/ccc/resource/technical/document/user_manual/2f/77/25/0f/5c/38/48/80/DM00122015.pdf/files/DM00122015.pdf/jcr:content/translations/en.DM00122015.pdf</a>  (Most important document!)</strong></li><li><strong><a class="external-link" href="https://auto.howstuffworks.com/potentiometer-electric-car.htm" rel="nofollow">https://auto.howstuffworks.com/potentiometer-electric-car.htm</a></strong></li><li><strong><a class="external-link" href="https://www.wikihow.com/Wire-a-Potentiometer" rel="nofollow">https://www.wikihow.com/Wire-a-Potentiometer</a></strong></li></ul><p><br class="_mce_tagged_br"/><br/></p></div>
+</div>
+<div class="cell normal" data-type="normal">
+<div class="innerCell">
+<h2 id="Potentiometers-RequirementsandConsiderations">Requirements and Considerations</h2><p><strong>Cost:</strong></p><ul><li>The cost of the components involved in the project is $2.50 (maximum ~ not including motors and board cost)<br/><u><em>Tools Purchased:</em></u></li><li>2 Linear B100K Potentiometers (&lt;$1.00 each)</li><li>Jumper/breakout wires (&lt;20 cents each)</li></ul><p><strong>Constraints:</strong></p><ul><li><strong>Please note: </strong>the designed schematic diagram simulates the actual implementation which uses motors; however, due to the lack of motors at the time of project, the actual circuit and coding represent motors through blinking LEDs. The power given to the motor is proportional to the speed of the blinking of the LEDs as the potentiometers turn.<br/><em>This will be updated with the implementation of motors as soon as possible.</em></li><li>The design and scope of the project is closed upon the use of potentiometers in cars' pedals since this is the main use. Other uses fall as subsidiary cases and are not as vital; hence, they will be added later after the completion of the main use. </li><li>The potentiometer type used in simulation will surely be different than in the car; however, the same code will be applicable</li></ul><p> </p><p>Relevant Rules</p><div class="table-wrap"><table class="confluenceTable"><tbody><tr><th class="confluenceTh">Rule Number</th><th class="confluenceTh">Rule Description</th></tr><tr><td class="confluenceTd"> </td><td class="confluenceTd"> </td></tr></tbody></table></div></div>
+</div>
+</div>
+<div class="columnLayout single" data-layout="single">
+<div class="cell normal" data-type="normal">
+<div class="innerCell">
+<hr/><p> </p></div>
+</div>
+</div>
+<div class="columnLayout single" data-layout="single">
+<div class="cell normal" data-type="normal">
+<div class="innerCell">
+<h2 id="Potentiometers-ProgressOutlineandDocumentation">Progress Outline and Documentation</h2><p><u><strong>Section Purpose:</strong></u></p><ul><li>This section should be completed as the project progresses.</li><li>Provide a concise report of the results and accomplishments throughout the project.</li><li>Show how the requirements were met and how they were met.</li><li>Outline findings and provide backing to decisions.</li></ul><p> </p><p><u>Current Status (Updated 26 October 2017 11:37PM):</u></p><ul><li>The coding has been successfully completed. The code operates based on the simulation provided in the <em>Supporting Information </em>section above.</li><li>The website links used to research and learn more about potentiometers and their uses in cars have also been provided in the <em>Supporting Information </em>section above.</li><li>Schematic diagram of the circuit has been completed. The components have also been placed on the micro-controller. Please see note in the constraints section above regarding the components used. </li><li><em>Note: </em>Screenshots and pictures of the project will be posted before 4pm on October 27th, 2017</li></ul><p><u>Results and Accomplishments:</u></p><ul><li>A simulation of the implementation of the potentiometer which is immediately transferable to work with other components such as motors, etc.</li><li>The coding, designing of schematics, and building of circuit have been completed</li></ul><p> </p><p> </p><p> </p><p>Overall Project Anticipated Completion: <strong>October 27th, 2017</strong></p><p> </p></div>
+</div>
+</div>
+</div>
+                    </div>
+
+                    
+                                                      
+                </div>             </div> 
+            <div id="footer" role="contentinfo">
+                <section class="footer-body">
+                    <p>Document generated by Confluence on Oct 15, 2022 01:32</p>
+                    <div id="footer-logo"><a href="http://www.atlassian.com/">Atlassian</a></div>
+                </section>
+            </div>
+        </div>     </body>
+</html>

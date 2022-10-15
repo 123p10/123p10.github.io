@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Firmware : VCU (Vehicle Control Unit)</title>
+        <link rel="stylesheet" href="styles/site.css" type="text/css" />
+        <META http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    </head>
+
+    <body class="theme-default aui-theme-default">
+        <div id="page">
+            <div id="main" class="aui-page-panel">
+                <div id="main-header">
+                    <div id="breadcrumb-section">
+                        <ol id="breadcrumbs">
+                            <li class="first">
+                                <span><a href="index.html">Firmware</a></span>
+                            </li>
+                                                    <li>
+                                <span><a href="Firmware_9465365086.html">Firmware</a></span>
+                            </li>
+                                                    <li>
+                                <span><a href="Documentation_9513894334.html">Documentation</a></span>
+                            </li>
+                                                    <li>
+                                <span><a href="Board-Specific-Documentation_9567701653.html">Board Specific Documentation</a></span>
+                            </li>
+                                                </ol>
+                    </div>
+                    <h1 id="title-heading" class="pagetitle">
+                                                <span id="title-text">
+                            Firmware : VCU (Vehicle Control Unit)
+                        </span>
+                    </h1>
+                </div>
+
+                <div id="content" class="view">
+                    <div class="page-metadata">
+                        
+        
+    
+        
+    
+        
+        
+            Created by <span class='author'> Former user</span>, last modified by <span class='editor'> Zulaikha Zakiullah</span> on Jul 10, 2022
+                        </div>
+                    <div id="main-content" class="wiki-content group">
+                    <div class="contentLayout2">
+<div class="columnLayout single" data-layout="single">
+<div class="cell normal" data-type="normal">
+<div class="innerCell">
+<p><style type='text/css'>/*<![CDATA[*/
+div.rbtoc1665797704409 {padding: 0px;}
+div.rbtoc1665797704409 ul {list-style: disc;margin-left: 0px;}
+div.rbtoc1665797704409 li {margin-left: 0px;padding-left: 0px;}
+
+/*]]>*/</style><div class='toc-macro rbtoc1665797704409'>
+<ul class='toc-indentation'>
+<li><a href='#VCU(VehicleControlUnit)-Overview'>Overview</a></li>
+<li><a href='#VCU(VehicleControlUnit)-StateMachine'>State Machine</a></li>
+<li><a href='#VCU(VehicleControlUnit)-VCUBeagleboneandMicrocontroller(2020design)'>VCU Beaglebone and Microcontroller (2020 design)</a></li>
+<li><a href='#VCU(VehicleControlUnit)-DriverInputSensing'>Driver Input Sensing</a>
+<ul class='toc-indentation'>
+<li><a href='#VCU(VehicleControlUnit)-ThrottlePositionSensorPlausibilityChecks'>Throttle Position Sensor Plausibility Checks</a></li>
+</ul>
+</li>
+<li><a href='#VCU(VehicleControlUnit)-MotorControllerCommunication'>Motor Controller Communication</a>
+<ul class='toc-indentation'>
+<li><a href='#VCU(VehicleControlUnit)-Commands'>Commands</a></li>
+</ul>
+</li>
+</ul>
+</div></p><h1 id="VCU(VehicleControlUnit)-Overview">Overview</h1><p>The vehicle control unit (VCU) is responsible for all things related to controlling the vehicle while driving. Therefore, the VCU performs a few main functions:</p><ol><li>Sensing the driver inputs, namely: steering position, brake position, throttle position, brake pressure</li><li>Initializing and commanding the motor controllers to drive the motors (and therefore the vehicle)</li><li>Logging vehicle data during driving (and other times). For example, reading IMU sensor to get acceleration, GPS to get position, and other data receive from other boards over the CAN bus such as battery info</li><li>Performing safety checks to make sure the driver inputs and general car states are safe</li></ol></div>
+</div>
+</div>
+<div class="columnLayout single" data-layout="single">
+<div class="cell normal" data-type="normal">
+<div class="innerCell">
+<h1 id="VCU(VehicleControlUnit)-StateMachine">State Machine</h1><p>Like the other boards on the car, the VCU uses a state machine to control its high level logic. This is accomplished using the state machine driver documented<span> </span><a class="external-link" href="https://wiki.uwaterloo.ca/display/FESW/Vehicle+State+Machines" rel="nofollow" style="text-decoration: none;">here</a>. The state machine is shown on the following<span> </span><a class="external-link" href="https://www.diagrams.net/" rel="nofollow">diagrams.net</a><span> </span>page, stored on the team google drive:</p><p><a class="external-link" href="https://drive.google.com/open?id=1xejg298H1WorB1p0zjSAMTnyPm4tMdYd" rel="nofollow">https://drive.google.com/open?id=1xejg298H1WorB1p0zjSAMTnyPm4tMdYd</a></p></div>
+</div>
+</div>
+<div class="columnLayout single" data-layout="single">
+<div class="cell normal" data-type="normal">
+<div class="innerCell">
+<h1 id="VCU(VehicleControlUnit)-VCUBeagleboneandMicrocontroller(2020design)">VCU Beaglebone and Microcontroller (2020 design)</h1><p>The 2020 VCU design makes use of a system with two processors. These are an STM32F7 microcontroller, and a <a class="external-link" href="https://beagleboard.org/black/" rel="nofollow">beaglebone black linux</a> single board computer. The main reason for this is to use the beaglebone to run higher level software such as data logging and controls, but still using a microcontroller for the safety critical software components like motor control and driver input sensing. The issue with the beaglebone (and most linux devices) is there non-realtime nature, such that they can fail to meet deadlines for critical tasks. The microcontroller (like most of the other micronctrollers on the car) runs a real time operating system, which if designed correctly is guaranteed to meet deadlines. However, using linux is nice for higher level functions as it allows use of higher level languages (like python which we use extensively) and other features like a file system and display software.</p><p>In order to facilitate communication between the two processors, they are both connected to the cars can bus. Also, there is a direct uart connection between them.</p></div>
+</div>
+</div>
+<div class="columnLayout single" data-layout="single">
+<div class="cell normal" data-type="normal">
+<div class="innerCell">
+<h1 id="VCU(VehicleControlUnit)-DriverInputSensing">Driver Input Sensing</h1><p>The VCU directly senses the key driver inputs. These are:</p><ul><li>Brake Position</li><li>Brake Pressure</li><li>Steering Position</li><li>Throttle Position<ul><li>This has two sensors to comply with the throttle plausibility safety checks required by the rules.</li></ul></li></ul><p>These inputs are all sensed using the VCU ADCs, which in turn measure the voltages output from the sensors for each of the inputs. These sensors are potentiometers for brake position, steering position, and both throttle position sensors, and a pressure sensor for the brake pressure. The ADCs are read using <a class="external-link" href="https://www.digikey.com/en/maker/projects/getting-started-with-stm32-working-with-adc-and-dma/f5009db3a3ed4370acaf545a3370c30c" rel="nofollow">DMA</a>. </p><h2 id="VCU(VehicleControlUnit)-ThrottlePositionSensorPlausibilityChecks">Throttle Position Sensor Plausibility Checks</h2><p>There are three software plausibility checks performed on the throttle sensor readings. These are: checking if each sensor is within range, checking if both sensors agree with each other, and checking if both brake and throttle are pressed.</p><p>First, each throttle sensor has it range of plausible values during normal operation specified in software. Since each sensor is different, a different range is expected for each, which is manually determined and programmed into software. For each throttle sensor reading, it is checked if it is within range, otherwise an error is raised. This range checking is important because it protects against failure where the potentiometers short to ground or the power rail. Since the valid potentiometer range doesn't use the whole potentiometer range, either 0 V or max voltage (so a shorted signal) is out of range and will be detected. </p><p>Second, two throttle sensors are used for extra safety. This has two safety benefits. First, if one of the sensors fail, they will give different values thus the failure can be detected. Second, the two throttle sensors are connected such that their adc ranges are different and thus the raw adc values are different for all throttle positions. <span style="letter-spacing: 0.0px;">For example, on the 2020 car each sensor is connected such that its range is inverted from the other one. This is another way of protecting against both sensors shorting, as they should never have the same raw ADC reading. The software therefore converts each throttle sensor reading to a value from 0-100%, and if the two values differ by more than a set limit (10% for the 2020 car, specified by the old FSAE rules) then an error is raised.</span></p><p>Third, a check is performed to ensure that the brake and throttle aren't pressed at the same time. This checks if the brake is pressed more than a set percentage when the throttle is pressed more than a set percentage (currently 20% for the brake and 25% for the throttle on the 2020 car). If both are pressed, the throttle output is disabled (set to 0 %), and not re-enabled until the throttle drops below a set value (5% for the 2020 car). This is an extra safety precaution against getting stuck at full throttle, allowing the brakes to override the throttle output.</p></div>
+</div>
+</div>
+<div class="columnLayout single" data-layout="single">
+<div class="cell normal" data-type="normal">
+<div class="innerCell">
+<h1 id="VCU(VehicleControlUnit)-MotorControllerCommunication">Motor Controller Communication</h1><p>For the 2020 car, Borg-Warner (formerly Sevcon) motor controllers are used. There are two motors, controlled by one motor controller each (thus a total of two motor controllers on the car). The VCU communicates with the motor controllers over the CAN bus. The main communication is the torque demand, which specifies how much torque the motors should produce. This is determined by the throttle position, where the 0-100% throttle range is mapped to the 0-100% torque output range of the motors. However, the communication protocol also requires sending a number of other control messages, all at regular intervals within a specified timeout. The communication also uses something called ProCAN, which is a layer on top of CAN define by the motor controllers. It is explained in the linked documents, but is essentially a way to add more error checking to the CAN messages. ProCAN is somewhat configurable (eg message IDs, timeouts, etc), which is done through the motor controller software provided by the vendor (Gen5MC). Some documentation on the Gen5MC software can be found at these pages: <a href="https://uwaterloo.atlassian.net/wiki/spaces/FEPT/pages/8838747192/Motor+Controllers" data-linked-resource-id="8838747192" data-linked-resource-version="10" data-linked-resource-type="page">Motor Controllers</a>, <a class="createlink" href="/wiki/pages/createpage.action?spaceKey=FEPT&amp;title=Motor%20Controller%20Tuning%3A%20Motor%20Alignment%20and%20Gen5S9%20Setup">Motor Controller Tuning: Motor Alignment and Gen5S9 Setup</a>.</p><p><br/></p><p><a href="attachments/9479061506/9479061508.pdf" data-linked-resource-id="9479061508" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="ProCan Fundamentals.pdf" data-nice-type="PDF Document" data-linked-resource-content-type="application/pdf" data-linked-resource-container-id="9479061506" data-linked-resource-container-version="2">ProCan Fundamentals.pdf</a></p><p><a href="attachments/9479061506/9479061509.pdf" data-linked-resource-id="9479061509" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="ProCANManual.pdf" data-nice-type="PDF Document" data-linked-resource-content-type="application/pdf" data-linked-resource-container-id="9479061506" data-linked-resource-container-version="2">ProCANManual.pdf</a></p></div>
+</div>
+</div>
+<div class="columnLayout single" data-layout="single">
+<div class="cell normal" data-type="normal">
+<div class="innerCell">
+<h2 id="VCU(VehicleControlUnit)-Commands">Commands</h2><p><code>help</code></p><ul><li>Lists all the registered commands</li></ul><p><code>heap &lt;min|cur&gt;</code></p><ul><li>Outputs the &lt;min|cur&gt; free heap space</li></ul><p><code>taskList</code></p><ul><li>Outputs the freeRTOS task list and stats</li></ul><p><code>stats</code></p><ul><li>Outputs the freeRTOS run time stats</li></ul><p><code>heartbeat &lt;on|off&gt;</code></p><ul><li>Turn on/off CAN heartbeat</li></ul><p><code>heartbeatForBoard &lt;BMU|PDU|DCU|VCU_F7&gt; &lt;on|off&gt;</code></p><ul><li>Turn on/off CAN heartbeat for a board</li></ul><p><code>reset</code></p><ul><li>Reset the processor</li></ul><p><code>heartbeatInfo</code></p><ul><li>Display heartbeat info</li></ul><p><code>throttleAB &lt;A Val&gt; &lt;B Val&gt;</code></p><ul><li>Set throttle pots A and B seperately</li></ul><p><code>brakePressure &lt;val&gt;</code></p><ul><li>Set brake pressure to val</li></ul><p><code>throttle &lt;val&gt;</code></p><ul><li>Set throttle to val (sets both throttle pots to same val)</li></ul><p><code>dcuTimeout</code></p><ul><li>Send dcu timeout event</li></ul><p><code>emToggle</code></p><ul><li>Send em toggle event</li></ul><p><code>hv &lt;enable|disable&gt;</code></p><ul><li>Send hv state change event, and set hv state</li></ul><p><code>state</code></p><ul><li>Output current state of state machine</li></ul><p><code>mc &lt;on|off&gt;</code></p><ul><li>Send notify that MCs are on|off (normal sent by PDU)</li></ul><p><code>brake &lt;val&gt;</code></p><ul><li>Set brake Position to val %</li></ul><p><code>getThrottleAB</code></p><ul><li>Get throttle pots A and B</li></ul><p><code>getThrottle</code></p><ul><li>Get throttle and throttle state</li></ul><p><code>BB &lt;on|off&gt;</code></p><ul><li>Sets the power state for the BeagleBone</li></ul><p><code>adcInputs</code></p><ul><li>Get adc input values</li></ul><p><code>maxTorque &lt;maxTorque&gt;</code></p><ul><li>Set max torque demand (Nm)</li></ul><p><code>speedLimit &lt;maxSpeed&gt;</code></p><ul><li>Set max speed (rpm)</li></ul><p><code>mcInit</code></p><ul><li>Set max speed (rpm)</li></ul><p><code>getBrake</code></p><ul><li>Get brake position</li></ul><p><code>getSteering</code></p><ul><li>Get steering angle in degrees</li></ul></div>
+</div>
+</div>
+</div>
+                    </div>
+
+                    
+                                                      
+                </div>             </div> 
+            <div id="footer" role="contentinfo">
+                <section class="footer-body">
+                    <p>Document generated by Confluence on Oct 15, 2022 01:35</p>
+                    <div id="footer-logo"><a href="http://www.atlassian.com/">Atlassian</a></div>
+                </section>
+            </div>
+        </div>     </body>
+</html>

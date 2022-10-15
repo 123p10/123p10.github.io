@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Firmware : 2022 Firmware Rules Review</title>
+        <link rel="stylesheet" href="styles/site.css" type="text/css" />
+        <META http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    </head>
+
+    <body class="theme-default aui-theme-default">
+        <div id="page">
+            <div id="main" class="aui-page-panel">
+                <div id="main-header">
+                    <div id="breadcrumb-section">
+                        <ol id="breadcrumbs">
+                            <li class="first">
+                                <span><a href="index.html">Firmware</a></span>
+                            </li>
+                                                    <li>
+                                <span><a href="Firmware_9465365086.html">Firmware</a></span>
+                            </li>
+                                                    <li>
+                                <span><a href="Documentation_9513894334.html">Documentation</a></span>
+                            </li>
+                                                    <li>
+                                <span><a href="Firmware-Development-Documentation_9569468780.html">Firmware Development Documentation</a></span>
+                            </li>
+                                                </ol>
+                    </div>
+                    <h1 id="title-heading" class="pagetitle">
+                                                <span id="title-text">
+                            Firmware : 2022 Firmware Rules Review
+                        </span>
+                    </h1>
+                </div>
+
+                <div id="content" class="view">
+                    <div class="page-metadata">
+                        
+        
+    
+        
+    
+        
+        
+            Created by <span class='author'> Owen Brake</span>, last modified on Nov 04, 2021
+                        </div>
+                    <div id="main-content" class="wiki-content group">
+                    <p>Most of our rule review will be based on implementing electrical’s specifications. </p><p>TL;DR We are compliant on all things firmware related except the AMS board issues which we are working on fixing and should be resolved by beginning of January 2022. Just left a couple notes. Also we should rigorously test the car to validate that we match the rules.</p><h2 id="id-2022FirmwareRulesReview-NotesinOrder">Notes in Order</h2><ul><li><p>EV2.10.1 - Precharge to 90%</p><ul><li><p>We should meet this spec, we precharge to 98%</p></li><li><p>I’ve never personally validated it but it should be carried over, and also the code specifies 98%</p></li></ul></li><li><p>EV2.11 - AMS</p><ul><li><p>We are currently in violation of this rule.</p></li><li><p>When we reach competition we should be in compliance with this rule.</p></li><li><p>AMS board should ideally be done soon. Plan is worst case by early January 2022, when I am back in person and can easily debug it.</p></li><li><p><a class="external-link" href="https://jira.uwaterloo.ca/browse/WFE-846" rel="nofollow">https://jira.uwaterloo.ca/browse/WFE-846</a></p></li></ul></li><li><p>EV2.11.2</p><ul><li><p>From my eye, it seems we are currently in violation of this rule</p></li><li><p>Right now on line 278 of 2018_pdu/Src/controlStateMachine.c, turnBoardsOff is commented out.</p><ul><li><p>We need to just uncomment this and validate it.</p></li><li><p>This should be implemented for when we do 2021/2022 vehicle testing as we need to do critical cases/vehicle failure tests</p><ul><li><p><a class="external-link" href="https://jira.uwaterloo.ca/browse/WFE-1353" rel="nofollow">https://jira.uwaterloo.ca/browse/WFE-1353</a></p></li></ul></li></ul></li><li><p>I assume turning the boards off was removed for testing.</p></li><li><p>I also want to clarify that the driver cannot reset the PDU/power cycle the LV battery while sitting in the car. I think it’s in the back with the battery box, should check that driver cannot reach it while sitting.</p></li></ul></li><li><p>EV3.5.4</p><ul><li><p>We are compliant for the pedal as we have 2 potentiometers that we compare, we also ensure that the pedal ADC values are not close to 0 or 4095.</p></li><li><p>I assume the CAN CRC is sufficient error checking on the motor controller side</p></li></ul></li><li><p>EV7.1</p><ul><li><p>TSMS</p><ul><li><p>Should be fine on FW side, it should be purely electrical/mechanical</p></li></ul></li><li><p>Cockpit BRB</p><ul><li><p>This should be good</p></li><li><p>EV7.6.5 should be ok. Pushing/Pulling the shutdown button will affect micro logic, but it’s not run through micro logic, it is like an electrical/mechanical only button.</p></li></ul></li><li><p>Interlocks</p><ul><li><p>I don’t think firmware needs to worry about this</p></li></ul></li><li><p>AMS/IMD</p><ul><li><p>I assume AMS and IMD are both non firmware concerned as they are mechanical and cannot be controlled by micro</p></li></ul></li><li><p>Brake Over-Travel</p><ul><li><p>Also assumed to be non firmware concerned as the rules specify micro cannot control logic</p></li></ul></li><li><p>Side BRB</p><ul><li><p>Also not micro concerned</p></li><li><p>Should verify that the side BRBs cut off all power including GLV as in 2017 shutdown architecture page, they do not. Though in 2020 it looks like they should, but need to double check</p></li></ul></li><li><p>GLVMS</p><ul><li><p>Absolutely no micro logic as it shutdowns all GLV</p></li></ul></li></ul></li><li><p>EV7.6.4</p><ul><li><p>Should verify this functionality, should also check that we are compliant with EV7.7.2</p></li></ul></li><li><p>EV9.2.1</p><ul><li><p>We have exactly 1 second of ready to drive sound so we are compliant, I doubt anyone will count down to the millisecond. Perhaps moving up to 2 seconds to be safe? But I think 1 second is good.</p></li></ul></li></ul><p /><p>I’m stopping reading the rules just for now. Read and logged info up to EV7.1 on November 2, 2021.</p><p>Need to validate we are compliant for all shutdown procedures in EV7.1</p><p />
+                    </div>
+
+                    
+                                                      
+                </div>             </div> 
+            <div id="footer" role="contentinfo">
+                <section class="footer-body">
+                    <p>Document generated by Confluence on Oct 15, 2022 02:51</p>
+                    <div id="footer-logo"><a href="http://www.atlassian.com/">Atlassian</a></div>
+                </section>
+            </div>
+        </div>     </body>
+</html>

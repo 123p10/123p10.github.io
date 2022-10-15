@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Firmware : Vehicle State Machines</title>
+        <link rel="stylesheet" href="styles/site.css" type="text/css" />
+        <META http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    </head>
+
+    <body class="theme-default aui-theme-default">
+        <div id="page">
+            <div id="main" class="aui-page-panel">
+                <div id="main-header">
+                    <div id="breadcrumb-section">
+                        <ol id="breadcrumbs">
+                            <li class="first">
+                                <span><a href="index.html">Firmware</a></span>
+                            </li>
+                                                    <li>
+                                <span><a href="Firmware_9465365086.html">Firmware</a></span>
+                            </li>
+                                                    <li>
+                                <span><a href="Documentation_9513894334.html">Documentation</a></span>
+                            </li>
+                                                    <li>
+                                <span><a href="Common-all-Documentation_9569468768.html">Common-all Documentation</a></span>
+                            </li>
+                                                </ol>
+                    </div>
+                    <h1 id="title-heading" class="pagetitle">
+                                                <span id="title-text">
+                            Firmware : Vehicle State Machines
+                        </span>
+                    </h1>
+                </div>
+
+                <div id="content" class="view">
+                    <div class="page-metadata">
+                        
+        
+    
+        
+    
+        
+        
+            Created by <span class='author'> User bec44</span>, last modified by <span class='editor'> Former user</span> on Apr 27, 2020
+                        </div>
+                    <div id="main-content" class="wiki-content group">
+                    <p>In our firmware, all major boards are written using a state machine design pattern. See this <a class="external-link" href="https://en.wikipedia.org/wiki/Finite-state_machine" rel="nofollow">wikipedia article</a> for more info on state machines. These state machine diagrams detail the high level behaviour of the board, for example turning on the motor controllers when the EM toggle button is pressed, responding to critical errors from other boards, etc. they should not detail the specific details of interfacing with the hardware, this should be left to the driver level software. Thus, the board state machine(s) communicates to the hardware drivers to control the hardware, but handles the higher level logic itself.</p><p>Each board should have a state machine documented using <a class="external-link" href="http://draw.io" rel="nofollow">draw.io</a> to graphically document the state machine. These are located here: <a class="external-link" href="https://drive.google.com/drive/folders/1fJo2MWlHpbWOF0hujyzxzYTisCQNDvQU?usp=sharing" rel="nofollow">https://drive.google.com/drive/folders/1fJo2MWlHpbWOF0hujyzxzYTisCQNDvQU?usp=sharing</a>. This graphical representation is then translated to software using the generic state machine driver. The various states, events, and transition handling from the graphical representation are created using this driver.</p><h1 id="VehicleStateMachines-Statemachinedriver">State machine driver</h1><p>A standard state machine driver has been created and put in the common-all submodule. It consists of a state_machine.h and a state_machine.c file. It should be used for all boards when state machines are required. It allows creation of one or more state machines with user specified states, events, and transitions.</p><p>To create a new state machines, a few things are required:</p><ol><li>The states and event enums should be created</li><li>The state transition array should be created</li><li>The state machine should be initialized</li><li>A task should be created to handle the state machine events</li><li>Events should be sent to the state machine from elsewhere in your code</li></ol><h3 id="VehicleStateMachines-EventsandStatesEnums">Events and States Enums</h3><p>To define the states for the state machine, as well as the events that the state machine can process, enums are used. There can be as many events and state as you want (up to the limit for a C enum). The only special feature to be aware of is the STATE_ANY and EV_ANY states and events. These are used as wildcard states and events for the state transition array. They must be the last state/event in the enum. An example from the VCU is shown below:</p><div class="code panel pdl" style="border-width: 1px;"><div class="codeContent panelContent pdl">
+<pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: cpp; gutter: false; theme: Confluence" data-theme="Confluence">typedef enum VCU_States_t {
+    STATE_Self_Check = 0,
+    STATE_EM_Disable = 1,
+    STATE_EM_Enable = 2,
+    STATE_Failure_Fatal = 3,
+    STATE_ANY, // Must be the last state
+} VCU_States_t;
+
+typedef enum VCU_Events_t {
+    EV_Init = 0,
+    EV_EM_Toggle,
+    EV_Bps_Fail,
+    EV_Hv_Disable,
+    EV_Brake_Pressure_Fault,
+    EV_DCU_Can_Timeout,
+    EV_Throttle_Failure,
+    EV_Throttle_Poll,
+    EV_Fatal,
+    EV_ANY, // Must be the last event
+} VCU_Events_t;</pre>
+</div></div><h3 id="VehicleStateMachines-Statetransitionarray">State transition array</h3><p>The state transition array defines what combination of states and events cause the transitions in the state machine. The way the driver is written, the transition array defines a given state and event that causes a transition. The transition is performed by calling a function, which performs any required action for the transition, and then returns the new state (which can be the current state, or a different one). An example from the VCU is shown below (only showing a few transitions). Note the STATE_ANY, EV_ANY transition. This is a catch all transition that prevents unhandled events.</p><div class="code panel pdl" style="border-width: 1px;"><div class="codeContent panelContent pdl">
+<pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: cpp; gutter: false; theme: Confluence" data-theme="Confluence">Transition_t transitions[] = {
+    { STATE_Self_Check, EV_Init, &amp;runSelftTests },
+    { STATE_EM_Disable, EV_EM_Toggle, &amp;EM_Enable },
+    { STATE_ANY, EV_ANY, &amp;DefaultTransition}
+};</pre>
+</div></div><p>The format for the transition function is shown below. The function takes as a parameter the event that caused the transition to be called, and returns the new state.</p><div class="code panel pdl" style="border-width: 1px;"><div class="codeContent panelContent pdl">
+<pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: cpp; gutter: false; theme: Confluence" data-theme="Confluence">uint32_t DefaultTransition(uint32_t event);</pre>
+</div></div><p>For convenience, a function to get the current state has been provided. For example, it can be used to cause a transition function to be reused in multiple states and still return the current state (when otherwise the current state is not known). Its signature is:</p><div class="code panel pdl" style="border-width: 1px;"><div class="codeContent panelContent pdl">
+<pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: cpp; gutter: false; theme: Confluence" data-theme="Confluence">uint32_t fsmGetState(FSM_Handle_Struct *handle);
+</pre>
+</div></div><p><br/></p><h3 id="VehicleStateMachines-Statemachineinitialization">State machine initialization</h3><p>The parameters to initialize the state machine are passed in as a struct. The fields are as follows:</p><ul><li>maxStateNum: The max state for the state machine (last defined in the enum, should always be STATE_ANY)</li><li>maxEventNum: Same as previous, but event. Should always be EVENT_ANY</li><li>sizeofEventEnumType: set to sizeof(EVENT_Enum)</li><li>ST_ANY: the number of the STATE_ANY state</li><li>EV_ANY: the number of the EV_ANY event</li><li>transitions: the transitions array</li><li>transitionTableLength: use the TRANS_COUNT(transition_table) macro to specify the transitionTableLength</li><li>eventQueueLength: The number of events the freeRTOS queue used to store events can hold</li></ul><p>Shown below is the VCU state machines init:</p><div class="code panel pdl" style="border-width: 1px;"><div class="codeContent panelContent pdl">
+<pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: cpp; gutter: false; theme: Confluence" data-theme="Confluence">	init.maxStateNum = STATE_ANY;
+    init.maxEventNum = EV_ANY;
+    init.sizeofEventEnumType = sizeof(VCU_Events_t);
+    init.ST_ANY = STATE_ANY;
+    init.EV_ANY = EV_ANY;
+    init.transitions = transitions;
+    init.transitionTableLength = TRANS_COUNT(transitions);
+    init.eventQueueLength = 5;
+    if (fsmInit(STATE_Self_Check, &amp;init, &amp;fsmHandle) != HAL_OK) {
+        ERROR_PRINT(&quot;Failed to init drive by wire fsm\n&quot;);
+        return HAL_ERROR;
+    }</pre>
+</div></div><h3 id="VehicleStateMachines-Statemachinetask">State machine task</h3><p>A task should be created to process the state machine events. There should be one task per state machine, that is only responsible for that state machine's events. The state machine driver implements the task function, it should be called from the FreeRTOS task function, as shown below. Note that it is fine to do some init before calling the fsmTaskFunction. Note that the state machine should be initialized before FreeRTOS starts, likely in the userInit function.</p><div class="code panel pdl" style="border-width: 1px;"><div class="codeContent panelContent pdl">
+<pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: java; gutter: false; theme: Confluence" data-theme="Confluence">HAL_StatusTypeDef startDriveByWire()
+{
+    return fsmSendEvent(&amp;fsmHandle, EV_Init, portMAX_DELAY /* timeout */); // Force run of self checks
+}
+
+void driveByWireTask(void *pvParameters)
+{
+    // Pre send EV_INIT to kick off self tests
+    startDriveByWire();
+
+    if (canStart(&amp;CAN_HANDLE) != HAL_OK) {
+        Error_Handler();
+    }
+
+    fsmTaskFunction(&amp;fsmHandle); // This function never returns
+
+    for(;;); // Shouldn&#39;t reach here
+}
+
+</pre>
+</div></div><h3 id="VehicleStateMachines-SendingEvents">Sending Events</h3><p>There are four functions to send events to the state machine. Two for sending from ISR, two for from tasks. The urgent send functions simply put the event to the front of the event queue, whereas the normal send functions put the event in the back of the queue. The timeout specifies how long to wait if the queue is full.</p><div class="code panel pdl" style="border-width: 1px;"><div class="codeContent panelContent pdl">
+<pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: java; gutter: false; theme: Confluence" data-theme="Confluence">HAL_StatusTypeDef fsmSendEventUrgent(FSM_Handle_Struct *handle, uint32_t event, uint32_t timeout_ms);
+HAL_StatusTypeDef fsmSendEvent(FSM_Handle_Struct *handle, uint32_t event, uint32_t timeout_ms);
+HAL_StatusTypeDef fsmSendEventUrgentISR(FSM_Handle_Struct *handle, uint32_t event);
+HAL_StatusTypeDef fsmSendEventISR(FSM_Handle_Struct *handle, uint32_t event);
+
+</pre>
+</div></div><p><br/></p><p><br/></p>
+                    </div>
+
+                    
+                                                      
+                </div>             </div> 
+            <div id="footer" role="contentinfo">
+                <section class="footer-body">
+                    <p>Document generated by Confluence on Oct 15, 2022 02:51</p>
+                    <div id="footer-logo"><a href="http://www.atlassian.com/">Atlassian</a></div>
+                </section>
+            </div>
+        </div>     </body>
+</html>

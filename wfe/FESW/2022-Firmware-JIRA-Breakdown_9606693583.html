@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Firmware : 2022 Firmware JIRA Breakdown</title>
+        <link rel="stylesheet" href="styles/site.css" type="text/css" />
+        <META http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    </head>
+
+    <body class="theme-default aui-theme-default">
+        <div id="page">
+            <div id="main" class="aui-page-panel">
+                <div id="main-header">
+                    <div id="breadcrumb-section">
+                        <ol id="breadcrumbs">
+                            <li class="first">
+                                <span><a href="index.html">Firmware</a></span>
+                            </li>
+                                                    <li>
+                                <span><a href="Firmware_9465365086.html">Firmware</a></span>
+                            </li>
+                                                    <li>
+                                <span><a href="Documentation_9513894334.html">Documentation</a></span>
+                            </li>
+                                                    <li>
+                                <span><a href="Workflow-Related-Documentation_9569468771.html">Workflow Related Documentation</a></span>
+                            </li>
+                                                </ol>
+                    </div>
+                    <h1 id="title-heading" class="pagetitle">
+                                                <span id="title-text">
+                            Firmware : 2022 Firmware JIRA Breakdown
+                        </span>
+                    </h1>
+                </div>
+
+                <div id="content" class="view">
+                    <div class="page-metadata">
+                        
+        
+    
+        
+    
+        
+        
+            Created by <span class='author'> Owen Brake</span>, last modified on May 17, 2021
+                        </div>
+                    <div id="main-content" class="wiki-content group">
+                    <p>The structure goes like this:</p><h1 id="id-2022FirmwareJIRABreakdown-Component">Component</h1><ol><li><p>Epic</p><ol><li><p>Story/Bug</p><ol><li><p>Task</p></li></ol></li></ol></li></ol><p>Issues that exist are listed with the issue number right before it.</p><p>Note that Misc includes certain tasks and bugs which don't fit into general epics.</p><p>This contains all the current issues on JIRA + more, I will be adding more for planning.</p><h1 id="id-2022FirmwareJIRABreakdown-PDU">PDU</h1><ol><li>New PDU Flow Design<ol><li><strong>WFE-60</strong> Modify PDU cooling state machine to communicate with VCU to get motor &amp; motor controller temperature</li><li><strong>WFE-778</strong> Handle Motor and Motor Controller cooling in seperate PDU state machines</li><li><strong>WFE-819</strong> Document planned new design of PDU cooling system</li></ol></li></ol><h1 id="id-2022FirmwareJIRABreakdown-VCU">VCU</h1><ol><li><p>Telemetry</p><ol><li><p>GPS Unit</p><ol><li><p><strong>WFE-330</strong> Validate GPS Data (This should be converted to a task)</p></li><li><p><strong>WFE-328</strong> Integrate GPS and IMU logging into the ZeroMQ pipeline (This should be a task)</p></li></ol></li><li><p>IMU Unit</p><ol><li><strong>WFE-813</strong> Create method to pull IMU data</li><li><p><strong>WFE-329</strong> Validate IMU Data (This should be converted to a task)</p></li><li><p><strong>WFE-328</strong> Integrate GPS and IMU logging into the ZeroMQ pipeline (This should be a task)</p></li></ol></li><li>Visualization<ol><li><p><strong>WFE-731</strong> Qt Telemetry Prototype (Should be a task)</p></li></ol></li></ol></li><li>2022 Vehicle Testing<ol><li><strong>WFE-279</strong> Motor Controllers Testing</li><li><strong>WFE-274</strong> Motor/Motor Controller loop testing<ol><li><strong>WFE-278</strong> Ensure left and right pumps on vehicle are functioning correctly</li><li><strong>WFE-277</strong> Ensure 12V load switches are enabled</li><li><strong>WFE-276</strong> Check State Machine Transitions in Debugger</li></ol></li></ol></li><li>Misc (Not an Actual Epic)<ol><li><p><strong>WFE-60</strong> Modify PDU cooling state machine to communicate with VCU to get motor &amp; motor controller temperature</p></li><li><strong>WFE-625</strong> VCU Dynamic Torque Limit</li><li><strong>WFE-787</strong> Duplicate EM_State Messages being sent</li><li><strong>WFE-537</strong> Documentation for Beaglebone Application Software</li></ol></li></ol><h1 id="id-2022FirmwareJIRABreakdown-BMU">BMU</h1><ol><li><p>AMS</p></li></ol><ol><li style="list-style-type: none;"><ol><li><p><strong>WFE-489</strong> Firmware AMS Changes to LTC Chips</p></li><li>Should there be a testing story here?</li></ol></li><li>Cell Testing<ol><li><strong>WFE-513</strong> Create test setup for testing all cells</li><li><strong>WFE-818</strong> Redesign cell testing scripts</li></ol></li><li>Misc (Not actual epic)<ol><li><strong>WFE-461</strong> Implement SOC Algorithm</li></ol></li></ol><h1 id="id-2022FirmwareJIRABreakdown-DCU">DCU</h1><ol><li>Misc (Not actual epic)<br/><ol><li><strong>WFE-780</strong> Button Handling Improvements</li></ol></li></ol><h1 id="id-2022FirmwareJIRABreakdown-WSB">WSB</h1><ol><li>This requires FW changes/testing, I have to make some tickets for this</li></ol><p><br/></p><h1 id="id-2022FirmwareJIRABreakdown-Common-AllFirmware">Common-All Firmware</h1><ol><li><p> <strong>WFE-804</strong> Validating, Testing and Improving Firmware Robustness</p></li></ol><ol><li style="list-style-type: none;"><ol><li><p><strong>WFE-820</strong> Remove Dynamic Allocations from Code</p></li><li><p><strong>WFE-803</strong> Refactor Repo codebases (Add Linter)</p></li><li><p><strong>WFE-805</strong> Unit Testing</p><ol><li><p><strong>WFE-810</strong> Document Unit Testing Infrastructure</p></li><li><p><strong>WFE-809</strong> Implement common-all tests</p></li><li><p><strong>WFE-809</strong> Implement Unit Testing Infrastructure</p></li></ol></li></ol></li><li>Custom Bootloader/Boot from CAN ( This probably should be a story not an epic, just have to strip out tasks which should be part of workflow )<br/><ol><li><strong>WFE-295</strong> F0 Bootloader<ol><li>WFE-290 Test F0 Bootloader</li></ol></li><li><strong>WFE-293</strong> F7 Bootloader<ol><li>WFE-292 Test F7 Bootloader</li></ol></li><li><strong>WFE-298</strong> Document Bootloader<ol><li><strong>WFE-299</strong> Document Bootloader Architecture</li><li><strong>WFE-300</strong> Document Bootloader protocol</li></ol></li><li><strong>WFE-66</strong> Write Beaglebone script to send/receive bootloader commands</li><li><strong>WFE-297</strong> Integrate Bootloader into Build System</li><li><strong>WFE-289</strong> Test prototype host script with F0/F7 boot loaders</li></ol></li><li><strong>WFE-529</strong> Build Tools Improvement (<strong>WFE-529</strong> is essentially what this is but it should be put into a new epic)<ol><li><strong>WFE-547</strong> tail.mk should warn about existing instances of OpenOCD running </li></ol></li><li>Misc (not actual epic)</li></ol><ol><li style="list-style-type: none;"><ol><li><strong>WFE-64</strong> Add thread synchronization for received CAN signals</li><li>Storing config data on EEPROM<ol><li><strong>WFE-593</strong> Create python script for automating EEPROM for F7 boards</li><li>More will be added here, this is incomplete right now</li></ol></li><li>UART over CAN (This probably also should be a story not an epic)<br/><ol><li><strong>WFE-302</strong> Develop UART over CAN protocol<ol><li>WFE-303 Define CAN Messages used by UART over CAN</li></ol></li><li><strong>WFE-304</strong> Develop UART over CAN Driver</li><li><strong>WFE-306</strong> Document UART over CAN interface on Confluence</li><li><strong>WFE-305</strong> Test UART over CAN on boards</li></ol></li><li>Shutdown Conditions<ol><li><strong>WFE-284</strong> Identify all shutdown conditions on vehicle</li><li><strong>WFE-285</strong> Test identified shutdown conditions</li></ol></li></ol></li></ol>
+                    </div>
+
+                    
+                                                      
+                </div>             </div> 
+            <div id="footer" role="contentinfo">
+                <section class="footer-body">
+                    <p>Document generated by Confluence on Oct 15, 2022 02:51</p>
+                    <div id="footer-logo"><a href="http://www.atlassian.com/">Atlassian</a></div>
+                </section>
+            </div>
+        </div>     </body>
+</html>

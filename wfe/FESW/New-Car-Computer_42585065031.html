@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Firmware : New Car Computer</title>
+        <link rel="stylesheet" href="styles/site.css" type="text/css" />
+        <META http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    </head>
+
+    <body class="theme-default aui-theme-default">
+        <div id="page">
+            <div id="main" class="aui-page-panel">
+                <div id="main-header">
+                    <div id="breadcrumb-section">
+                        <ol id="breadcrumbs">
+                            <li class="first">
+                                <span><a href="index.html">Firmware</a></span>
+                            </li>
+                                                    <li>
+                                <span><a href="Firmware_9465365086.html">Firmware</a></span>
+                            </li>
+                                                    <li>
+                                <span><a href="Firmware-Projects_9571009451.html">Firmware Projects</a></span>
+                            </li>
+                                                </ol>
+                    </div>
+                    <h1 id="title-heading" class="pagetitle">
+                                                <span id="title-text">
+                            Firmware : New Car Computer
+                        </span>
+                    </h1>
+                </div>
+
+                <div id="content" class="view">
+                    <div class="page-metadata">
+                        
+        
+    
+        
+    
+        
+        
+            Created by <span class='author'> Owen Brake</span>, last modified on Nov 18, 2021
+                        </div>
+                    <div id="main-content" class="wiki-content group">
+                    <h2 id="NewCarComputer-Overview">Overview  </h2><div class="table-wrap"><table data-layout="default" data-local-id="762bda5d-d032-477d-89d6-c277712ae3cb" class="confluenceTable"><colgroup><col style="width: 150.0px;"/><col style="width: 610.0px;"/></colgroup><tbody><tr><td data-highlight-colour="#e3fcef" class="confluenceTd"><p><strong>Event</strong></p></td><td class="confluenceTd"><p>N/A</p></td></tr><tr><td data-highlight-colour="#e3fcef" class="confluenceTd"><p><strong>Applicable Components</strong></p></td><td class="confluenceTd"><ul><li><p>Tooling</p></li><li><p>VCU</p></li></ul></td></tr><tr><td data-highlight-colour="#e3fcef" class="confluenceTd"><p><strong>Jira Ticket</strong></p></td><td class="confluenceTd"><p><a class="external-link" href="https://jira.uwaterloo.ca/browse/WFE-1371" rel="nofollow">https://jira.uwaterloo.ca/browse/WFE-1371</a></p></td></tr><tr><td data-highlight-colour="#e3fcef" class="confluenceTd"><p><strong>Progress</strong></p></td><td class="confluenceTd"><p>Not Started</p></td></tr><tr><td data-highlight-colour="#e3fcef" class="confluenceTd"><p><strong>Owner</strong></p></td><td class="confluenceTd"><p>Owen Brake</p></td></tr><tr><td data-highlight-colour="#e3fcef" class="confluenceTd"><p><strong>Creation Date</strong></p></td><td class="confluenceTd"><p>Fall 2021</p></td></tr><tr><td data-highlight-colour="#e3fcef" class="confluenceTd"><p><strong>Summary</strong></p></td><td class="confluenceTd"><p>Bring up new Car computer so teams can work cross functionally. This involves getting the software together. Making a decision on the OS. It also involves specing out the hardware we need and constructing it.</p></td></tr></tbody></table></div><h2 id="NewCarComputer-Requirements">Requirements</h2><div class="table-wrap"><table data-layout="default" data-local-id="2ee4a113-a310-4483-bd7c-909e340868c2" class="confluenceTable"><colgroup><col style="width: 112.0px;"/><col style="width: 568.0px;"/></colgroup><tbody><tr><th data-highlight-colour="#e6fcff" class="confluenceTh"><p><strong>Software</strong></p></th><th data-highlight-colour="#ffffff" class="confluenceTh"><ul><li><p>Git</p></li><li><p>Some sort of CAN software</p><ul><li><p>Need to be able to Read and Write CAN messages on the CAN bus</p></li><li><p>Should be able to graph in some way</p></li><li><p>Should be able to read and edit DBC files</p></li></ul></li><li><p>Visualizations</p><ul><li><p>Should interface well with our existing visualizations (if we have any)</p></li></ul></li><li><p>Python</p></li><li><p>TBD</p><ul><li><p>Before making any decisions we should consult other teams.</p></li></ul></li></ul></th></tr><tr><td data-highlight-colour="#e6fcff" class="confluenceTd"><p><strong>UX</strong></p></td><td class="confluenceTd"><ul><li><p>The Software UX needs to be intuitive so other non firmware members can use it.</p><ul><li><p>CLI should also be supported so that firmware members can make changes on git and pull new firmware.</p></li></ul></li><li><p>Should be intuitive to use so keyboard + mouse</p></li></ul></td></tr><tr><td data-highlight-colour="#e6fcff" class="confluenceTd"><p><strong>Hardware</strong></p></td><td class="confluenceTd"><ul><li><p>Good large display</p></li><li><p>Ability to connect to CAN bus</p></li><li><p>Fast, long lasting hardware</p><ul><li><p>Preferably upgradeable so we don’t always have to redesign every X years</p></li></ul></li><li><p>Should be designed so that it can fit easily in the bay.</p></li><li><p>Would be nice if it was somewhat portable, as in brought to competition</p></li><li><p>Networking</p></li></ul></td></tr></tbody></table></div><h1 id="NewCarComputer-Software">Software</h1><h2 id="NewCarComputer-OS">OS</h2><ul><li><p>The OS selection is tough. It would be really nice to use Linux because that is completely compatible with all our firmware systems. But we have to have good CAN software and we need to consider the needs of other teams.</p><ul><li><p>On Linux I’ve found and used SavvyCAN a bit, I’m sure there are others but this should be investigated before we settle on Linux</p></li></ul></li></ul><h1 id="NewCarComputer-UseCases">Use Cases</h1><ul><li><p>The number one use case is so that other teams can read CAN messages off the car when they are testing various subsystems.</p></li><li><p>It would be nice if other teams could flash new firmware from the computer as well. This is connected to the “Flash FW over CAN“ project</p></li><li><p><strong>NOTE: </strong>Other teams will have use cases so they should be consulted</p></li><li><p>It would be nice if we could run in the background a jenkins server</p></li><li><p>Being able to process and analyze statistics on here would be nice so collecting our telemetry straight off the CAN bus and visualizing it.</p></li></ul><p /><h1 id="NewCarComputer-Process">Process</h1><p>There are 4 steps to solving this issue and they should go in this order:</p><ol><li><p>Spec out <strong>all</strong> the software ensure it will all work with the hardware</p></li><li><p>Compile a list of all the parts needed to construct the computer</p></li><li><p>Reach out for funding</p></li><li><p>Order and construct bay computer</p></li></ol>
+                    </div>
+
+                    
+                                                      
+                </div>             </div> 
+            <div id="footer" role="contentinfo">
+                <section class="footer-body">
+                    <p>Document generated by Confluence on Oct 15, 2022 01:33</p>
+                    <div id="footer-logo"><a href="http://www.atlassian.com/">Atlassian</a></div>
+                </section>
+            </div>
+        </div>     </body>
+</html>

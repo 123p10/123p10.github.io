@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Firmware : Testing Event (August 13, 2022)</title>
+        <link rel="stylesheet" href="styles/site.css" type="text/css" />
+        <META http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    </head>
+
+    <body class="theme-default aui-theme-default">
+        <div id="page">
+            <div id="main" class="aui-page-panel">
+                <div id="main-header">
+                    <div id="breadcrumb-section">
+                        <ol id="breadcrumbs">
+                            <li class="first">
+                                <span><a href="index.html">Firmware</a></span>
+                            </li>
+                                                    <li>
+                                <span><a href="Firmware_9465365086.html">Firmware</a></span>
+                            </li>
+                                                    <li>
+                                <span><a href="2022-Testing-Events_43168073494.html">2022 Testing Events</a></span>
+                            </li>
+                                                </ol>
+                    </div>
+                    <h1 id="title-heading" class="pagetitle">
+                                                <span id="title-text">
+                            Firmware : Testing Event (August 13, 2022)
+                        </span>
+                    </h1>
+                </div>
+
+                <div id="content" class="view">
+                    <div class="page-metadata">
+                        
+        
+    
+        
+    
+        
+        
+            Created by <span class='author'> Justin Vuong</span>, last modified on Aug 14, 2022
+                        </div>
+                    <div id="main-content" class="wiki-content group">
+                    <p /><p>Raw Logs:</p><p class="media-group"><span class="confluence-embedded-file-wrapper"><a class="confluence-embedded-file" href="attachments/43168006866/43168039572.zip" data-nice-type="Zip Archive" data-file-src="/wiki/download/attachments/43168006866/can-logs-8-13-2022.zip?version=1&amp;modificationDate=1660432254510&amp;cacheVersion=1&amp;api=v2" data-linked-resource-id="43168039572" data-linked-resource-type="attachment" data-linked-resource-container-id="43168006866" data-linked-resource-default-alias="can-logs-8-13-2022.zip" data-mime-type="application/zip" data-has-thumbnail="true" data-linked-resource-version="1" data-media-id="4867828f-4a0e-4a5e-8a1b-ee1c6dd4d37b" data-media-type="file"><img src="attachments/thumbnails/43168006866/43168039572" height="250"/></a></span></p><p>Notes about these output files:</p><ul><li><p>There are null characters usually at the end of each file. Probably because the canlogs are in the middle of a write when we kill it</p><ul><li><p>in the will1/Aug-06-22_10-25-21_wfe.csv there is a bunch of null characters in the middle of the file which is very weird (there is a time jump)</p></li></ul></li><li><p>Will_3_cont are Will 5 are have super low CurrentBusHV. Im assuming alot of messages were dropped </p></li><li><p>For some reason, there was a message 4 that was being logged but not found in the DBC (key error in logs). I wasn’t seeing this before but it could have caused some slow downs in the logs since it had to handle the exception</p></li></ul><p /><p>Can Logs Sorted:</p><p class="media-group"><span class="confluence-embedded-file-wrapper"><a class="confluence-embedded-file" href="attachments/43168006866/43168007127.zip" data-nice-type="Zip Archive" data-file-src="/wiki/download/attachments/43168006866/sorted-canLogs-8-13-2022.zip?version=1&amp;modificationDate=1660496554481&amp;cacheVersion=1&amp;api=v2" data-linked-resource-id="43168007127" data-linked-resource-type="attachment" data-linked-resource-container-id="43168006866" data-linked-resource-default-alias="sorted-canLogs-8-13-2022.zip" data-mime-type="application/zip" data-has-thumbnail="true" data-linked-resource-version="1" data-media-id="2e802a3c-8b29-44c9-97cc-1b20c95e05e5" data-media-type="file"><img src="attachments/thumbnails/43168006866/43168007127" height="250"/></a></span></p><p /><p>Notes</p><hr/><p>Run 1 (Will_1):</p><ul><li><p>Will driving</p></li><li><p>1 lap</p></li><li><p>slower run</p></li><li><p>dash off</p></li></ul><hr/><p>Run 2 (Will_2):</p><ul><li><p>Will driving</p></li><li><p>2 Laps</p></li><li><p>fast run</p></li><li><p>dash on</p></li><li><p>slow down at the first turn because of the turning radius</p></li><li><p>Wifi is still not up</p></li></ul><hr/><p>Run 3 (Will_3):</p><ul><li><p>Will driving</p></li><li><p>fast run</p></li><li><p>completed the 1st lap</p></li><li><p>stopped at the beginning of the 2nd lap</p></li><li><p>the car went down from HV, but not turned off</p></li><li><p>still on - 2 lights on the board flashing , but does not show dtc, dtc is probably not working/</p></li></ul><p>Run 3 continued (Will_3_cont):<br/>*Will driving<br/>*fast run</p><ul><li><p>3 laps completed</p></li></ul><hr/><p>Run 4 (Will_4):</p><ul><li><p>Will driving</p></li><li><p>fast run</p></li><li><p>3 laps ccompleted</p></li><li><p>Time (1st, 2nd, 3rd): 35.7s, 30.6s, 33.18s</p></li><li><p>motor controllers hot</p></li><li><p>entire car shutdown by itself, all Low Voltage shutdown on 3rd lap</p></li><li><p>LV battery died, we think we can not turn on the cooling because dcdc is broken,<br/>PDU just reset when try to toggle the pump/fan pins</p></li></ul><hr/><p>Afternoon</p><p>Run 5 - straight line - acceleration test (Will_5):</p><ul><li><p>Will driving</p></li><li><p>Torque limit: 20</p></li><li><p>At some point of acceleration test, HV turned off and LV stayed on, reason might be too much current , same as a previous issue</p></li></ul><hr/><p>Run 6 (Justin_1):</p><ul><li><p>Justin driving</p></li><li><p>Slow run</p></li></ul><hr/><p>Run 7 (Justin_2):</p><ul><li><p>Justin driving</p></li><li><p>Slow run</p></li><li><p>2 laps</p></li></ul><hr/><p>Run 8 (Justin_3):</p><ul><li><p>Justin driving</p></li><li><p>Slow run</p></li><li><p>one lap, stopped because need to tighten chains</p></li></ul><p>Messages seemed to have been dropped</p><hr/><p>Run 9 (Justin_4):</p><ul><li><p>Justin driving</p></li><li><p>fast run</p></li><li><p>3 laps completed</p></li></ul><hr/><p>Run 10 (Justin_5):</p><ul><li><p>Justin driving</p></li><li><p>fast run</p></li><li><p>2 laps</p></li><li><p>HV turned off and LV stayed on, reason might be too much current</p></li><li><p>There might be a fans problem, fan speed should be increased when temperature rises, but that was not observed by Justin</p></li></ul><hr/><p>Run 11 (Justin_6):</p><ul><li><p>Justin driving</p></li><li><p>fast run</p></li><li><p>2 laps</p></li></ul><hr/><p>Run 12 (Philip_1):</p><ul><li><p>Philip Driving</p></li><li><p>1 Slow lap</p></li></ul><hr/><p>Run 13 (Philip_2):</p><ul><li><p>Philip Driving </p></li><li><p>2 Laps</p></li></ul><hr/><p>Run 14  (Philip_3):</p><ul><li><p>Philip Driving</p></li><li><p>Long run</p></li><li><p>Pylon Slayer</p></li></ul>
+                    </div>
+
+                                        <div class="pageSection group">
+                        <div class="pageSectionHeader">
+                            <h2 id="attachments" class="pageSectionTitle">Attachments:</h2>
+                        </div>
+
+                        <div class="greybox" align="left">
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/43168006866/43168039572.zip">can-logs-8-13-2022.zip</a> (application/zip)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/43168006866/43168007127.zip">sorted-canLogs-8-13-2022.zip</a> (application/zip)
+                                <br/>
+                                                    </div>
+                    </div>
+                    
+                                                      
+                </div>             </div> 
+            <div id="footer" role="contentinfo">
+                <section class="footer-body">
+                    <p>Document generated by Confluence on Oct 15, 2022 02:52</p>
+                    <div id="footer-logo"><a href="http://www.atlassian.com/">Atlassian</a></div>
+                </section>
+            </div>
+        </div>     </body>
+</html>

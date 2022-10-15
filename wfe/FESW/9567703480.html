@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Firmware : PDU (Power Distribution Unit)</title>
+        <link rel="stylesheet" href="styles/site.css" type="text/css" />
+        <META http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    </head>
+
+    <body class="theme-default aui-theme-default">
+        <div id="page">
+            <div id="main" class="aui-page-panel">
+                <div id="main-header">
+                    <div id="breadcrumb-section">
+                        <ol id="breadcrumbs">
+                            <li class="first">
+                                <span><a href="index.html">Firmware</a></span>
+                            </li>
+                                                    <li>
+                                <span><a href="Firmware_9465365086.html">Firmware</a></span>
+                            </li>
+                                                    <li>
+                                <span><a href="Documentation_9513894334.html">Documentation</a></span>
+                            </li>
+                                                    <li>
+                                <span><a href="Board-Specific-Documentation_9567701653.html">Board Specific Documentation</a></span>
+                            </li>
+                                                </ol>
+                    </div>
+                    <h1 id="title-heading" class="pagetitle">
+                                                <span id="title-text">
+                            Firmware : PDU (Power Distribution Unit)
+                        </span>
+                    </h1>
+                </div>
+
+                <div id="content" class="view">
+                    <div class="page-metadata">
+                        
+        
+    
+        
+    
+        
+        
+            Created by <span class='author'> Former user</span>, last modified by <span class='editor'> Owen Brake</span> on May 10, 2021
+                        </div>
+                    <div id="main-content" class="wiki-content group">
+                    <div class="contentLayout2">
+<div class="columnLayout single" data-layout="single">
+<div class="cell normal" data-type="normal">
+<div class="innerCell">
+<p>The Power Distribution unit (PDU) is responsible for all things related to low voltage power on the car. Therefore, the PDU performs a few main functions:</p><ol><li>Selecting the low voltage power source, either the low voltage battery or the DC-DC converter</li><li>Controlling and monitoring the distribution of low voltage power to other systems and boards on the car<ol><li>It controls the cooling system for the motors and motor controllers</li><li>It powers on and off the motor controllers at the request of the VCU</li><li>Controlling the brake light</li></ol></li></ol></div>
+</div>
+</div>
+<div class="columnLayout single" data-layout="single">
+<div class="cell normal" data-type="normal">
+<div class="innerCell">
+<h1 id="PDU(PowerDistributionUnit)-StateMachine">State Machine</h1><p>Like the other boards on the car, the PDU uses state machines to control its high level logic. Unlike most of the other boards, it uses 3 state machines, each controlling different aspects of the boards functionality. This is accomplished using the state machine driver documented<span> </span><a class="external-link" href="https://wiki.uwaterloo.ca/display/FESW/Vehicle+State+Machines" rel="nofollow" style="text-decoration: none;">here</a>. The state machine is shown on the following<span> </span><a class="external-link" href="https://www.diagrams.net/" rel="nofollow" style="text-decoration: none;">diagrams.net</a><span> </span>page, stored on the team google drive:</p><p><a class="external-link" href="https://drive.google.com/open?id=120EDv86CxpAurKr2r-iEOz9sXrY0riB1" rel="nofollow">https://drive.google.com/open?id=120EDv86CxpAurKr2r-iEOz9sXrY0riB1</a></p></div>
+</div>
+</div>
+<div class="columnLayout single" data-layout="single">
+<div class="cell normal" data-type="normal">
+<div class="innerCell">
+<h1 id="PDU(PowerDistributionUnit)-LowVoltagePowerSource">Low Voltage Power Source</h1><p>The PDU can receive the low voltage power from one of two sources: the LV battery or the DC-DC converter. The LV battery is a small LIPO battery that is able to power some of the systems on the car fo a short while, but can't handle long term usage. The DC-DC converted is a DC-DC voltage converter which steps down the high voltage from the HV battery pack to the low voltage needed by the PDU. It can only be used once the HV battery is precharged (confirm this). However, since the HV battery is high capacity, it can run the car low votlage systems for much longer than the LV battery. </p><p><span style="letter-spacing: 0.0px;">When the car is first powered on, it uses the LV battery. Then, once the boards are turned on and the DC-DC converter begins to output a voltage, the LV power source automatically switches over to the DC-DC converter. The management of the LV power source is done automatically through the <a class="external-link" href="https://www.analog.com/en/products/ltc4110.html#product-overview" rel="nofollow">LTC 4110 Battery Backup System Manager</a><span style="color: rgb(0,51,102);"> chip. The PDU is able to read which power source the LTC4110 chip is using through a GPIO pin (or optionally more info over I2C). It can then use this info to for example block turning on cooling except when using DC-DC power (since the LV battery cannot power the cooling system for long).</span></span></p></div>
+</div>
+</div>
+<div class="columnLayout single" data-layout="single">
+<div class="cell normal" data-type="normal">
+<div class="innerCell">
+<h1 id="PDU(PowerDistributionUnit)-ControlandMonitorofLowVoltagePower">Control and Monitor of Low Voltage Power</h1><p>The PDU can individually turn on and off a number of output &quot;channels&quot;, which each provide power to a separate system (board, motor controller, cooling pump/fan, etc). It can also monitor the current drawn by each channel. As well, it can monitor the overall current and voltage of the input LV power source. This info is all obtained using the ADCs on the PDU.</p><p>As well as turning on and off channels like cooling and motors (shown in the state machine diagram), the PDU also monitors the LV power source voltage to apply a LV cutoff, turning off boards and cooling if the LV power source voltage drops too low. This protects the LV battery. In future, the channel currents could also be logged and even potentially have a software fuse that turns off a channel if it draws too much current.</p></div>
+</div>
+</div>
+</div>
+                    </div>
+
+                    
+                                                      
+                </div>             </div> 
+            <div id="footer" role="contentinfo">
+                <section class="footer-body">
+                    <p>Document generated by Confluence on Oct 15, 2022 01:35</p>
+                    <div id="footer-logo"><a href="http://www.atlassian.com/">Atlassian</a></div>
+                </section>
+            </div>
+        </div>     </body>
+</html>

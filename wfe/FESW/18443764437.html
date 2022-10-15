@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Firmware : State of Charge Algorithm (SoC)</title>
+        <link rel="stylesheet" href="styles/site.css" type="text/css" />
+        <META http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    </head>
+
+    <body class="theme-default aui-theme-default">
+        <div id="page">
+            <div id="main" class="aui-page-panel">
+                <div id="main-header">
+                    <div id="breadcrumb-section">
+                        <ol id="breadcrumbs">
+                            <li class="first">
+                                <span><a href="index.html">Firmware</a></span>
+                            </li>
+                                                    <li>
+                                <span><a href="Firmware_9465365086.html">Firmware</a></span>
+                            </li>
+                                                    <li>
+                                <span><a href="Firmware-Projects_9571009451.html">Firmware Projects</a></span>
+                            </li>
+                                                    <li>
+                                <span><a href="Endurance-Mode_19415171148.html">Endurance Mode</a></span>
+                            </li>
+                                                </ol>
+                    </div>
+                    <h1 id="title-heading" class="pagetitle">
+                                                <span id="title-text">
+                            Firmware : State of Charge Algorithm (SoC)
+                        </span>
+                    </h1>
+                </div>
+
+                <div id="content" class="view">
+                    <div class="page-metadata">
+                        
+        
+    
+        
+    
+        
+        
+            Created by <span class='author'> Owen Brake</span>, last modified on Oct 09, 2021
+                        </div>
+                    <div id="main-content" class="wiki-content group">
+                    <h2 id="StateofChargeAlgorithm(SoC)-Overview">Overview  </h2><div class="table-wrap"><table data-layout="default" data-local-id="762bda5d-d032-477d-89d6-c277712ae3cb" class="confluenceTable"><colgroup><col style="width: 150.0px;"/><col style="width: 610.0px;"/></colgroup><tbody><tr><td data-highlight-colour="#e3fcef" class="confluenceTd"><p><strong>Event</strong></p></td><td class="confluenceTd"><p>Endurance, General Performance, Charging</p></td></tr><tr><td data-highlight-colour="#e3fcef" class="confluenceTd"><p><strong>Applicable Components</strong></p></td><td class="confluenceTd"><ul><li><p>Accumulator/Battery</p></li></ul></td></tr><tr><td data-highlight-colour="#e3fcef" class="confluenceTd"><p><strong>Jira Ticket</strong></p></td><td class="confluenceTd"><p><a class="external-link" href="https://jira.uwaterloo.ca/browse/WFE-460" rel="nofollow">https://jira.uwaterloo.ca/browse/WFE-460</a></p></td></tr><tr><td data-highlight-colour="#e3fcef" class="confluenceTd"><p><strong>Progress</strong></p></td><td class="confluenceTd"><p>Development in Progress</p></td></tr><tr><td data-highlight-colour="#e3fcef" class="confluenceTd"><p><strong>Owner</strong></p></td><td class="confluenceTd"><p>Owen Brake</p></td></tr><tr><td data-highlight-colour="#e3fcef" class="confluenceTd"><p><strong>Creation Date</strong></p></td><td class="confluenceTd"><p>Winter/Spring 2021</p></td></tr><tr><td data-highlight-colour="#e3fcef" class="confluenceTd"><p><strong>Summary</strong></p></td><td class="confluenceTd"><p>Method to determine the state of charge or percentage of charge of the battery on the car.</p></td></tr></tbody></table></div><h2 id="StateofChargeAlgorithm(SoC)-Requirements">Requirements</h2><div class="table-wrap"><table data-layout="default" data-local-id="2ee4a113-a310-4483-bd7c-909e340868c2" class="confluenceTable"><colgroup><col style="width: 112.0px;"/><col style="width: 568.0px;"/></colgroup><tbody><tr><td data-highlight-colour="#e6fcff" class="confluenceTd"><p><strong>Algorithm</strong></p></td><td class="confluenceTd"><ul><li><p>Should be able to provide an approximate estimate of battery state in a percentage from 0 to 100</p></li><li><p>Should be able to be performed throughout the driving process as well as during charging</p></li><li><p>Should have low latency and be able to process battery measurements in order of &lt;1s</p></li></ul></td></tr></tbody></table></div><hr/><h2 id="StateofChargeAlgorithm(SoC)-Design">Design</h2><h3 id="StateofChargeAlgorithm(SoC)-Design1-Simple-Energy/CoulombCounting">Design 1 - Simple - Energy/Coulomb Counting</h3><h4 id="StateofChargeAlgorithm(SoC)-Summary">Summary</h4><p>Integrate the discharge power while the car is driving to get the amount of energy discharged. Subtract the amount of energy discharged from a calibrated set point. This will give you the remaining energy left.</p><h4 id="StateofChargeAlgorithm(SoC)-Process">Process</h4><ol><li><p>Charge the Accumulator close to 100% SoC</p></li><li><p>Use a voltage to energy map to convert battery voltage to energy in battery</p></li><li><p>Set this initial energy as the baseline amount in the accumulator</p></li><li><p>Proceed to integrate the discharge power of the car while it is driving to get the amount of discharged energy</p></li><li><p>Compute remaining energy left by subtracting the discharged energy from the initial energy</p></li></ol><h4 id="StateofChargeAlgorithm(SoC)-ProsandCons">Pros and Cons</h4><div class="table-wrap"><table data-layout="default" data-local-id="613639c2-0edb-4173-8e8a-b22836ac24dc" class="confluenceTable"><colgroup><col style="width: 340.0px;"/><col style="width: 340.0px;"/></colgroup><tbody><tr><th class="confluenceTh"><p><strong>Pros</strong></p></th><th class="confluenceTh"><p><strong>Cons</strong></p></th></tr><tr><td class="confluenceTd"><p>Usually fairly accurate especially when only 1 discharge is performed per charge</p></td><td class="confluenceTd"><p>Requires calibration/set point</p></td></tr><tr><td class="confluenceTd"><p>Fairly simple to compute and implement</p></td><td class="confluenceTd"><p>Battery must be charged to near 100% for the initial voltage to energy map to be correct</p></td></tr><tr><td class="confluenceTd"><p>Very efficient and low latency for computing SoC while driving</p></td><td class="confluenceTd"><p /></td></tr><tr><td class="confluenceTd"><p>Easily extensible and improvable, by adding temperature measurements and improved calibration</p></td><td class="confluenceTd"><p /></td></tr></tbody></table></div><h4 id="StateofChargeAlgorithm(SoC)-In-DepthExplanation">In-Depth Explanation</h4><h5 id="StateofChargeAlgorithm(SoC)-Thesis">Thesis</h5><p>We define the state of charge for the accumulator to be: </p><span class="confluence-embedded-file-wrapper image-center-wrapper"><img class="confluence-embedded-image image-center" loading="lazy" src="attachments/18443764437/18443895639.png" data-image-src="attachments/18443764437/18443895639.png" data-height="62" data-width="340" data-unresolved-comment-count="0" data-linked-resource-id="18443895639" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="image-20211009-214838.png" data-base-url="https://uwaterloo.atlassian.net/wiki" data-linked-resource-content-type="image/png" data-linked-resource-container-id="18443764437" data-linked-resource-container-version="7" data-media-id="ce6eb10b-58a7-4f92-9d5b-97236c587003" data-media-type="file"></span><p>Thus we just need to determine the battery capacity and then how much energy is remaining. The battery capacity is a constant which will be determined by the tractive team to be some X kWh.</p><p><br/>The energy remaining is computed as the subtraction of the discharged energy from the initial energy at car first start as shown here:</p><span class="confluence-embedded-file-wrapper image-center-wrapper"><img class="confluence-embedded-image image-center" loading="lazy" src="attachments/18443764437/18443731618.png" data-image-src="attachments/18443764437/18443731618.png" data-height="39" data-width="490" data-unresolved-comment-count="0" data-linked-resource-id="18443731618" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="image-20211009-215315.png" data-base-url="https://uwaterloo.atlassian.net/wiki" data-linked-resource-content-type="image/png" data-linked-resource-container-id="18443764437" data-linked-resource-container-version="7" data-media-id="adf0b483-da4f-4f1a-8e87-1fbd4122a371" data-media-type="file"></span><h5 id="StateofChargeAlgorithm(SoC)-VoltagetoEnergy">Voltage to Energy</h5><p>A voltage to energy map is fairly effective when the voltage is high and thus the energy is high. The hysteresis in the voltage to SoC plot disappears when SoC nears 100%, so that can be used as an effective calibration point when SoC &gt; 90%. See 3.1.5 Hysteresis Voltages on here <a href="https://uwaterloo.atlassian.net/wiki/spaces/FEAM/pages/6227690120/State+of+Charge+Estimation" data-linked-resource-id="6227690120" data-linked-resource-version="19" data-linked-resource-type="page">State of Charge Estimation</a>.</p><p>Some work with the tractive/electrical team will be required to create this voltage to energy map. It should be as simple as creating an array and just being able to do:</p><p> <code>initial_energy = voltage_to_energy[voltage_mv]</code></p><h5 id="StateofChargeAlgorithm(SoC)-Coulomb/EnergyCounting">Coulomb/Energy Counting</h5><p>Now that the initial energy has been determined, to compute the energy remaining, all that is left to compute is how much energy has been discharged since that initial energy. The energy discharged can be approximated by this:</p><span class="confluence-embedded-file-wrapper image-center-wrapper"><img class="confluence-embedded-image image-center" loading="lazy" src="attachments/18443764437/18443895645.png" data-image-src="attachments/18443764437/18443895645.png" data-height="60" data-width="419" data-unresolved-comment-count="0" data-linked-resource-id="18443895645" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="image-20211009-215631.png" data-base-url="https://uwaterloo.atlassian.net/wiki" data-linked-resource-content-type="image/png" data-linked-resource-container-id="18443764437" data-linked-resource-container-version="7" data-media-id="39c09d7c-4ccb-4559-9ab3-25a0b4e1966e" data-media-type="file"></span><p /><hr/><h3 id="StateofChargeAlgorithm(SoC)-Design2-Complex-KalmanFiltering">Design 2 - Complex - Kalman Filtering</h3><p>TBD</p>
+                    </div>
+
+                                        <div class="pageSection group">
+                        <div class="pageSectionHeader">
+                            <h2 id="attachments" class="pageSectionTitle">Attachments:</h2>
+                        </div>
+
+                        <div class="greybox" align="left">
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/18443764437/18443764495.png">image-20211009-214729.png</a> (image/png)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/18443764437/18443895633.png">image-20211009-214731.png</a> (image/png)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/18443764437/18443895639.png">image-20211009-214838.png</a> (image/png)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/18443764437/18443731618.png">image-20211009-215315.png</a> (image/png)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/18443764437/18443895645.png">image-20211009-215631.png</a> (image/png)
+                                <br/>
+                                                    </div>
+                    </div>
+                    
+                                                      
+                </div>             </div> 
+            <div id="footer" role="contentinfo">
+                <section class="footer-body">
+                    <p>Document generated by Confluence on Oct 15, 2022 01:33</p>
+                    <div id="footer-logo"><a href="http://www.atlassian.com/">Atlassian</a></div>
+                </section>
+            </div>
+        </div>     </body>
+</html>

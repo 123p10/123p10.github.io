@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Firmware : Brake Pressure Sensor Driver</title>
+        <link rel="stylesheet" href="styles/site.css" type="text/css" />
+        <META http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    </head>
+
+    <body class="theme-default aui-theme-default">
+        <div id="page">
+            <div id="main" class="aui-page-panel">
+                <div id="main-header">
+                    <div id="breadcrumb-section">
+                        <ol id="breadcrumbs">
+                            <li class="first">
+                                <span><a href="index.html">Firmware</a></span>
+                            </li>
+                                                    <li>
+                                <span><a href="Firmware_9465365086.html">Firmware</a></span>
+                            </li>
+                                                    <li>
+                                <span><a href="Firmware-Projects_9571009451.html">Firmware Projects</a></span>
+                            </li>
+                                                    <li>
+                                <span><a href="9465365100.html">Firmware Projects Archive (2017-2020)</a></span>
+                            </li>
+                                                    <li>
+                                <span><a href="Firmware-Projects-Winter-2020_9549807814.html">Firmware Projects Winter 2020</a></span>
+                            </li>
+                                                </ol>
+                    </div>
+                    <h1 id="title-heading" class="pagetitle">
+                                                <span id="title-text">
+                            Firmware : Brake Pressure Sensor Driver
+                        </span>
+                    </h1>
+                </div>
+
+                <div id="content" class="view">
+                    <div class="page-metadata">
+                        
+        
+    
+        
+    
+        
+        
+            Created by <span class='author'> Former user</span>, last modified by <span class='editor'> Former user</span> on Feb 25, 2020
+                        </div>
+                    <div id="main-content" class="wiki-content group">
+                    <p><strong>Brake Pressure Sensor Data Sheet:</strong></p><p><a class="external-link" href="https://wiki.uwaterloo.ca/download/attachments/148930566/ENG_DS_MSP300_A12.pdf?version=1&amp;modificationDate=1578247320283&amp;api=v2" rel="nofollow" style="text-decoration: none;text-align: left;">ENG_DS_MSP300_A12.pdf</a></p><p><strong>Part Number</strong></p><p><span style="color: rgb(23,43,77);">M3031-000005-2K5PG</span></p><p><strong><span style="color: rgb(23,43,77);">Scaling</span></strong></p><ul style="list-style-type: square;"><li><span style="color: rgb(23,43,77);">Output Brake Pressure Sensor Voltage Range (after voltage divider): 1/3 - 3V</span></li></ul><ul style="list-style-type: square;"><li><span style="color: rgb(23,43,77);">ADC Voltage Range: 0 - 3.3V converts to 0 - 4095 unsigned integer number</span></li></ul><ul style="list-style-type: square;"><li><span style="color: rgb(23,43,77);">Unsigned integer range: 413 - 3723 (413.64 - 3722.73)</span></li></ul><ul style="list-style-type: square;"><li><span style="color: rgb(23,43,77);">PSI Range: 1/3 - 3V converts to 0 - 2500PSI</span></li></ul><ul style="list-style-type: square;"><li><span style="color: rgb(23,43,77);"> PSI = (2500/3309)Uint - (345000/1103)</span></li></ul><p><span style="color: rgb(23,43,77);">Error Check: Ensure Uint does not exceed 3723 or drop below 413 </span></p><p><strong><span style="color: rgb(23,43,77);">Testing</span></strong></p><p>Measured PSI from simulated voltage inputs of the pressure sensor (range will almost always be between 0.5V and 0.6V)</p><div class="table-wrap"><table class="wrapped confluenceTable"><colgroup><col/><col/><col/><col/><col/><col/></colgroup><tbody><tr><th class="confluenceTh">Voltage</th><th class="confluenceTh">PSI(1)</th><th class="confluenceTh">PSI(2)</th><th class="confluenceTh">PSI(3)</th><th class="confluenceTh">PSI(4)</th><th class="confluenceTh">PSI(AVG)</th></tr><tr><td class="confluenceTd">0.5</td><td class="confluenceTd">5.29</td><td class="confluenceTd">3.02</td><td class="confluenceTd">3.78</td><td class="confluenceTd">0</td><td class="confluenceTd">3.0225</td></tr><tr><td class="confluenceTd">0.51</td><td class="confluenceTd">10.58</td><td class="confluenceTd">6.04</td><td class="confluenceTd">11.33</td><td class="confluenceTd">9.07</td><td class="confluenceTd">9.255</td></tr><tr><td class="confluenceTd">0.52</td><td class="confluenceTd">16.62</td><td class="confluenceTd">14.35</td><td class="confluenceTd">13.6</td><td class="confluenceTd">16.62</td><td class="confluenceTd">15.2975</td></tr><tr><td class="confluenceTd">0.53</td><td class="confluenceTd">21.15</td><td class="confluenceTd">22.67</td><td class="confluenceTd">24.18</td><td class="confluenceTd">21.91</td><td class="confluenceTd">22.4775</td></tr><tr><td class="confluenceTd">0.54</td><td class="confluenceTd">30.98</td><td class="confluenceTd">29.47</td><td class="confluenceTd">26.44</td><td class="confluenceTd">29.47</td><td class="confluenceTd">29.09</td></tr><tr><td class="confluenceTd">0.55</td><td class="confluenceTd">35.51</td><td class="confluenceTd">33.24</td><td class="confluenceTd">35.51</td><td class="confluenceTd">34</td><td class="confluenceTd">34.565</td></tr><tr><td class="confluenceTd">0.56</td><td class="confluenceTd">42.31</td><td class="confluenceTd">41.55</td><td class="confluenceTd">39.29</td><td class="confluenceTd">37.78</td><td class="confluenceTd">40.2325</td></tr><tr><td class="confluenceTd">0.57</td><td class="confluenceTd">47.6</td><td class="confluenceTd">44.58</td><td class="confluenceTd">45.33</td><td class="confluenceTd">47.6</td><td class="confluenceTd">46.2775</td></tr><tr><td class="confluenceTd">0.58</td><td class="confluenceTd">50.62</td><td class="confluenceTd">52.13</td><td class="confluenceTd">55.15</td><td class="confluenceTd">53.64</td><td class="confluenceTd">52.885</td></tr><tr><td class="confluenceTd">0.59</td><td class="confluenceTd">58.93</td><td class="confluenceTd">61.2</td><td class="confluenceTd">58.17</td><td class="confluenceTd">61.2</td><td class="confluenceTd">59.875</td></tr><tr><td class="confluenceTd">0.6</td><td class="confluenceTd">66.49</td><td class="confluenceTd">63.46</td><td class="confluenceTd">66.49</td><td class="confluenceTd">68</td><td class="confluenceTd">66.11</td></tr></tbody></table></div><p><span style="letter-spacing: 0.0px;"> </span><span class="confluence-embedded-file-wrapper confluence-embedded-manual-size"><img class="confluence-embedded-image" height="250" loading="lazy" src="attachments/9556066388/9560588868.png?height=250" data-image-src="attachments/9556066388/9560588868.png" data-unresolved-comment-count="0" data-linked-resource-id="9560588868" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="image2020-2-25_12-24-22.png" data-base-url="https://uwaterloo.atlassian.net/wiki" data-linked-resource-content-type="image/png" data-linked-resource-container-id="9556066388" data-linked-resource-container-version="3" data-media-id="370ed5e9-1391-45b4-91be-92190006bd8d" data-media-type="file"></span></p><p><span style="color: rgb(23,43,77);"><br/>Expected linear equation: y = 625x - 312.5</span></p><p><span style="color: rgb(23,43,77);">Measured linear equation: y = 626.75x - 310.25</span></p><p><span style="color: rgb(23,43,77);">Very close values, so our</span><span style="color: rgb(23,43,77);"> testing was successful</span></p><p><br/></p>
+                    </div>
+
+                                        <div class="pageSection group">
+                        <div class="pageSectionHeader">
+                            <h2 id="attachments" class="pageSectionTitle">Attachments:</h2>
+                        </div>
+
+                        <div class="greybox" align="left">
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/9556066388/9560588868.png">image2020-2-25_12-24-22.png</a> (image/png)
+                                <br/>
+                                                    </div>
+                    </div>
+                    
+                                                      
+                </div>             </div> 
+            <div id="footer" role="contentinfo">
+                <section class="footer-body">
+                    <p>Document generated by Confluence on Oct 15, 2022 01:33</p>
+                    <div id="footer-logo"><a href="http://www.atlassian.com/">Atlassian</a></div>
+                </section>
+            </div>
+        </div>     </body>
+</html>

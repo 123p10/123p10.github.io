@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Firmware : Quick Setup</title>
+        <link rel="stylesheet" href="styles/site.css" type="text/css" />
+        <META http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    </head>
+
+    <body class="theme-default aui-theme-default">
+        <div id="page">
+            <div id="main" class="aui-page-panel">
+                <div id="main-header">
+                    <div id="breadcrumb-section">
+                        <ol id="breadcrumbs">
+                            <li class="first">
+                                <span><a href="index.html">Firmware</a></span>
+                            </li>
+                                                    <li>
+                                <span><a href="Firmware_9465365086.html">Firmware</a></span>
+                            </li>
+                                                    <li>
+                                <span><a href="Getting-Started_9465365137.html">Getting Started</a></span>
+                            </li>
+                                                    <li>
+                                <span><a href="Intro-to-Firmware_9465365151.html">Intro to Firmware</a></span>
+                            </li>
+                                                    <li>
+                                <span><a href="Tool-Setup_9465365152.html">Tool Setup</a></span>
+                            </li>
+                                                </ol>
+                    </div>
+                    <h1 id="title-heading" class="pagetitle">
+                                                <span id="title-text">
+                            Firmware : Quick Setup
+                        </span>
+                    </h1>
+                </div>
+
+                <div id="content" class="view">
+                    <div class="page-metadata">
+                        
+        
+    
+        
+    
+        
+        
+            Created by <span class='author'> Former user</span>, last modified by <span class='editor'> zzakiull@uwaterloo.ca</span> on Sep 15, 2021
+                        </div>
+                    <div id="main-content" class="wiki-content group">
+                    <h2 id="QuickSetup-FirmwareEnvironmentSetup">Firmware Environment Setup</h2><p>To avoid the hassle of setting up the environment, a VM has been created with everything included for <strong>Windows, Mac or Linux</strong>.</p><p>Follow the steps in the <a class="external-link" href="https://wiki.uwaterloo.ca/display/FESW/Vagrant+Setup" rel="nofollow">Vagrant Setup page</a> to set up the Ubuntu VM.</p><h2 id="QuickSetup-OlderGuides">Older Guides</h2><p><strong>Install Guide (Old)</strong></p><p><strong>Note: This guide is outdated. Please follow the Vagrant setup above if you haven't set up a VM yet.</strong></p><ol><li style="list-style-type: decimal;"><span>Virtual Box, STM32CUBEMX and the VM files are located </span><a class="external-link" href="https://mega.nz/#F!uKQ0hSrS!63Hj9oK8bFsQWDN4PZw1pw" rel="nofollow"><span style="color: rgb(17,85,204);">here</span></a></li><li style="list-style-type: decimal;"><span>You might need to install </span><a class="external-link" href="https://www.rarlab.com/download.htm" rel="nofollow"><span style="color: rgb(17,85,204);">winrar</span></a><span> (or The Unarchiver for Mac) to decompress Linux_Mint.zip from the VM Environment folder</span></li><li style="list-style-type: decimal;"><span>Install Virtual Box</span></li><li style="list-style-type: decimal;"><span>In Virtual Box go to machine → add and select the .vdi file that you unzipped</span></li><li style="list-style-type: decimal;"><span>Launch the virtual machine</span></li><ol><li style="list-style-type: lower-alpha;"><span>Note: the password is: firmware</span></li></ol><li style="list-style-type: decimal;"><span>On boot, open (double click on) home/Desktop/</span><span>run-me-on-startup.sh</span><span> and run via terminal to create/mount a case-insensitive filesystem</span></li><ol><li style="list-style-type: lower-alpha;"><span>Linux is a case-sensitive OS.  All work must be done on a case-insensitive filesystem that is mounted by the step above (files should persist in this mount between reboots)</span></li><li style="list-style-type: lower-alpha;"><span>The purpose of this is because the code generated in STM32CUBEMX uses case insensitive file directories and linux won't be able to find them</span></li></ol><li style="list-style-type: decimal;"><span>When first setting up the VM for yourself please </span><a class="external-link" href="https://wiki.uwaterloo.ca/display/FESW/.ssh+Key+Set+Up+-+BitBucket" rel="nofollow"><span style="color: rgb(17,85,204);">create a new SSH key</span></a><span> and link with your Bitbucket account</span></li><li style="list-style-type: decimal;"><span>You may want to install guest additions, to allow shared clipboard, shared folder, and better graphics support. If so, follow this <a class="external-link" href="https://www.linuxbabe.com/linux-mint/install-virtualbox-guest-additions-in-linux-mint" rel="nofollow">link</a>. If you get an error inserting guest additions drive, do as described in the error message by going to storage settings, and beside the SATA controller options select add disk and add an empty disk</span></li><li style="list-style-type: decimal;"><span style="letter-spacing: 0.0px;">Mount a shared folder through Virtual Box.  If this does not work then follow </span><span style="color: rgb(17,85,204);"><a class="external-link" href="https://serverfault.com/questions/674974/how-to-mount-a-virtualbox-shared-folder" rel="nofollow">this guid</a>e</span><ol><li>Make sure to enable Auto Mount when creating the shared folder.</li></ol></li><li style="list-style-type: decimal;"><span style="letter-spacing: 0.0px;">To make sure everything was installed correctly follow the </span><a class="external-link" href="https://wiki.uwaterloo.ca/display/FESW/Blinking+LEDs" rel="nofollow" style="letter-spacing: 0.0px;">Blinking LEDs</a><span style="letter-spacing: 0.0px;"> tutorial</span></li></ol><p><strong><span style="letter-spacing: 0.0px;">Old Richard Matthews guide:</span></strong></p><p><strong><span style="letter-spacing: 0.0px;"><span class="confluence-embedded-file-wrapper"><a class="confluence-embedded-file" href="attachments/9465365161/9572483369.pdf" data-nice-type="PDF Document" data-file-src="/wiki/download/attachments/9465365161/Firmware_Intro.pdf?version=1&amp;modificationDate=1591816572593&amp;cacheVersion=1&amp;api=v2" data-linked-resource-id="9572483369" data-linked-resource-type="attachment" data-linked-resource-container-id="9465365161" data-linked-resource-default-alias="Firmware_Intro.pdf" data-mime-type="application/pdf" data-has-thumbnail="true" data-linked-resource-version="1" data-media-id="b4c42514-bea0-4a96-a4e9-c074d70f0023" data-media-type="file"><img src="attachments/thumbnails/9465365161/9572483369" height="250"/></a></span></span></strong></p>
+                    </div>
+
+                                        <div class="pageSection group">
+                        <div class="pageSectionHeader">
+                            <h2 id="attachments" class="pageSectionTitle">Attachments:</h2>
+                        </div>
+
+                        <div class="greybox" align="left">
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/9465365161/9572483369.pdf">Firmware_Intro.pdf</a> (application/pdf)
+                                <br/>
+                                                    </div>
+                    </div>
+                    
+                                                      
+                </div>             </div> 
+            <div id="footer" role="contentinfo">
+                <section class="footer-body">
+                    <p>Document generated by Confluence on Oct 15, 2022 01:32</p>
+                    <div id="footer-logo"><a href="http://www.atlassian.com/">Atlassian</a></div>
+                </section>
+            </div>
+        </div>     </body>
+</html>

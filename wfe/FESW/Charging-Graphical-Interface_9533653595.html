@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Firmware : Charging Graphical Interface</title>
+        <link rel="stylesheet" href="styles/site.css" type="text/css" />
+        <META http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    </head>
+
+    <body class="theme-default aui-theme-default">
+        <div id="page">
+            <div id="main" class="aui-page-panel">
+                <div id="main-header">
+                    <div id="breadcrumb-section">
+                        <ol id="breadcrumbs">
+                            <li class="first">
+                                <span><a href="index.html">Firmware</a></span>
+                            </li>
+                                                    <li>
+                                <span><a href="Firmware_9465365086.html">Firmware</a></span>
+                            </li>
+                                                    <li>
+                                <span><a href="Firmware-Projects_9571009451.html">Firmware Projects</a></span>
+                            </li>
+                                                    <li>
+                                <span><a href="9465365100.html">Firmware Projects Archive (2017-2020)</a></span>
+                            </li>
+                                                    <li>
+                                <span><a href="Firmware-Projects-Fall-2019_9513894330.html">Firmware Projects Fall 2019</a></span>
+                            </li>
+                                                </ol>
+                    </div>
+                    <h1 id="title-heading" class="pagetitle">
+                                                <span id="title-text">
+                            Firmware : Charging Graphical Interface
+                        </span>
+                    </h1>
+                </div>
+
+                <div id="content" class="view">
+                    <div class="page-metadata">
+                        
+        
+    
+        
+    
+        
+        
+            Created by <span class='author'> Former user</span>, last modified on Nov 02, 2019
+                        </div>
+                    <div id="main-content" class="wiki-content group">
+                    <div class="contentLayout2">
+<div class="columnLayout two-equal" data-layout="two-equal">
+<div class="cell normal" data-type="normal">
+<div class="innerCell">
+<h2 id="ChargingGraphicalInterface-ProjectProperties"><strong>Project Properties</strong></h2><div class='plugin-tabmeta-details'><div class="table-wrap"><table class="wrapped confluenceTable"><colgroup><col/><col/></colgroup><tbody><tr><th colspan="1" class="confluenceTh">Project ID</th><td colspan="1" class="confluenceTd">FW-09</td></tr><tr><th class="confluenceTh">Status</th><td class="confluenceTd"><div class="content-wrapper"><p><img class="wysiwyg-unknown-macro" src="plugins/servlet/confluence/placeholder/unknown-macro"/></p></div></td></tr><tr><th colspan="1" class="confluenceTh">Upcoming Deadline</th><td colspan="1" class="confluenceTd"><div class="content-wrapper"><p><br/></p></div></td></tr><tr><th colspan="1" class="confluenceTh">Project Deadline</th><td colspan="1" class="confluenceTd"><div class="content-wrapper"><p><time datetime="2019-11-30" class="date-past">30 Nov 2019</time> </p></div></td></tr><tr><th class="confluenceTh">Manager</th><td class="confluenceTd"><div class="content-wrapper"><p><a class="confluence-userlink user-mention" data-username="6155f7d3198b4f00683212e2" data-account-id="6155f7d3198b4f00683212e2" href="https://uwaterloo.atlassian.net/wiki/people/6155f7d3198b4f00683212e2?ref=confluence" target="_blank" data-base-url="https://uwaterloo.atlassian.net/wiki">Former user (Deleted)</a></p></div></td></tr><tr><th class="confluenceTh">Project Lead</th><td class="confluenceTd"><br/></td></tr><tr><th colspan="1" class="confluenceTh">Support</th><td colspan="1" class="confluenceTd"><p><br/></p></td></tr></tbody></table></div></div></div>
+</div>
+<div class="cell normal" data-type="normal">
+<div class="innerCell">
+<h2 id="ChargingGraphicalInterface-ProjectDeliverablesandTimeline"><strong>Project Deliverables and Timeline</strong></h2><p><div class="table-wrap"><table class="aui metadata-summary-macro 12" data-cql="label = &quot;fw-09&quot; and space = currentSpace ( )" data-headings="Deadline,Responsible,Status,Priority,Type" data-first-column-heading="Title" data-count-comments="false" data-count-likes="false"data-total-pages="0" data-page-size="1000" data-sort-by="Deadline" data-reverse-sort="false" data-blueprint-present="false" data-current-space-key="FESW" data-current-content-id="9533653595"><thead><tr><th>Title</th></tr></thead><tbody><tr><td colspan="1">No content found.</td></tr></tbody></table></div></p><p><button class='aui-button create-from-template-button'data-space-key='FESW' href='https://uwaterloo.atlassian.net/wiki?templateId=67174406&amp;spaceKey=FESW&amp;newSpaceKey=FESW'data-template-id='67174406'disabled='true' >New Deliverable</button></p></div>
+</div>
+</div>
+<div class="columnLayout single" data-layout="single">
+<div class="cell normal" data-type="normal">
+<div class="innerCell">
+<p><br/></p><hr/></div>
+</div>
+</div>
+<div class="columnLayout single" data-layout="single">
+<div class="cell normal" data-type="normal">
+<div class="innerCell">
+<h2 id="ChargingGraphicalInterface-ProjectDescription"><strong>Project Description</strong></h2><p>Create a graphical user interface (GUI) to facilitate the charging process. This will communicate with the Battery Management Unit (BMU) to receive data on the state of the HV battery, and control the charging process.</p><h3 id="ChargingGraphicalInterface-Motivation">Motivation</h3><h3 id="ChargingGraphicalInterface-ReplacetheChargeCartUnit(CCU),whichcontrolsthechargingofthecarfromfourbuttonsontheboard,withagraphicalinterfacewithrunsonateammember&#39;slaptopandsendscommandsoverthecarandcharger&#39;sCANBus.Thiswouldeliminateoneboardwithmicrocontroll"><span style="font-size: 14.0px;font-weight: 400;letter-spacing: 0.0px;">Replace the Charge Cart Unit (CCU), which controls the charging of the car from four buttons on the board, with a graphical interface with runs on a team member's laptop and sends commands over the car and charger's CAN Bus. This would eliminate one board with microcontrollers from the boards needed each year, reducing the cost and effort of building the car charging system. </span></h3><h3 id="ChargingGraphicalInterface-Components">Components</h3><ul><li>GUI display showing information about the battery and charging process status</li><li>Communication with BMU over CAN<ul><li>Send control messages</li><li>Receive data messages</li></ul></li></ul><ul><li>The GUI must interface with the charge cart relays- small relays to drive the larger charging contactors</li><li>The GUI must stop charging in a safe manner if the Charge Cart Emergency Stop button is pushed.</li><li>The GUI must interface with the purchased charger to begin and end charging. </li></ul><p><br/></p></div>
+</div>
+</div>
+<div class="columnLayout two-equal" data-layout="two-equal">
+<div class="cell normal" data-type="normal">
+<div class="innerCell">
+<h3 id="ChargingGraphicalInterface-To-Do">To-Do</h3><ul class="inline-task-list" data-inline-tasks-content-id="9533653595"><li class="checked" data-inline-task-id="1">Leave completed tasks</li><li data-inline-task-id="2"><span> </span></li></ul></div>
+</div>
+<div class="cell normal" data-type="normal">
+<div class="innerCell">
+<h3 id="ChargingGraphicalInterface-Challenges">Challenges</h3><ul class="inline-task-list" data-inline-tasks-content-id="9533653595"><li data-inline-task-id="3"><span> </span></li></ul></div>
+</div>
+</div>
+<div class="columnLayout single" data-layout="single">
+<div class="cell normal" data-type="normal">
+<div class="innerCell">
+<h3 id="ChargingGraphicalInterface-RelevantRules"><strong>Relevant Rules</strong></h3><div class="table-wrap"><table class="wrapped confluenceTable"><colgroup><col/><col/></colgroup><tbody><tr><th class="confluenceTh">Rule Number</th><th class="confluenceTh">Rule Description</th></tr><tr><td class="confluenceTd"><br/></td><td class="confluenceTd"><br/></td></tr></tbody></table></div></div>
+</div>
+</div>
+</div>
+                    </div>
+
+                    
+                                                      
+                </div>             </div> 
+            <div id="footer" role="contentinfo">
+                <section class="footer-body">
+                    <p>Document generated by Confluence on Oct 15, 2022 01:33</p>
+                    <div id="footer-logo"><a href="http://www.atlassian.com/">Atlassian</a></div>
+                </section>
+            </div>
+        </div>     </body>
+</html>

@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Firmware : GPS Documentation</title>
+        <link rel="stylesheet" href="styles/site.css" type="text/css" />
+        <META http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    </head>
+
+    <body class="theme-default aui-theme-default">
+        <div id="page">
+            <div id="main" class="aui-page-panel">
+                <div id="main-header">
+                    <div id="breadcrumb-section">
+                        <ol id="breadcrumbs">
+                            <li class="first">
+                                <span><a href="index.html">Firmware</a></span>
+                            </li>
+                                                    <li>
+                                <span><a href="Firmware_9465365086.html">Firmware</a></span>
+                            </li>
+                                                    <li>
+                                <span><a href="Documentation_9513894334.html">Documentation</a></span>
+                            </li>
+                                                    <li>
+                                <span><a href="Board-Specific-Documentation_9567701653.html">Board Specific Documentation</a></span>
+                            </li>
+                                                    <li>
+                                <span><a href="Beaglebone_9595029852.html">Beaglebone</a></span>
+                            </li>
+                                                </ol>
+                    </div>
+                    <h1 id="title-heading" class="pagetitle">
+                                                <span id="title-text">
+                            Firmware : GPS Documentation
+                        </span>
+                    </h1>
+                </div>
+
+                <div id="content" class="view">
+                    <div class="page-metadata">
+                        
+        
+    
+        
+    
+        
+        
+            Created by <span class='author'> Justin Vuong</span>, last modified by <span class='editor'> Alexander Cholmsky</span> on Aug 15, 2022
+                        </div>
+                    <div id="main-content" class="wiki-content group">
+                    <p style="text-align: center;"><strong><u>Getting a fix</u></strong></p><span class="confluence-embedded-file-wrapper image-center-wrapper confluence-embedded-manual-size"><img class="confluence-embedded-image image-center" width="204" loading="lazy" src="attachments/29416882181/42617471252.png?width=204" data-image-src="attachments/29416882181/42617471252.png" data-height="4032" data-width="3024" data-unresolved-comment-count="0" data-linked-resource-id="42617471252" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="image-20211208-234743.png" data-base-url="https://uwaterloo.atlassian.net/wiki" data-linked-resource-content-type="image/png" data-linked-resource-container-id="29416882181" data-linked-resource-container-version="5" data-media-id="b79d40d5-25b6-4e6c-b35e-f763b80791a7" data-media-type="file"></span><p>The frequency with which the red FIX light blinks indicates if a fix has been found: </p><ol><li><p>If the LED is blinking once a second, then it is searching for a fix.</p></li><li><p>If the sensor has a fix, the LED will blink once every 15 seconds.</p></li></ol><p>In order to get a 3D fix, (with time, latitude, longitude and altitude) a connection must be established with at least four satellites. This is what the Adafruit Ultimate GPS Breakout v3 will look for. </p><ul><li><p>Note that if precise time is not required, only three satellites are needed. </p></li></ul><p>Tips to get an initial fix: </p><ul><li><p>Bring the sensor outside into a large, open area</p></li><li><p>Wait for the frequency of the FIX light to change from blinking once a second to once every 15 seconds. </p></li></ul><p /><p style="text-align: center;"><strong><u>Interpreting the output</u></strong></p><p>Sample output: </p><span class="confluence-embedded-file-wrapper image-center-wrapper"><img class="confluence-embedded-image image-center" loading="lazy" src="attachments/29416882181/43168073887.png" data-image-src="attachments/29416882181/43168073887.png" data-height="182" data-width="206" data-unresolved-comment-count="0" data-linked-resource-id="43168073887" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="Screen Shot 2022-08-14 at 9.01.19 PM.png" data-base-url="https://uwaterloo.atlassian.net/wiki" data-linked-resource-content-type="image/png" data-linked-resource-container-id="29416882181" data-linked-resource-container-version="5" data-media-id="b92a0ca8-237a-4cb4-ac99-682d40d23fc5" data-media-type="file"></span><p>In order to convert the output to (X,Y,Z) coordinates, you can use the following equations. </p><p><u>Ellipsoidal model</u></p><p>Radius: r = 6378137 + alt </p><p>x = r*cos(lat)*cos(lon) </p><p>y = r*cos(lat)*sin(lon) </p><p>z = r*sin(lat)(1 – 1/298.257223563)</p><p /><p style="text-align: center;"><strong><u>Code overview</u></strong></p><ol><li><p>On Init, we use ser.write(“string”) to send the GPS sensor the update rate we want and the type of messages we want </p><ol><li><p>Currently set to 1 Hz and latitude and longitude</p></li></ol></li><li><p>We then call the read() function, which waits for serial output from the GPS sensor and splits this output into strings with our desired data (latitude and longitude)</p></li><li><p>This data is then written to a CSV file</p></li></ol><p>Notes from testing:</p><p>Running multiple processes using cron is not a good idea. Cron has no knowledge of resource availability, thus if a process requires a network that may not be available yet the process will simply fail without errors. The same process may run successfully when being run through the command line, but not @reboot. Should use systemd for multiple processes as it provides more flexibility in this respect. <br/></p>
+                    </div>
+
+                                        <div class="pageSection group">
+                        <div class="pageSectionHeader">
+                            <h2 id="attachments" class="pageSectionTitle">Attachments:</h2>
+                        </div>
+
+                        <div class="greybox" align="left">
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/29416882181/42617471252.png">image-20211208-234743.png</a> (image/png)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/29416882181/43168073881.png">Screen Shot 2022-08-14 at 9.00.48 PM.png</a> (image/png)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/29416882181/43168073887.png">Screen Shot 2022-08-14 at 9.01.19 PM.png</a> (image/png)
+                                <br/>
+                                                    </div>
+                    </div>
+                    
+                                                      
+                </div>             </div> 
+            <div id="footer" role="contentinfo">
+                <section class="footer-body">
+                    <p>Document generated by Confluence on Oct 15, 2022 01:35</p>
+                    <div id="footer-logo"><a href="http://www.atlassian.com/">Atlassian</a></div>
+                </section>
+            </div>
+        </div>     </body>
+</html>

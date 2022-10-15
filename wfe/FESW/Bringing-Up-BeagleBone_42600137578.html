@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Firmware : Bringing Up BeagleBone</title>
+        <link rel="stylesheet" href="styles/site.css" type="text/css" />
+        <META http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    </head>
+
+    <body class="theme-default aui-theme-default">
+        <div id="page">
+            <div id="main" class="aui-page-panel">
+                <div id="main-header">
+                    <div id="breadcrumb-section">
+                        <ol id="breadcrumbs">
+                            <li class="first">
+                                <span><a href="index.html">Firmware</a></span>
+                            </li>
+                                                    <li>
+                                <span><a href="Firmware_9465365086.html">Firmware</a></span>
+                            </li>
+                                                    <li>
+                                <span><a href="Documentation_9513894334.html">Documentation</a></span>
+                            </li>
+                                                    <li>
+                                <span><a href="WFE-OS-Documentation_9581985953.html">WFE OS Documentation</a></span>
+                            </li>
+                                                    <li>
+                                <span><a href="Buildroot_9581985955.html">Buildroot</a></span>
+                            </li>
+                                                </ol>
+                    </div>
+                    <h1 id="title-heading" class="pagetitle">
+                                                <span id="title-text">
+                            Firmware : Bringing Up BeagleBone
+                        </span>
+                    </h1>
+                </div>
+
+                <div id="content" class="view">
+                    <div class="page-metadata">
+                        
+        
+    
+        
+    
+        
+        
+            Created by <span class='author'> Justin Vuong</span>, last modified by <span class='editor'> User 48885</span> on Jan 26, 2022
+                        </div>
+                    <div id="main-content" class="wiki-content group">
+                    <p>This article will have all the steps required to flash and update the Buildroot system for the BeagleBone.</p><h2 id="BringingUpBeagleBone-Howtobuildanimage">How to build an image</h2><p></p><ol><li><p>Clone the BeagleBone Bitbucket Repository git clone <code>git@bitbucket.org:waterloohybrid/2020_beaglebone_os.git</code></p></li><li><p>Clone buildroot <code>git clone https://github.com/buildroot/buildroot.git buildroot</code></p></li><li><p>In the files, you should see the following files, “2020_beaglebone_os” and “buildroot”.</p><span class="confluence-embedded-file-wrapper image-center-wrapper confluence-embedded-manual-size"><img class="confluence-embedded-image image-center" width="432" loading="lazy" src="attachments/42600137578/42659447165.png?width=432" data-image-src="attachments/42600137578/42659447165.png" data-height="614" data-width="886" data-unresolved-comment-count="0" data-linked-resource-id="42659447165" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="image-20220116-043628.png" data-base-url="https://uwaterloo.atlassian.net/wiki" data-linked-resource-content-type="image/png" data-linked-resource-container-id="42600137578" data-linked-resource-container-version="13" data-media-id="5d13fee8-184d-4a5c-9982-a8d110061fe7" data-media-type="file"></span><p>In the buildroot file, go to configs and there should be a list of defconfig files.</p><span class="confluence-embedded-file-wrapper image-center-wrapper confluence-embedded-manual-size"><img class="confluence-embedded-image image-center" width="408" loading="lazy" src="attachments/42600137578/42659152249.png?width=408" data-image-src="attachments/42600137578/42659152249.png" data-height="613" data-width="883" data-unresolved-comment-count="0" data-linked-resource-id="42659152249" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="image-20220116-043850.png" data-base-url="https://uwaterloo.atlassian.net/wiki" data-linked-resource-content-type="image/png" data-linked-resource-container-id="42600137578" data-linked-resource-container-version="13" data-media-id="b55bfa8d-9f20-4489-b4b9-375a1409d973" data-media-type="file"></span></li><li><p>Locate the beaglebone_wfe_defconfig file by going through the 2020_beaglebone_os → configs.</p><span class="confluence-embedded-file-wrapper image-center-wrapper confluence-embedded-manual-size"><img class="confluence-embedded-image image-center" width="408" loading="lazy" src="attachments/42600137578/42659447179.png?width=408" data-image-src="attachments/42600137578/42659447179.png" data-height="612" data-width="884" data-unresolved-comment-count="0" data-linked-resource-id="42659447179" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="image-20220116-044236.png" data-base-url="https://uwaterloo.atlassian.net/wiki" data-linked-resource-content-type="image/png" data-linked-resource-container-id="42600137578" data-linked-resource-container-version="13" data-media-id="226fc0ec-acda-4c64-b594-47ed61569ba4" data-media-type="file"></span></li><li><p>Move the beaglebone_wfe_defconfig file to buildroot → configs</p></li><li><p>Open the terminal and enter the buildroot repository by running <code>cd buildroot</code></p></li><li><p>Run: <code>ls config</code>. This will show a list of defconfig files from the buildroot configs file. You will see that the beaglebone_wfe_defconfig file is on the list.</p></li><li><p> Now run: <code>make beaglebone_wfe_defconfig</code> </p></li><li><p>Run <code>make</code>. This command will start the build process and it may take a while for it to build.</p></li><li><p>Once the build process has finished, run <code>ls -la output/images</code> to display the image files that have been built. </p></li><li><p>Run <code>lsblk</code> to show a list of storage devices connected to your computer. </p></li><li><p>To transfer the image to a different device. For instance, transferring to the beaglebone, run: <code>sudo dd if=output/images/&lt;insert image&gt; of=/dev/&lt;storage name&gt; bs=1M.</code><br/>Note: bs (block size) is set to 1M, this is to show we’re copying the image to another device to be 1MB. The lower the image size, the faster it will take to transfer.</p></li></ol><h2 id="BringingUpBeagleBone-Howtomodifyanimage">How to modify an image</h2><p>Create a step-by-step guide:</p><ol><li><p>In the terminal, run <code>crontab -e</code> this opens the crontab file. </p><span class="confluence-embedded-file-wrapper image-center-wrapper confluence-embedded-manual-size"><img class="confluence-embedded-image image-center" width="375" loading="lazy" src="attachments/42600137578/42904617077.png?width=375" data-image-src="attachments/42600137578/42904617077.png" data-height="456" data-width="730" data-unresolved-comment-count="0" data-linked-resource-id="42904617077" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="image-20220126-162209.png" data-base-url="https://uwaterloo.atlassian.net/wiki" data-linked-resource-content-type="image/png" data-linked-resource-container-id="42600137578" data-linked-resource-container-version="13" data-media-id="0916ecc7-4128-4738-b686-8ae84f4fab50" data-media-type="file"></span></li><li><p> Crontab allows you to schedule commands at a specific time. Below are the commands of scheduling crontab at any specific point in time.</p><div class="code panel pdl" style="border-width: 1px;"><div class="codeContent panelContent pdl">
+<pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: java; gutter: false; theme: Confluence" data-theme="Confluence">* * * * * command(s)
+- - - - -
+| | | | |
+| | | | ----- Day of week (0 - 7) (Sunday=0 or 7)
+| | | ------- Month (1 - 12)
+| | --------- Day of month (1 - 31)
+| ----------- Hour (0 - 23)
+------------- Minute (0 - 59)</pre>
+</div></div></li><li><p>Run crontab with BeagleBone defconfig file <code>* * * * * /home/vagrant/buildroot</code></p></li></ol><div class="confluence-information-macro confluence-information-macro-information"><span class="aui-icon aui-icon-small aui-iconfont-info confluence-information-macro-icon"></span><div class="confluence-information-macro-body"><p>Highlight important information in a panel like this one. To edit this panel's color or style, select one of the options in the menu.</p></div></div><p />
+                    </div>
+
+                                        <div class="pageSection group">
+                        <div class="pageSectionHeader">
+                            <h2 id="attachments" class="pageSectionTitle">Attachments:</h2>
+                        </div>
+
+                        <div class="greybox" align="left">
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/42600137578/42638606638.png">Capture.PNG</a> (image/png)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/42600137578/42659348877.png">image-20220116-043203.png</a> (image/png)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/42600137578/42659840078.png">image-20220116-043316.png</a> (image/png)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/42600137578/42659348883.png">image-20220116-043322.png</a> (image/png)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/42600137578/42659447153.png">image-20220116-043329.png</a> (image/png)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/42600137578/42659447159.png">image-20220116-043415.png</a> (image/png)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/42600137578/42659152241.png">image-20220116-043423.png</a> (image/png)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/42600137578/42659447165.png">image-20220116-043628.png</a> (image/png)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/42600137578/42659152249.png">image-20220116-043850.png</a> (image/png)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/42600137578/42659840100.png">image-20220116-044225.png</a> (image/png)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/42600137578/42659447179.png">image-20220116-044236.png</a> (image/png)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/42600137578/42659447193.png">image-20220116-044845.png</a> (image/png)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/42600137578/42904617077.png">image-20220126-162209.png</a> (image/png)
+                                <br/>
+                                                    </div>
+                    </div>
+                    
+                                                      
+                </div>             </div> 
+            <div id="footer" role="contentinfo">
+                <section class="footer-body">
+                    <p>Document generated by Confluence on Oct 15, 2022 02:51</p>
+                    <div id="footer-logo"><a href="http://www.atlassian.com/">Atlassian</a></div>
+                </section>
+            </div>
+        </div>     </body>
+</html>

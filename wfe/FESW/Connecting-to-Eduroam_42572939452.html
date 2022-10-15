@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Firmware : Connecting to Eduroam</title>
+        <link rel="stylesheet" href="styles/site.css" type="text/css" />
+        <META http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    </head>
+
+    <body class="theme-default aui-theme-default">
+        <div id="page">
+            <div id="main" class="aui-page-panel">
+                <div id="main-header">
+                    <div id="breadcrumb-section">
+                        <ol id="breadcrumbs">
+                            <li class="first">
+                                <span><a href="index.html">Firmware</a></span>
+                            </li>
+                                                    <li>
+                                <span><a href="Firmware_9465365086.html">Firmware</a></span>
+                            </li>
+                                                    <li>
+                                <span><a href="Documentation_9513894334.html">Documentation</a></span>
+                            </li>
+                                                    <li>
+                                <span><a href="Board-Specific-Documentation_9567701653.html">Board Specific Documentation</a></span>
+                            </li>
+                                                    <li>
+                                <span><a href="Beaglebone_9595029852.html">Beaglebone</a></span>
+                            </li>
+                                                </ol>
+                    </div>
+                    <h1 id="title-heading" class="pagetitle">
+                                                <span id="title-text">
+                            Firmware : Connecting to Eduroam
+                        </span>
+                    </h1>
+                </div>
+
+                <div id="content" class="view">
+                    <div class="page-metadata">
+                        
+        
+    
+        
+    
+        
+        
+            Created by <span class='author'> Justin Vuong</span>, last modified on Nov 11, 2021
+                        </div>
+                    <div id="main-content" class="wiki-content group">
+                    <p>Eduroam works on the IEEE 8021x standard.</p><p>To get the configuration to work you will need to create a connman configuration file:</p><h2 id="ConnectingtoEduroam-Stepstoconnect">Steps to connect</h2><p>Open/create the file:</p><div class="code panel pdl" style="border-width: 1px;"><div class="codeContent panelContent pdl">
+<pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: java; gutter: false; theme: Confluence" data-theme="Confluence">/var/lib/connman/BeagleBone.config</pre>
+</div></div><p /><p>Add the following data and fill out your login credentials in the file:</p><div class="code panel pdl" style="border-width: 1px;"><div class="codeContent panelContent pdl">
+<pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: java; gutter: false; theme: Confluence" data-theme="Confluence">[global]
+Name = eduroam
+Description = University of Waterloo Wifi
+[service_peap]
+Type = wifi
+Name = eduroam
+EAP = peap
+Phase2 = MSCHAPV2
+Identity = &lt;Waterloo Email&gt;
+Passphrase = &lt;Your Password&gt;</pre>
+</div></div><p> When adding Identity and Passphrase make sure to exclude the &lt;&gt;</p><p /><p>An example would look like this:</p><div class="code panel pdl" style="border-width: 1px;"><div class="codeContent panelContent pdl">
+<pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: java; gutter: false; theme: Confluence" data-theme="Confluence">[global]
+Name = eduroam
+Description = University of Waterloo Wifi
+[service_peap]
+Type = wifi
+Name = eduroam
+EAP = peap
+Phase2 = MSCHAPV2
+Identity = j23vuong@uwaterloo.ca
+Passphrase = myPass123</pre>
+</div></div><p /><p>Double-check the id of the network:</p><div class="code panel pdl" style="border-width: 1px;"><div class="codeContent panelContent pdl">
+<pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: java; gutter: false; theme: Confluence" data-theme="Confluence">sudo connmanctl
+enable wifi
+scan wifi
+services</pre>
+</div></div><p>You will see an entry for eduroam that looks similar to the following:</p><div class="code panel pdl" style="border-width: 1px;"><div class="codeContent panelContent pdl">
+<pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: java; gutter: false; theme: Confluence" data-theme="Confluence">connmanctl&gt; services
+*AO eduroam              wifi_fc45c312e5ed_656475726f616d_managed_ieee8021x</pre>
+</div></div><p><br/>Now use the id to connect to the wifi. <strong>NOTE: this step might have to be run multiple times (around 4-5) and sometimes you will need to wait a couple of minutes before getting the connected prompt. The error “Connman Input/Output error” is common so keep trying to connect.</strong></p><div class="code panel pdl" style="border-width: 1px;"><div class="codeContent panelContent pdl">
+<pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: java; gutter: false; theme: Confluence" data-theme="Confluence">sudo connmanctl
+connect wifi_fc45c312e5ed_656475726f616d_managed_ieee8021x</pre>
+</div></div><p> </p><p>When you are connected you should see the following output:</p><div class="code panel pdl" style="border-width: 1px;"><div class="codeContent panelContent pdl">
+<pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: java; gutter: false; theme: Confluence" data-theme="Confluence">connmanctl&gt; connect wifi_fc45c312e5ed_656475726f616d_managed_ieee8021x
+Connected wifi_fc45c312e5ed_656475726f616d_managed_ieee8021x</pre>
+</div></div><p /><p>Source:</p><p><a class="external-link" data-card-appearance="inline" href="https://web.archive.org/web/20141213065729/https://software.intel.com/en-us/blogs/2014/12/04/connecting-intelr-edison-to-an-ieee-8021x-enterprise-hotspot-via-connman" rel="nofollow">https://web.archive.org/web/20141213065729/https://software.intel.com/en-us/blogs/2014/12/04/connecting-intelr-edison-to-an-ieee-8021x-enterprise-hotspot-via-connman</a> </p><p /><p>If you do not want to enter your login into the file you will have to connect to the wifi every time that the Beaglebone restarts. Follow the following steps to do so:</p><p><a class="external-link" data-card-appearance="inline" href="https://www.fis.gatech.edu/how-to-configure-bbw-wifi/" rel="nofollow">https://www.fis.gatech.edu/how-to-configure-bbw-wifi/</a> </p>
+                    </div>
+
+                    
+                                                      
+                </div>             </div> 
+            <div id="footer" role="contentinfo">
+                <section class="footer-body">
+                    <p>Document generated by Confluence on Oct 15, 2022 01:35</p>
+                    <div id="footer-logo"><a href="http://www.atlassian.com/">Atlassian</a></div>
+                </section>
+            </div>
+        </div>     </body>
+</html>

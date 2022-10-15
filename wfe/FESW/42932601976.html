@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Firmware : Virtual Fuse (I^2t)</title>
+        <link rel="stylesheet" href="styles/site.css" type="text/css" />
+        <META http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    </head>
+
+    <body class="theme-default aui-theme-default">
+        <div id="page">
+            <div id="main" class="aui-page-panel">
+                <div id="main-header">
+                    <div id="breadcrumb-section">
+                        <ol id="breadcrumbs">
+                            <li class="first">
+                                <span><a href="index.html">Firmware</a></span>
+                            </li>
+                                                    <li>
+                                <span><a href="Firmware_9465365086.html">Firmware</a></span>
+                            </li>
+                                                    <li>
+                                <span><a href="Firmware-Projects_9571009451.html">Firmware Projects</a></span>
+                            </li>
+                                                </ol>
+                    </div>
+                    <h1 id="title-heading" class="pagetitle">
+                                                <span id="title-text">
+                            Firmware : Virtual Fuse (I^2t)
+                        </span>
+                    </h1>
+                </div>
+
+                <div id="content" class="view">
+                    <div class="page-metadata">
+                        
+        
+    
+        
+    
+        
+        
+            Created by <span class='author'> Owen Brake</span>, last modified on Feb 13, 2022
+                        </div>
+                    <div id="main-content" class="wiki-content group">
+                    <p>Owen Brake W22</p><h1 id="VirtualFuse(I^2t)-TheIdea">The Idea</h1><p>It’s possible for us to draw too much current from the battery. We would prefer to handle this gracefully (rather than an electrical fuse) as there are typical cases where we may have an excessive current draw (e.g accelerating constantly on a very straight plane to a very high speed)</p><p>The measure we use is i^2t, intended to represent the current over current magnitude and the time spent over current. So the system we need to implement will attempt to control the i^2t value.</p><h1 id="VirtualFuse(I^2t)-SolutionOverview">Solution Overview</h1><p>The solution we think will work is as the i^2t value is in a “warning phase” we will attempt to linearly restrict power to the motors. If the i^2t value get’s excessive to a “critical phase“, we will perform a step function drop to limit the motor power to a “safe“ amount. If the i^2t value continues to rise for some reason, the electrical fuse will kick in. The output is shown below.</p><span class="confluence-embedded-file-wrapper image-center-wrapper confluence-embedded-manual-size"><img class="confluence-embedded-image image-center" width="442" loading="lazy" src="attachments/42932601976/42932307567.png?width=442" data-image-src="attachments/42932601976/42932307567.png" data-height="141" data-width="288" data-unresolved-comment-count="0" data-linked-resource-id="42932307567" data-linked-resource-version="2" data-linked-resource-type="attachment" data-linked-resource-default-alias="i2t.png" data-base-url="https://uwaterloo.atlassian.net/wiki" data-linked-resource-content-type="image/png" data-linked-resource-container-id="42932601976" data-linked-resource-container-version="4" data-media-id="2a350cbc-e00f-42e7-b9f0-d275b28f90a3" data-media-type="file"></span><p>The i^2t value will also have a temperature factor expressed as something like k(T_bat - T_amb). Where k is a cooling factor constant. Thus the exact cut-offs and slopes of i^2t will fluctuate with temperature.</p><h1 id="VirtualFuse(I^2t)-SolutionDesign">Solution Design</h1><p>The flow diagram is indicated below.</p><div class="ap-container" id="ap-com.mxgraph.confluence.plugins.diagramly__inc-drawio1847186418873942817">
+
+  <div class="ap-content " id="embedded-com.mxgraph.confluence.plugins.diagramly__inc-drawio1847186418873942817"></div>
+  <script class="ap-iframe-body-script">
+  (function(){
+    var data = {
+    "addon_key":"com.mxgraph.confluence.plugins.diagramly",
+    "uniqueKey":"com.mxgraph.confluence.plugins.diagramly__inc-drawio1847186418873942817",
+    "key":"inc-drawio",
+     "moduleType":"dynamicContentMacros",      "moduleLocation":"content",         "cp":"/wiki",
+            "general":"",
+    "w":"",
+    "h":"",
+    "url":"https://ac.draw.io/connect/confluence/viewer-1-4-42.html?linked=1&ceoId=42932601976&imgPageId=&diagramName=Copy+of+i2t.drawio&revision=3&width=671&height=819&tbstyle=top&simple=0&lbox=1&zoom=1&links=auto&owningPageId=42932601976&displayName=Copy+of+i2t.drawio&contentId=&custContentId=42932602382&contentVer=2&diagramUrl=&csvFileUrl=&aspect=kmkvj2jAk71qg4EwoovE+1&aspectHash=&attVer=&service=&sFileId=&odriveId=&pCenter=1&hiRes=0&isTemplate=&isUp=1&GHOwner=&GHRepository=&GHBranch=&GHPriv=&xdm_e=https%3A%2F%2Fuwaterloo.atlassian.net&xdm_c=channel-com.mxgraph.confluence.plugins.diagramly__inc-drawio1847186418873942817&cp=%2Fwiki&xdm_deprecated_addon_key_do_not_use=com.mxgraph.confluence.plugins.diagramly&lic=active&cv=1000.0.0-dac6569778fc",
+        "structuredContext": "{\"license\":{\"active\":true},\"confluence\":{\"editor\":{\"version\":\"\\\"v2\\\"\"},\"macro\":{\"outputType\":\"html_export\",\"hash\":\"6bfde195-354a-4c92-9aa9-568dc00283ea\",\"id\":\"6bfde195-354a-4c92-9aa9-568dc00283ea\"},\"content\":{\"type\":\"page\",\"version\":\"4\",\"id\":\"42932601976\"},\"space\":{\"key\":\"FESW\",\"id\":\"9437446145\"}}}",
+    "contentClassifier":"content",
+    "productCtx":"{\"page.id\":\"42932601976\",\"macro.hash\":\"6bfde195-354a-4c92-9aa9-568dc00283ea\",\"page.type\":\"page\",\"macro.localId\":\"91385534-6717-451e-9488-8fb86e934e08\",\"simple\":\"0\",\"inComment\":\"0\",\": = | RAW | = :\":\"zoom=1|simple=0|inComment=0|pageId=42932601976|custContentId=42932602382|lbox=1|diagramDisplayName=Copy of i2t.drawio|hiResPreview=0|contentVer=2|revision=3|baseUrl=https://uwaterloo.atlassian.net/wiki|diagramName=Copy of i2t.drawio|pCenter=1|aspect=kmkvj2jAk71qg4EwoovE 1|width=671|links=auto|tbstyle=top|isUpload=1|height=819\",\"space.id\":\"9437446145\",\"diagramDisplayName\":\"Copy of i2t.drawio\",\"hiResPreview\":\"0\",\"diagramName\":\"Copy of i2t.drawio\",\"aspect\":\"kmkvj2jAk71qg4EwoovE 1\",\"links\":\"auto\",\"tbstyle\":\"top\",\"user.isExternalCollaborator\":\"false\",\"height\":\"819\",\"space.key\":\"FESW\",\"user.id\":\"606cc77cef87dd0068585264\",\"content.version\":\"4\",\"page.title\":\"Virtual Fuse (I^2t)\",\"zoom\":\"1\",\"macro.body\":\"\",\"pageId\":\"42932601976\",\"custContentId\":\"42932602382\",\"macro.truncated\":\"false\",\"lbox\":\"1\",\"content.type\":\"page\",\"output.type\":\"html_export\",\"contentVer\":\"2\",\"page.version\":\"4\",\"revision\":\"3\",\"user.key\":\"8a7f808a788babb00178a8ec767d4328\",\"baseUrl\":\"https://uwaterloo.atlassian.net/wiki\",\"pCenter\":\"1\",\"content.id\":\"42932601976\",\"width\":\"671\",\"macro.id\":\"6bfde195-354a-4c92-9aa9-568dc00283ea\",\"isUpload\":\"1\",\"editor.version\":\"\\\"v2\\\"\"}",
+    "timeZone":"UTC",
+    "origin":"https://ac.draw.io",
+    "hostOrigin":"https://uwaterloo.atlassian.net",
+    "sandbox":"allow-downloads allow-forms allow-modals allow-popups allow-scripts allow-same-origin allow-top-navigation-by-user-activation allow-storage-access-by-user-activation",    "pearApp":"true",        "apiMigrations": {
+        "gdpr": true
+    }
+}
+;
+    if(window.AP && window.AP.subCreate) {
+      window._AP.appendConnectAddon(data);
+    } else {
+      require(['ac/create'], function(create){
+        create.appendConnectAddon(data);
+      });
+    }
+
+    // For Confluence App Analytics. This code works in conjunction with CFE's ConnectSupport.js.
+    // Here, we add a listener to the initial HTML page that stores events if the ConnectSupport component
+    // has not mounted yet. In CFE, we process the missed event data and disable this initial listener.
+    const __MAX_EVENT_ARRAY_SIZE__ = 20;
+    const connectAppAnalytics = "ecosystem.confluence.connect.analytics";
+    window.connectHost.onIframeEstablished((eventData) => {
+      if (!window.__CONFLUENCE_CONNECT_SUPPORT_LOADED__) {
+        let events = JSON.parse(window.localStorage.getItem(connectAppAnalytics)) || [];
+        if (events.length >= __MAX_EVENT_ARRAY_SIZE__) {
+          events.shift();
+        }
+        events.push(eventData);
+        window.localStorage.setItem(connectAppAnalytics, JSON.stringify(events));
+      }
+    });
+
+  }());
+</script>
+
+</div>
+<p /><h1 id="VirtualFuse(I^2t)-OpenDesignQuestions">Open Design Questions</h1><ul><li><p>Should we perform this analysis over a set time frame? Should there be a way to reset the power limit?</p></li><li><p>Values we need:</p><ul><li><p>Cut-off for linear region i^2t value</p></li><li><p>slope for linear region i^2t value</p></li><li><p>Cut-off for step-function</p></li><li><p>Appropriate output power for step function</p></li></ul></li><li><p>We probably need to increase the cycle time for IBus. Should examine risks of doing this.</p><ul><li><p>Currently it’s broadcasted every 500ms, which is almost certainly too slow.</p></li><li><p>Should we make IBus cycle faster? Should we just compute i^2t faster on the BMU and broadcast a separate i^2t message?</p></li></ul></li></ul><p /><p />
+                    </div>
+
+                                        <div class="pageSection group">
+                        <div class="pageSectionHeader">
+                            <h2 id="attachments" class="pageSectionTitle">Attachments:</h2>
+                        </div>
+
+                        <div class="greybox" align="left">
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/42932601976/42932602369.png">i2t.png</a> (image/png)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/42932601976/42932307567.png">i2t.png</a> (image/png)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/42932601976/42932668858.drawio">Copy of i2t.drawio</a> (application/vnd.jgraph.mxfile)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/42932601976/42932603741.png">Copy of i2t.drawio.png</a> (image/png)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/42932601976/42932308854.tmp">~Copy of i2t.drawio.tmp</a> (application/vnd.jgraph.mxfile)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/42932601976/42932668730.tmp">~Copy of i2t.drawio.tmp</a> (application/vnd.jgraph.mxfile)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/42932601976/42932636110.tmp">~Copy of i2t.drawio.tmp</a> (application/vnd.jgraph.mxfile)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/42932601976/42932636124.tmp">~Copy of i2t.drawio.tmp</a> (application/vnd.jgraph.mxfile)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/42932601976/42932668748.tmp">~Copy of i2t.drawio.tmp</a> (application/vnd.jgraph.mxfile)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/42932601976/42932603639.tmp">~Copy of i2t.drawio.tmp</a> (application/vnd.jgraph.mxfile)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/42932601976/42932636142.tmp">~Copy of i2t.drawio.tmp</a> (application/vnd.jgraph.mxfile)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/42932601976/42932668762.tmp">~Copy of i2t.drawio.tmp</a> (application/vnd.jgraph.mxfile)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/42932601976/42932308888.tmp">~Copy of i2t.drawio.tmp</a> (application/vnd.jgraph.mxfile)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/42932601976/42932636164.tmp">~Copy of i2t.drawio.tmp</a> (application/vnd.jgraph.mxfile)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/42932601976/42932603677.tmp">~Copy of i2t.drawio.tmp</a> (application/vnd.jgraph.mxfile)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/42932601976/42932636174.tmp">~Copy of i2t.drawio.tmp</a> (application/vnd.jgraph.mxfile)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/42932601976/42932668792.tmp">~Copy of i2t.drawio.tmp</a> (application/vnd.jgraph.mxfile)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/42932601976/42932636192.tmp">~Copy of i2t.drawio.tmp</a> (application/vnd.jgraph.mxfile)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/42932601976/42932636202.tmp">~Copy of i2t.drawio.tmp</a> (application/vnd.jgraph.mxfile)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/42932601976/42932308902.tmp">~Copy of i2t.drawio.tmp</a> (application/vnd.jgraph.mxfile)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/42932601976/42932603711.tmp">~Copy of i2t.drawio.tmp</a> (application/vnd.jgraph.mxfile)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/42932601976/42932636224.tmp">~Copy of i2t.drawio.tmp</a> (application/vnd.jgraph.mxfile)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/42932601976/42932308912.tmp">~Copy of i2t.drawio.tmp</a> (application/vnd.jgraph.mxfile)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/42932601976/42932668830.tmp">~Copy of i2t.drawio.tmp</a> (application/vnd.jgraph.mxfile)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/42932601976/42932668844.tmp">~Copy of i2t.drawio.tmp</a> (application/vnd.jgraph.mxfile)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/42932601976/42932636265.tmp">~Copy of i2t.drawio.tmp</a> (application/vnd.jgraph.mxfile)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/42932601976/42932603755.drawio">Copy of i2t.drawio</a> (application/vnd.jgraph.mxfile)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/42932601976/42932603765.png">Copy of i2t.drawio.png</a> (image/png)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/42932601976/42932308825.tmp">~Copy of i2t.drawio.tmp</a> (application/vnd.jgraph.mxfile)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/42932601976/42932307582.drawio">Copy of i2t.drawio</a> (application/vnd.jgraph.mxfile)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/42932601976/42932045586.png">Copy of i2t.drawio.png</a> (image/png)
+                                <br/>
+                                                    </div>
+                    </div>
+                    
+                                                      
+                </div>             </div> 
+            <div id="footer" role="contentinfo">
+                <section class="footer-body">
+                    <p>Document generated by Confluence on Oct 15, 2022 01:33</p>
+                    <div id="footer-logo"><a href="http://www.atlassian.com/">Atlassian</a></div>
+                </section>
+            </div>
+        </div>     </body>
+</html>

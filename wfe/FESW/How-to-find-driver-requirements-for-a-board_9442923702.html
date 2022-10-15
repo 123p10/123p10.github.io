@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Firmware : How to find driver requirements for a board</title>
+        <link rel="stylesheet" href="styles/site.css" type="text/css" />
+        <META http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    </head>
+
+    <body class="theme-default aui-theme-default">
+        <div id="page">
+            <div id="main" class="aui-page-panel">
+                <div id="main-header">
+                    <div id="breadcrumb-section">
+                        <ol id="breadcrumbs">
+                            <li class="first">
+                                <span><a href="index.html">Firmware</a></span>
+                            </li>
+                                                    <li>
+                                <span><a href="Firmware_9465365086.html">Firmware</a></span>
+                            </li>
+                                                    <li>
+                                <span><a href="Documentation_9513894334.html">Documentation</a></span>
+                            </li>
+                                                    <li>
+                                <span><a href="Firmware-Development-Documentation_9569468780.html">Firmware Development Documentation</a></span>
+                            </li>
+                                                </ol>
+                    </div>
+                    <h1 id="title-heading" class="pagetitle">
+                                                <span id="title-text">
+                            Firmware : How to find driver requirements for a board
+                        </span>
+                    </h1>
+                </div>
+
+                <div id="content" class="view">
+                    <div class="page-metadata">
+                        
+        
+    
+        
+    
+        
+        
+            Created by <span class='author'> Former user</span>, last modified on May 17, 2018
+                        </div>
+                    <div id="main-content" class="wiki-content group">
+                    <p>This article will explain how to read a schematic to determine the driver requirements for boards.</p><p><br/></p><p>Assumptions:</p><ol><li>Latest board files have been cloned from Bitbucket</li><li>User understands how to check file status, navigate, and pull from Bitbuckets</li><li>Appropriate branch has been cloned - depending on the board file needed</li></ol><h2 id="Howtofinddriverrequirementsforaboard-Step-by-stepguide">Step-by-step guide</h2><p>Once you understand all the assumptions below the following procedure can be followed.</p><ol><li>Check out the appropriate branch, ie under 2018_designs → BMU</li><li>Open the .PrjPcb, this open Altium with all the files for the project.</li><li>Within Altium, open the Proc.SchDoc that contains the layout of the MCU for the board.</li><li>The MCU layout can be read as follows:<ol><li>The label PA0 stands for &quot;Port A&quot; &quot;Pin 0&quot; - the same pattern for all the others</li><li>The yellow tags are called &quot;Ports&quot; and refer to higher level inputs, outputs, or bidirectional<br/><ol><li>If arrow is going to the Pin - its an input ie &quot;CONT_NEG_SENSE&quot;</li><li>If arrow is going out of Pin - its an output  &quot;CONT_NEG</li><li>Blue box refers to communication buses</li></ol></li></ol></li></ol><p><span class="confluence-embedded-file-wrapper image-center-wrapper confluence-embedded-manual-size"><img class="confluence-embedded-image image-center" width="1000" loading="lazy" src="attachments/9442923702/9442923695.png?width=1000" data-image-src="attachments/9442923702/9442923695.png" data-unresolved-comment-count="0" data-linked-resource-id="9442923695" data-linked-resource-version="2" data-linked-resource-type="attachment" data-linked-resource-default-alias="BMU_PROC.png" data-base-url="https://uwaterloo.atlassian.net/wiki" data-linked-resource-content-type="image/png" data-linked-resource-container-id="9442923702" data-linked-resource-container-version="2" data-media-id="d811c3d7-0d90-42e5-becb-749c08b877d2" data-media-type="file"></span></p><p>All the drivers on the firmware are direct nets going into the MCU.</p><h1 id="Howtofinddriverrequirementsforaboard-Resources">Resources</h1><p>The stm32f7 hal libraries describe configuration of the standard drivers: <a class="external-link" href="http://www.st.com/content/ccc/resource/technical/document/user_manual/45/27/9c/32/76/57/48/b9/DM00189702.pdf/files/DM00189702.pdf/jcr:content/translations/en.DM00189702.pdf" rel="nofollow">http://www.st.com/content/ccc/resource/technical/document/user_manual/45/27/9c/32/76/57/48/b9/DM00189702.pdf/files/DM00189702.pdf/jcr:content/translations/en.DM00189702.pdf</a></p><h2 id="Howtofinddriverrequirementsforaboard-Relatedarticles">Related articles</h2><p></p><p>
+
+
+
+
+
+
+
+
+
+
+
+    <div class="content-by-label macro-blank-experience">
+        <strong class="content-label-header">Content by label</strong>
+        <p>There is no content with the specified labels</p>
+    </div>
+</p>
+                    </div>
+
+                                        <div class="pageSection group">
+                        <div class="pageSectionHeader">
+                            <h2 id="attachments" class="pageSectionTitle">Attachments:</h2>
+                        </div>
+
+                        <div class="greybox" align="left">
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/9442923702/9442923704.png">BMU_PROC.png</a> (image/png)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/9442923702/9442923696.png">image2018-5-16_21-51-44.png</a> (image/png)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/9442923702/9442923698.png">image2018-5-16_21-52-21.png</a> (image/png)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/9442923702/9442923697.png">image2018-5-16_21-52-21.png</a> (image/png)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/9442923702/9442923700.png">image2018-5-16_21-53-13.png</a> (image/png)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/9442923702/9442923699.png">image2018-5-16_21-53-13.png</a> (image/png)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/9442923702/9442923695.png">BMU_PROC.png</a> (image/png)
+                                <br/>
+                                                    </div>
+                    </div>
+                    
+                                                      
+                </div>             </div> 
+            <div id="footer" role="contentinfo">
+                <section class="footer-body">
+                    <p>Document generated by Confluence on Oct 15, 2022 02:51</p>
+                    <div id="footer-logo"><a href="http://www.atlassian.com/">Atlassian</a></div>
+                </section>
+            </div>
+        </div>     </body>
+</html>

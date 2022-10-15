@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Firmware : Writing/Updating Documentation</title>
+        <link rel="stylesheet" href="styles/site.css" type="text/css" />
+        <META http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    </head>
+
+    <body class="theme-default aui-theme-default">
+        <div id="page">
+            <div id="main" class="aui-page-panel">
+                <div id="main-header">
+                    <div id="breadcrumb-section">
+                        <ol id="breadcrumbs">
+                            <li class="first">
+                                <span><a href="index.html">Firmware</a></span>
+                            </li>
+                                                    <li>
+                                <span><a href="Firmware_9465365086.html">Firmware</a></span>
+                            </li>
+                                                    <li>
+                                <span><a href="Documentation_9513894334.html">Documentation</a></span>
+                            </li>
+                                                    <li>
+                                <span><a href="Workflow-Related-Documentation_9569468771.html">Workflow Related Documentation</a></span>
+                            </li>
+                                                </ol>
+                    </div>
+                    <h1 id="title-heading" class="pagetitle">
+                                                <span id="title-text">
+                            Firmware : Writing/Updating Documentation
+                        </span>
+                    </h1>
+                </div>
+
+                <div id="content" class="view">
+                    <div class="page-metadata">
+                        
+        
+    
+        
+    
+        
+        
+            Created by <span class='author'> Former user</span>, last modified on Apr 05, 2021
+                        </div>
+                    <div id="main-content" class="wiki-content group">
+                    <p><style type='text/css'>/*<![CDATA[*/
+div.rbtoc1665802303870 {padding: 0px;}
+div.rbtoc1665802303870 ul {list-style: disc;margin-left: 0px;}
+div.rbtoc1665802303870 li {margin-left: 0px;padding-left: 0px;}
+
+/*]]>*/</style><div class='toc-macro rbtoc1665802303870'>
+<ul class='toc-indentation'>
+<li><a href='#Writing/UpdatingDocumentation-Motivation'>Motivation</a>
+<ul class='toc-indentation'>
+<li><a href='#Writing/UpdatingDocumentation-LiveDocumentation'>Live Documentation</a></li>
+<li><a href='#Writing/UpdatingDocumentation-LocalDocumentation'>Local Documentation</a></li>
+</ul>
+</li>
+<li><a href='#Writing/UpdatingDocumentation-WritingDocumentation'>Writing Documentation</a>
+<ul class='toc-indentation'>
+<li><a href='#Writing/UpdatingDocumentation-WritingGoodDocumentation'>Writing Good Documentation</a></li>
+<li><a href='#Writing/UpdatingDocumentation-DoxygenComments'>Doxygen Comments</a></li>
+<li><a href='#Writing/UpdatingDocumentation-SphinxDocumentation'>Sphinx Documentation</a>
+<ul class='toc-indentation'>
+<li><a href='#Writing/UpdatingDocumentation-Limitations'>Limitations</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a href='#Writing/UpdatingDocumentation-BuildingtheDocumentation'>Building the Documentation</a>
+<ul class='toc-indentation'>
+<li><a href='#Writing/UpdatingDocumentation-Requirements'>Requirements</a></li>
+<li><a href='#Writing/UpdatingDocumentation-Commands'>Commands</a></li>
+</ul>
+</li>
+</ul>
+</div></p><h1 id="Writing/UpdatingDocumentation-Motivation">Motivation</h1><h2 id="Writing/UpdatingDocumentation-LiveDocumentation">Live Documentation</h2><p>Live documentation is hosted on <a class="external-link" href="https://waterloohybrid.bitbucket.io" rel="nofollow">https://waterloohybrid.bitbucket.io</a>. Since this documentation will not always be updated as frequently, this live page will reflect the more stable aspects of the car. Bleeding edge documentation can be generated locally.</p><h2 id="Writing/UpdatingDocumentation-LocalDocumentation">Local Documentation</h2><p>The way to get the most up to date documentation is to generate it locally on your developer machine. See &quot;Building the Documentation&quot; below on how to do that.</p><h1 id="Writing/UpdatingDocumentation-WritingDocumentation">Writing Documentation</h1><h2 id="Writing/UpdatingDocumentation-WritingGoodDocumentation">Writing Good Documentation</h2><p>Before writing any documentation for your code, I really recommend reading <a class="external-link" href="https://gitlab.com/sibros_public/public/-/wikis/c/coding_standards" rel="nofollow">this wiki page by Sibros</a> on coding standards and particularly <a class="external-link" href="https://gitlab.com/sibros_public/public/-/wikis/c/coding_standards#documentation" rel="nofollow">this section on documentation</a>.</p><p>Some notes:</p><ul><li>Code inside functions should mostly be &quot;self-documentating&quot;<ul><li>This means using function and variable names that are clear yet concise</li><li>Sometimes, the intent of the code is not clear just from the flow of code, and function/variable names. This is when you want to add a short comment explaining what is supposed to happen here. There are some good concrete examples of what I mean here in the Sibros wiki page I linked above.</li></ul></li><li>Try to aim your comments towards the level of someone who has an understanding of how C works ( i.e. don't describe exactly how your code is working line by line), but rather another developer who is unfamiliar with the particular function or module you're writing/refactoring/fixing.</li></ul><h2 id="Writing/UpdatingDocumentation-DoxygenComments">Doxygen Comments</h2><p>The code itself is documented using <a class="external-link" href="https://www.doxygen.nl/manual/docblocks.html" rel="nofollow">Doxygen</a>. The Doxygen comments for functions in our code follow the javadoc style and look like</p><div class="code panel pdl" style="border-width: 1px;"><div class="codeContent panelContent pdl">
+<pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: java; gutter: false; theme: Confluence" data-theme="Confluence">/**
+ * ... text ...
+ */</pre>
+</div></div><p>Note the extra asterisk there.</p><p>Check out Doxygen documentation on how to write comments for other data like global variables or defines.</p><h2 id="Writing/UpdatingDocumentation-SphinxDocumentation">Sphinx Documentation</h2><p>Sphinx is used to make documentation that is easy on the eyes and is more useful than literally dumping all of the functions in the code like a typical Doxygen set up. </p><p>Sphinx uses the reStructuredText markdown language. <a class="external-link" href="https://www.sphinx-doc.org/en/master/usage/restructuredtext/basics.html" rel="nofollow">Here's a primer</a> that Sphinx recommends to read if you want more information. It maintains readability in the plain text while also being easy for a program to format into a more fancy webpage.</p><p>We use a plugin called <a class="external-link" href="https://breathe.readthedocs.io/en/latest/" rel="nofollow">Breathe</a> to import the results of Doxygen generation into Sphinx documentation. Sounds confusing? Basically all you need to know to import a given function into the documentation is to use <a class="external-link" href="https://breathe.readthedocs.io/en/latest/directives.html" rel="nofollow">directives</a>. Here's an example of how to use them, note that the directive documentation contains a lot of optional parameters that can be omitted in a typical use case.</p><p>Assuming you have a C function commented with Doxygen like the following:</p><div class="code panel pdl" style="border-width: 1px;"><div class="codeContent panelContent pdl">
+<pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: cpp; gutter: false; theme: Confluence" data-theme="Confluence">/**
+ * A brief stating the purpose of the function.
+ * @param some_parameter Explanation of parameter (and ideally it&#39;s value range).
+ * @return Explanation of what the function returns (and ideally expected value range).
+ */
+uint32_t test_function(uint32_t some_parameter)
+{
+	// ...
+}</pre>
+</div></div><p><br/></p><p>Then, you may use the <code><span class="n">doxygenfunction</span></code> directive as follows:</p><div class="code panel pdl" style="border-width: 1px;"><div class="codeContent panelContent pdl">
+<pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: java; gutter: false; theme: Confluence" data-theme="Confluence">==================
+Test Documentation
+==================
+
+In our test documentation, here&#39;s some prose that always exist in the documentation.
+
+The following is extracted from the Doxygen comment:
+
+.. doxygenfunction:: test_function</pre>
+</div></div><p>Breathe will take whatever information Doxygen has extracted from that particular function comment (function brief, parameter description, return type) and insert it nicely into the generated HTML document. A useful Doxygen directive is &quot;@ref&quot;, which will create a link to a particular Doxygen function/variable from another Doxygen comment. In the end HTML, it appears as a clickable link provided both of those functions/variables have been included with a Breathe directive.</p><h3 id="Writing/UpdatingDocumentation-Limitations">Limitations</h3><p>If you want to do something more complicated than what is shown here, check out the existing documentation to see if it's been done before. Otherwise, scour the Breathe documentation and do some searching around on the internet. There are some limitations to this approach to documentation, but I think if it's well maintained, it will be an excellent resource that will benefit the whole team.</p><h1 id="Writing/UpdatingDocumentation-BuildingtheDocumentation">Building the Documentation</h1><h2 id="Writing/UpdatingDocumentation-Requirements">Requirements</h2><p>Downloaded through Python 3 pip:</p><ul><li>sphinx</li><li>sphinx-rtd-theme (this is the theme our documentation is using)</li><li>breathe</li></ul><p>Downloaded through your system package manager:</p><ul><li>Doxygen</li></ul><p>This last step could be tricky depending on your system, but generally there's something out there if you look it up. Worst case you'll have to build it yourself, but I'll assume you have that knowledge if you are running something that unique. <img class="emoticon emoticon-smile" data-emoji-id="1f642" data-emoji-shortname=":slight_smile:" data-emoji-fallback="🙂" src="images/icons/emoticons/smile.png" width="16" height="16" data-emoticon-name="smile" alt="(smile)"/></p><h2 id="Writing/UpdatingDocumentation-Commands">Commands</h2><p>If documentation exists for a repo and you've installed the requirements I've described above, you should be able to run the Makefile recipe I've set up.</p><div class="code panel pdl" style="border-width: 1px;"><div class="codeContent panelContent pdl">
+<pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: bash; gutter: false; theme: Emacs" data-theme="Emacs">make docs</pre>
+</div></div>
+                    </div>
+
+                    
+                                                      
+                </div>             </div> 
+            <div id="footer" role="contentinfo">
+                <section class="footer-body">
+                    <p>Document generated by Confluence on Oct 15, 2022 02:51</p>
+                    <div id="footer-logo"><a href="http://www.atlassian.com/">Atlassian</a></div>
+                </section>
+            </div>
+        </div>     </body>
+</html>
