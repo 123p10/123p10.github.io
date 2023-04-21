@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8"/>
+		<link rel="stylesheet" href="../styles.css">
+		<link rel="stylesheet" href="../writings.css">
+		<title>Owen's Personal Site</title>
+	</head>
+	<body>
+		<div class="container">
+			<span class="banner-name">
+				Owen Brake
+			</span>
+			<span class="resume-link">
+				<a href="../index.html">Résumé</a>
+			</span>
+			<span class="blog-link">
+				<a href="../writings.html">Writings</a>
+			</span>
+		</div>
+		<div class="container">
+			<header>
+				<div class="text-titles">
+					<span class="writings-title">Debugging with an Audience</span>
+				</div>
+				April 20, 2023
+				<hr class="line-large">
+			</header>
+			<main class="writing-main-text">
+				<div class="grouped-heading">
+					<div class="subheading">Definition</div>
+					Debugging with an Audience is a phrase to describe the event when a single or small group of people 
+					are forced to solve an issue in front of others.
+					Typically I have found this to occur when a major issue has occurred or a deadline is approaching and a single senior engineer 
+					is the critical path to completion.
+				</div>
+				
+				<div class="grouped-heading">
+					<div class="subheading">Examples</div>
+					I've been both the performer and the audience too many times to count.
+					Some examples of events I've witnessed or experienced are:
+					<ul>
+						<li>Resolving firmware regressions on a production vehicle, minutes to hours before public demos</li>
+						<li>Endlessly tuning PID gains on a vehicle in the field</li>
+						<li>Fixing a crashed system used by a large majority of other engineers and halting work for the day</li>
+					</ul>
+					This type of event seems to be universal across the engineering field.
+					But I have found the electrical and firmware engineer are in a unique position where it occurs in the most public of spaces and at the highest frequency.
+					<br><br>
+					If a mechanical device on a system fails, there is often little that can be done. You pack up the system and have to await a redesign and machinining.
+					There is very little debugging that arises or has to be done publically due to the long turnaround time.
+					<br><br>
+					If a web service fails the web developer can have a very quick turnaround time but also can perform the debugging in a private, isolated space.
+					Web development is very non-public.
+					<br><br>
+					The firmware and electrical engineer both suffer from having potential very quick turnaround times (for fixes) and an often strict requirement to be close to the system under debug.
+					<br><br>
+					(As a side note there are multiple other fields of engineering where this apply, e.g: controls, power, and internal combustion engine systems, though these are more specific examples.) 
+				</div>
+				
+				<div class="grouped-heading">
+					<div class="subheading">The Syndrome</div>
+					Those who have not experienced this, may not be well aware of the syndrome but it is a potent one.
+					Some may characterize it as simply pressure which all engineers shall experience, but I would characterize it as a significantly more potent syndrome with a quite different emotional attachment.
+					<br><br>
+					This syndrome imposes a great stress on the engineer(s) and almost always leads to irrationality and irritability.
+					The engineer can lose focus on the primary mission and be hyper-focused on the task at hand, doing anything to resolve the issue regardless of the logic or benefit of the solution.
+					<br><br>
+					Not only is the engineer expected to produce a fix in a very restricted amount of time, the engineer is also publicly judged and evaluated.
+					<br><br>
+					This syndrome perhaps is active due to inexperience of life in an engineer, a lack of clear perspective.
+					There are some engineers who do not appear to suffer from this syndrome, or at least appear unphased by it's effects.
+					However, I have seen many highly experienced engineers go through this.
+					You can see it in their eyes, the burning combination of desperation and hyper-focus.
+					The silent unconcious ticks when someone comes to ask them "what's the issue?" or "how long will it take?".
+				</div>
+				
+				<div class="grouped-heading">
+					<div class="subheading">How to be a Good Debugger with an Audience</div>
+					This is a difficult issue as when someone is suffering from the symptoms of this syndrome, logic cannot apply.
+					There are a few tips that can be utilized though:
+					<ul>
+						<li>When debugging, take a few moments break every once in a while, listening to music while debugging is extremely helpful.</li>
+						<li>Breath, attempt to view the situation with some wider perspective.</li>
+						<li>Remind yourself, the measure of a person in the eyes of others is not solely technical, a significant part is social. To be able to keep a cool head is an estimable quality.</li>
+					</ul>
+					A lifestyle habit is not changed in a day, these tips should be in the engineer's brain constantly to force their improvement forward.
+					It will improve quality of life and work for the engineer and everyone around them.
+				</div>
+				
+				<div class="grouped-heading">
+					<div class="subheading">How to be a Good Audience Member</div>
+					Being a good audience member is fairly simple. 
+					However, despite any tips the debugger who suffers from the syndrome will almost certainly be irritable and difficult to deal with.
+					But, any ease of suffering you can provide would be greatly appreciated.
+					<ul>
+						<li>Do not ask the debugger any of these questions:
+							<ul>
+								<li>What's the issue?</li>
+								<li>How long until this will be fixed?</li>
+								<li>Is it this? Is it that?</li>
+							</ul>
+						</li>
+						<li>If it is possible suggesting the debugger bring stuff back to the lab to work on it, or cancel a demo, or anything to remove the debugger from this state would provide a great easing of the burden.</li>
+						<li>Do not attempt to provide a solution, unless you are certain you have the solution.</li>
+						<li>Tend to other tasks which need to be done and ensure other people are prevented from bothering the debugger</li>
+					</ul>
+				</div>
+				
+				<div class="grouped-heading">
+					<div class="subheading">How to Avoid Entering the Situation</div>
+					The debugger with an audience problem is a very simple problem, yet it is difficult to solve.
+					Some solutions to this are:
+					<ul>
+						<li>Ensure everything is validated to prevent debugging
+							<ul>
+								<li>I understand this is a fantasy, nothing will ever be perfectly validated in a lab setting then integrated with 0 flaws, it is why engineers have jobs.</li>
+								<li>However, this is a perfect example of why it's critical to invest in validation infrastructure, without it you waste extensive engineering time and value on wasteful debugging.</li>
+							</ul>
+						</li>
+						<li>
+							Remove the Bus Factor
+							<ul>
+								<li>There should not be 1 person on a team who can handle any issue.</li>
+								<li>Being able to debug with partners or groups removes significant pressure and speeds up debugging.</li>
+							</ul>
+						</li>
+						<li>
+							Add significant fudge factor to your timelines	
+							<ul>
+								<li>Engineering timelines are notorious for slipping but adding more fudge factor will help mitigate these effects.</li>
+								<li>A demo date should not be the first time a system is properly evaluated and validated. Plan for those multi-week debugging efforts so it doesn't have to occur the day of.</li>
+							</ul>
+						</li>
+					</ul>
+				</div>
+				<div class="grouped-heading">
+					<div class="subheading">Conclusion</div>
+					The purpose of this piece is not to excuse the behaviour of this syndrome, nor to belittle engineers who suffer from this.
+					The intention is to inform those about this quirk of human psychology and engineering.
+					I must admit that often I have struggled with this syndrome and I have been thorny in my interactions with others.
+					As engineers it's our responsibility to improve and extinguish this nasty habit.
+					<br><br>
+					I'll leave you with one final thought. Theodore Roosevelt in his famous speech "Citizenship in a Republic" preached:
+					<blockquote>
+						"It is not the critic who counts ... The credit belongs to the man who is actually in the arena, who face is marred by dust, sweat and blood..."
+					</blockquote>
+					From this we can draw 2 lessons:
+					<br><br>
+					For the audience member, we must remember that the one in the arena, the debugger is the true hero of the day they surely shall not escape the day unscathed but their great effort is surely respectable.
+					<br><br>
+					For the debugger, we must remember that in the end it is not the critic who counts, at the end of the day as the one in the arena we are facing a test, but the test is not the completion of debugging, the test is of the strength of one's will.
+					We should remind ourselves, that a righteous person will demonstrate honor and respect even in the depths of the arena.
+					The merit of a person or engineer is not by how many LOCs they've committed or how many nets they've routed, it is evaluated by the content of their character and resilience in the face of adversity.
+				</div>
+
+			</main>
+		</div>
+
+	</body>
+</html>
+<script src="script.js"></script>
+<link rel="preconnect" href="https://fonts.gstatic.com">
+<link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet">
+<link rel="shortcut icon" type="image/jpg" href="../favicon.ico"/>

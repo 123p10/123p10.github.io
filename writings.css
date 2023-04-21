@@ -1,0 +1,17 @@
+.writings-title {
+	font-weight: bold;
+	font-size: 2.5rem;
+}
+
+.subheading {
+	font-weight: bold;
+	font-size: 1.5rem;
+}
+
+.grouped-heading {
+	padding-bottom: 3rem;
+}
+
+.writing-main-text {
+	font-size: 1.2rem;
+}

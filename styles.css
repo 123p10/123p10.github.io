@@ -12,86 +12,27 @@ body {
     font-family: 'Roboto', sans-serif;
     background-color: #f2f2f2;
 }
-.my-name {
+.banner-name {
 	font-weight: bold;
-	font-size: 2.5rem;
+	font-size: 1.5rem;
+	padding-right: 2rem;
 }
-.large-line {
-	margin-top: 0;
+.resume-link {
+	font-weight: bold;
+	font-size: 1.5rem;
+	padding-left: 2rem;
+	padding-right: 2rem;
 }
-.current-title {
-	font-size: 1.75rem;
-	color: #979797;
+.blog-link {
+	font-weight: bold;
+	font-size: 1.5rem;
+	padding-left: 2rem;
+	padding-right: 2rem;
 }
+
 .text-titles {
 	display: flex;
 	flex-direction: row;
 	justify-content: space-between;
 	align-items: flex-end;
-}
-.portrait {
-	border-radius: 10px;
-}
-.portrait-text-parent {
-	display: flex;
-	justify-content: space-between;
-	align-items: flex-start;
-}
-.portrait-text-content {
-	color: #404040;
-}
-.content-header {
-	font-size: 1.25rem;
-	font-weight: bold;
-	padding-top: 1rem;
-	color: black;
-}
-.collapse-icon {
-	color: grey;
-	font-size: 1rem;
-	text-decoration: none;
-}
-.experience-block {
-	height: 15rem;
-	background-color: #eaeaea;
-	border-radius: 10px;
-	display: flex;
-	align-content: flex-start;
-	margin-top: 1rem;
-}
-.experience-img-block {
-	align-self: center;
-	background-color: #d2d2d2;
-	border-radius: 15px;
-	margin-left: 1rem;
-	width: 10rem;
-	height: 10rem;
-	display: flex;
-  	flex-flow: row nowrap;
-  	align-items: center;
-  	justify-content: center;
-  	flex-shrink: 0;
-}
-.experience-img-block > img {
-	max-height: 80%;
-	max-width: 80%;
-}
-.experience-text-block {
-	margin-left: 1.5rem;
-	display: flex;
-	flex-direction: column;
-	justify-content: flex-start;
-	padding-top: 1rem;
-	flex-grow: 1;
-	padding-right: 1rem;
-
-}
-.experience-institution {
-	font-size: 1.5rem;
-}
-.experience-body {
-	padding-top: 0.25rem;
-}
-.experience-body > ul > li {
-	padding-bottom: 0.5rem;
 }
