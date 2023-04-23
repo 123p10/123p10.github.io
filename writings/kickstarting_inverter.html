@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8"/>
+		<link rel="stylesheet" href="../styles.css">
+		<link rel="stylesheet" href="../writings.css">
+		<title>Kickstarting an Alpha Inverter</title>
+	</head>
+	<body>
+		<div class="container">
+			<span class="banner-name">
+				Owen Brake
+			</span>
+			<span class="resume-link">
+				<a href="../index.html">Résumé</a>
+			</span>
+			<span class="blog-link">
+				<a href="../writings.html">Writings</a>
+			</span>
+		</div>
+		<div class="container">
+			<header>
+				<div class="text-titles">
+					<span class="writings-title">Kickstarting an Alpha Power Inverter</span>
+				</div>
+				April 21, 2023
+				<hr class="line-large">
+			</header>
+			<main class="writing-main-text">
+				<div class="grouped-heading">
+					<div class="subheading">Background</div>
+					<div class="subsubheading">The Team</div>
+					This story takes place in the Fall of 2022 on the University of Waterloo's Formula Electric team.
+					I am the technical and tractive (High Voltage Systems) lead for the team.
+					<a href="https://www.linkedin.com/in/j-vuong/">Justin Vuong</a> is the firmware lead.
+					<a href="https://www.linkedin.com/in/joseph-borromeo/">Joseph Borromeo</a> is the electrical lead.
+					<figure>
+						<img class="writing-fig" src="img/debugging_in_public/bay_pic.jpg">
+						<figcaption class="writing-fig">Waterloo Formula Electric bay</figcaption>
+					</figure>
+					<figure>
+						<img class="writing-fig" src="img/debugging_in_public/group_pic.jpg">
+						<figcaption class="writing-fig">Waterloo Formula Electric Group Picture</figcaption>
+					</figure>
+					<br><br>
+					<div class="subsubheading">The Inverters</div>
+					On the Formula Electric team, we have been using the same 2 motor controllers (inverters) since 2018.
+					To be completely transparent they are the Sevcon Gen5 Size9s.
+					Now, I have used numerous inverters in the past, 2 of my internships have somewhat revolved aroud them.
+					I understand, that often software support and tooling for these applications is unusable at best.
+					But these motor controllers hold the torch in my archive for the most unusable.
+					<br><br>
+					<figure>
+						<img class="writing-fig" src="img/debugging_in_public/SevconGen5S9.png">
+						<figcaption class="writing-fig">A single Sevcon Gen5 Size9 Inverter</figcaption>
+					</figure>
+					<figure>
+						<img class="writing-fig" src="img/debugging_in_public/Gen5Home.PNG">
+						<figcaption class="writing-fig">Home page of Gen5MC</figcaption>
+					</figure>
+					Some notable quirks of the software for this inverter "Gen5MC":
+					<ul>
+						<li>The software only works with 2 specific CAN dongles, these CAN dongles are not standard ones like Vector or PEAK, it requires a very specific IXXAT dongle.
+							<ul>
+								<li>The driver for this dongle must be a very specific version number, any other version will not work.</li>
+								<li>Any attempt to install the driver on Windows 11 will cause Windows to blue screen and boot loop, requiring the user to enter safe mode and delete said driver.</li>
+								<li>Driver Signature Verification must be turned off which requires restarting Windows to change the startup settings</li>
+								<li>The IXXAT software or dongle do not seem to be able to handle sending at high bus loads of >80% at 500kbps.</li>
+							</ul>
+						</li>
+						<li>On certain systems Gen5MC can be completely unstable.
+							<ul><li>There was a counter in the Formula Electric bay for "days since Gen5MC had crashed".</li> <li>On certain systems you could not last 2.5 minutes</li></ul>
+						</li>
+						<li>The software was clearly built in Labview or some crappy graphical application builder. It was at least 2-3x slower than any Electron app I've seen.</li>
+						<li>You could never trust anything the software displayed.
+							<ul>
+								<li>Changing a setting did not necessarily mean it was changed on the inverter, often you would restart the software to see if a value actually changed.</li>
+								<li>Buttons you would click would appear to be set then mysteriouslly 10 seconds later they would unclick.</li>
+								<li>The status pages would often report very unplausible data.
+									<ul>
+										<li>Reporting that the inverters were running at 350VDC when our pack is at most 294V.</li>
+										<li>Reporting our inverters were at 0°C when we're running them at room temperature.</li>
+									</ul>
+								</li>
+							</ul>
+						</li>
+					</ul>
+					<figure>
+						<img class="writing-fig" src="img/debugging_in_public/Gen5Properties.PNG">
+						<figcaption class="writing-fig">Gen5MC Properties Page</figcaption>
+					</figure>
+					<br><br>
+					We have 0 to no documentation on these inverters.
+					We have 2 very sparse documents, both effectively incomplete.
+					One has a list of tables with CAN IDs and vague message names like "State" or "Speed" but with no information on the CAN signal data.
+					The documents have blank sections, weird highlighted parts and a clear lack of coverage.
+					<br><br>
+					To be fair to Sevcon, my understanding is these inverters are primarily to be sold to large customers and designate application engineers to drive integration.
+					I can also not confirm that this is true, but based on discussions with Alumni, email chains and documentation I believe the inverters we purchased were Alpha version inverters, clearly not production ready.
+					And, shortly after purchasing these inverters Sevcon was purchased by Borgwarner, which has meant communication has been effectively halted as all the engineers have either moved around or switched companies.
+
+				</div>
+				<div class="grouped-heading">
+					<div class="subheading">The Attempted Problem</div>
+					For the past few years since the current vehicle architecture has been running we've noticed some very strange issues.
+					<br><br>
+					One infamous one is the brake light issue.
+					This debugging effort deserves it's own writeup, but in sum the brake light would constantly flash randomly throughout the event.
+					The identified issue was that the inverter sends both standard and extended CAN ids.
+					The LV architecture for the car we've designed was only ever expecting standard CAN ids and did not properly filter out these standard CAN ids and would misinterpret these CAN messages for other messages sent from other boards.
+					<br><br>
+					The standard CAN ids were effectively filtered out in firmware but to "do things properly" an effort was done to attempt to disable said standard CAN ids from being transmitted from the inverters.
+				</div>
+				<div class="grouped-heading">
+					<div class="subheading">The Accident</div>
+					Gen5MC has a panel in it where the user can customize hundreds of completely undocumented properties on the inverter.
+					During one morning of investigation Joseph and Justin find a tab named "CANopen", in it are a list of various CAN ids with the names like "RPDO1", "TPDO2", etc.
+					These CAN ids appear to be standard CAN ids.
+					<figure>
+						<img class="writing-fig" src="img/debugging_in_public/CANOpen.PNG">
+						<figcaption class="writing-fig">CANOpen configuration page of Gen5MC</figcaption>
+					</figure>
+					<br><br>
+					Very logically they consider the possibility that perhaps it is these standard CAN ids being sent over the bus.
+					They disable every single message, worst comes to worst they'll just revert the change.
+					<br><br>
+					They power cycle the vehicle and the standard CAN ids seem to have stopped being sent, great success!
+					<br><br>
+					They attempt to open Gen5MC and notice no motor controllers are shown, no big deal this happens all the time.
+					<br><br>
+					They power cycle the car and try again, ye it's not showing up again, hmm, it's probably just a crazy Gen5MC issue, so they swap laptops.
+					<br><br>
+					No communication occurs, they keep power cycling the vehicle and nothing is showing up, the Gen5MC application shows no motor controller communication at all.
+				</div>
+				<div class="grouped-heading">
+					<div class="subheading">Investigation</div>
+					Near the end of the day, I end up in the Formula Electric bay and am informed that the inverters are bricked.
+					In disbelief I run the exact same debugging steps they did on my laptop to no avail.
+					The inverters can be controlled via CAN to set torque and speed limits but the underlying configurations cannot be changed.
+					<br><br>
+					We pull out Sevcon's breakout box they provided us many years ago to see if we can somehow reset the config or reflash firmware.
+					The box yields no progress, no communication through the Gen5MC application can occur.
+					This incident poses significant risk as if we cannot change the parameters on the inverter we cannot iron out a significant number of bugs we have with it, as well as tune the inverters performance to our application.
+					<figure>
+						<img class="writing-fig" src="img/debugging_in_public/box.jpg">
+						<figcaption class="writing-fig">Sevcon Gen5 Breakout Box</figcaption>
+					</figure>
+					<br><br>
+					I attempt to reach out to all the contacts we have at Borgwarner, most emails bounce back as being invalid and any attempt to go through support ends flat and hits a deadend.
+				</div>
+				<div class="grouped-heading">
+					<div class="subheading">Kickstarting</div>
+					Joseph one day comes up with an idea. The real issue is that Gen5MC cannot recognize the inverters.
+					If we could mimic the inverters perhaps we could see how the software can change the configuration on the inverter and we can manually change the parameters back.
+					It's a huge stretch but it's bold, betting that Gen5MC's software has no built-in handshake or any checks that it will just broadcast parameter changes.
+					<br><br>
+					Against all odds, Joseph in fact had a CAN trace of the motor controller previously while it was communicating to the Gen5MC software.
+					<br><br>
+					We produce a breakout harness, hooking up one laptop through a CAN dongle to re-transmit all the data from this previous CAN trace.
+					Another laptop is hooked up to a different CAN dongle to attempt to communicate to the inverters through Gen5MC.
+					<figure>
+						<img class="writing-fig" src="img/debugging_in_public/can_diagram.png">
+						<figcaption class="writing-fig">CAN Breakout Harness Diagram</figcaption>
+					</figure>
+					<br><br>
+					It takes a few seconds and restarting of Gen5MC but eventually the motor controllers start popping up in the software.
+					Shockingly we can "see" that the motor controllers are communicating with the software.
+					<br><br>
+					As we venture into the software we find the parameters that Justin and Joseph had disabled. We re-enable them.
+					<br><br>
+					We restart the vehicle and remove the dongle that is retransmitting the previous CAN trace.
+					As we start up the vehicle we notice...
+					<br><br>
+					..
+					<br><br>
+					.
+					<br><br>
+					It worked! We had somehow kickstarted the inverter again by tricking the software that the Motor Controllers data we were sending were real motor controllers.
+					The software as accepting the inverters as real transmitted data to properly configure the inverters and bring them back to life.
+					<br><br>
+					We were all in awe that we had resurrected these seemingly bricked inverters.
+				</div>
+				<div class="grouped-heading">
+					<div class="subheading">Lessons</div>
+					There are a few lessons that can be taken from this struggle:
+					<br><br>
+					A philosophical lesson is that it is always the darkest before the dawn.
+					It seemed very dire when communication ceased to the motor controllers, as there was no alternative.
+					The entire mechanical and powertrain design assumes this profile and finding, testing, and validating another inverter before competition would be a herculean task.
+					However, we pushed through it and in the end we learned more about the inverters and the CAN protocol in the process.
+					<br><br>
+					Another lesson is do it right the first time or it will come back to haunt you. 
+					Also known as "if you half ass it once you're going to half ass it twice".
+					For years we knew these inverters were sketchy and the software control was terrible but we just kept pushing the issue down the line and eventually it really hurt us.
+					We are potentially planning to integrate our own custom inverters next year as there are still numerous software bugs with these current ones and the "bricked" inverter issue spooked us a bit.
+					<br><br>
+					A more technical lesson would be, in the debugging process always make sure you know what you're doing before you go poking around.
+					We just disabled things on the inverter with the assumption that it'll end up in a recoverable state.
+					It was clearly a faulty assumption and really we should have taken the time to learn more about the system before randomly disabling things.
+					In a more general sense a lesson for engineering would be that an engineer makes decisions based on cold, hard data, they should not be making random, gut decisions.
+					It's tempting but even if you succeed in resolving the issues you won't fully understand how the fix was implemented which is critical.
+				</div>
+				
+			</main>
+		</div>
+
+	</body>
+</html>
+<script src="script.js"></script>
+<link rel="preconnect" href="https://fonts.gstatic.com">
+<link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet">
+<link rel="shortcut icon" type="image/jpg" href="../favicon.ico"/>

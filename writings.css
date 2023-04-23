@@ -8,10 +8,24 @@
 	font-size: 1.5rem;
 }
 
+.subsubheading {
+	font-weight: bold;
+	font-size: 1.25rem;
+}
+
+
 .grouped-heading {
 	padding-bottom: 3rem;
 }
 
 .writing-main-text {
 	font-size: 1.2rem;
+}
+
+figcaption.writing-fig {
+	text-align: center;
+	font-size: 1.25rem;
+}
+img.writing-fig {
+	width: 100%;
 }
