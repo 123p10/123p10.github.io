@@ -41,6 +41,9 @@
 				<div class="toc-2"><a href="#init">Initial Design Decisions</a></div>
 				<div class="toc-2"><a href="#overview">Overview</a></div>
 				<div class="toc-2"><a href="#control">Control Topology</a></div>
+				<div class="toc-3"><a href="#whyc">Why use Analog Control Topology?</a></div>
+				<div class="toc-3"><a href="#understand">Understanding Analog Control Topology</a></div>
+				<div class="toc-3"><a href="#triangle">Triangle Reference</a></div>
 				<div class="toc-3"><a href="#input">Input</a></div>
 				<div class="toc-3"><a href="#regulator">Regulator</a></div>
 				<div class="toc-3"><a href="#enablec">Enable Control</a></div>
@@ -108,7 +111,7 @@
 							<figcaption class="writing-fig">HV Schematic of the Formula Electric Vehicle with the DC-DC Highlighted</figcaption>
 							</figure>
 							The DC-DC converter sits inside our HV (High-Voltage) battery electronics box.
-							It's idea is to step down the full battery voltage (min 350V, max 588V) to 12V.
+							It's job is to step down the full battery voltage (min 350V, max 588V) to 12V.
 							The idea is to support the small low-voltage batteries we use to power the low voltage systems on our car.
 							In particular to supplement the high loads from the pumps and fans for motor, motor controller and battery.
 						</div>
@@ -119,7 +122,7 @@
 							<figcaption class="writing-fig">Basic topology of a buck converter</figcaption>
 							</figure>
 							We'll just quickly brush up on the simple buck converter topology. We have our high-voltage source on the left.
-							The switch is on our case just a MOSFET.
+							The switch is in our case just a MOSFET.
 							We need to switch the MOSFET faster than the resonant frequency of the LC time constant to get a smooth output voltage.
 							The duty cycle of the MOSFET controls the output voltage.
 							<math display="block">
@@ -171,6 +174,7 @@
 							</math>
 							There are a few other equations and the voltage ripple estimate doesn't factor in capacitor ESR, but this covers the general concepts.
 							Output voltage is proportional to duty cycle. Higher capacitance, inductance and especially switching frequency will result in lower output voltage ripple.
+							However, increasing these typically results in a larger, more expensive system.
 							This is important as mass is a big factor in the design as you will see.
 						</div>
 				</div>
@@ -194,20 +198,20 @@
 							As stated previously the battery pack voltage goes from 350V-588V, so in practice we need to design a DC-DC
 							that can handle ~600V+ and maintain regulation down to about 350V.
 							We want to achieve a power output as high as possible but in practice at least 120W (12V, 10A).
-							But a big factor is weight and volume, we have to package this inside our tight electronics box and mass is important
+							A big factor is weight and volume, we have to package this inside our tight electronics box and mass is important
 							for Formula SAE vehicles.
 						</p>
 						<p>
 							The first thing you should always consider is can we buy this off the shelf.
 							Vendors can get significantly better packaging than we can with custom components and huge testing efforts.
-							Attempts were made, and subsequently failed to get anything off the shelf that would meet our needs.
+							Attempts were made, and subsequently failed to get anything off the shelf that would meet our needs in our timelines.
 						</p>
 						<p>
 							Designing a 600V to 12V isolated DC-DC is quite a challenge, and one has to be honest with themselves, doing any advanced
 							topology in tight packaging is not feasible in the limited time we have. Likely we will get the first iteration and it will not work.
 						</p>
 						<p>
-							So, what we do have is in 2018 someone did design a 300V-12V isolated DC-DC board using Vicor's <a href="https://product.tdk.com/en/search/power/switching-power/dc-dc-converter/info?part_no=PAF600F280-12">PAF600F280-12</a> module.
+							So we have to work with what we have, luckily in 2018 someone did design a 300V-12V isolated DC-DC board using Vicor's <a href="https://product.tdk.com/en/search/power/switching-power/dc-dc-converter/info?part_no=PAF600F280-12">PAF600F280-12</a> module.
 							The board does work, it's been validated under load and IIRC it has EMI issues and some choppy output but it will work for our needs.
 						</p>
 						<figure>
@@ -224,9 +228,8 @@
 							under any situation lest we risk damaging the 2nd stage DC-DC.
 						</p>
 						<p>
-							2. We must ensure that properly enable the 2nd stage DC-DC when the 1st stage is ready.
+							2. We must ensure that we properly enable the 2nd stage DC-DC when the 1st stage is ready.
 						</p>
-
 						<p>
 							3. We must aim for high power density given we already have a fairly chunky 2nd stage DC-DC in the box.
 						</p>
@@ -234,22 +237,22 @@
 					<div id="overview" class="subheading">Overview</div>
 						<div class="body">
 							<p>
-								If you sketch out the high level overview the following schematic is how it looks.
+								The high level schematic for our board is shown below, there's nothing really surprising here, it's really quite similar to the ideal DC-DC buck converter diagram I showed above.
 							</p>
 							<figure id="overview_schem">
 							<img class="writing-fig" src="dcdc_breakdown/top.png"></img>
 							<figcaption class="writing-fig">Overview Schematic for DC-DC</figcaption>
 							</figure>
 							<p>
-								It's quite messy due to the rushed manner in which it is done.
-								But you can pretty much make out the various blocks of the original buck converter as presented above.
+								The schematic is a little messy due to the rushed manner in which it was done, but it covers the basics.	
 							</p>
 							<p>
-								I'll try to cover all the interesting components going forward.
+							I'll try to cover all the interesting components going forward, if there's something you'd like to understand in more detail feel free to reach out to me at <a href="mailto:me@OwenBrake.com">me@OwenBrake.com</a>.
 							</p>
 							<p>
 								<b>Note</b>: You will notice throughout the schematics there are various net classes I define (TSV, GLV, etc.)
 								these are all spacing net classes to ensure clear seperation between the high voltages and prevent any arcing.
+								Learn more <a href="#hvs">here</a>.
 							</p>
 						</div>
 					<div id="control" class="subheading">Control Topology</div>
@@ -262,6 +265,33 @@
 								This is probably the real interesting part of the project and one which people care the most about.
 								I did a full analog control topology for this DC-DC converter.
 							</p>
+							<div id="whyc" class="subsubheading">Why use Analog Control Topology?</div>
+							<p>
+								For the inexperienced, a fully analog control topology is basically unheard of in modern industry.
+								If you're designing something yourself there are tons of off-the-shelf ICs that will regulate control for you.
+								If you really want even more control over the dynamics you would do digital control using a microprocessor.
+								I decided to go with analog control for a few reasons.
+							</p>
+							<p>
+								1. Fully analog control allows me to perform quick reliable simulations on the dynamics of the system without having to worry about complex IC SPICE models. With digital control it's very difficult to get good simulations integrated.
+							</p>
+							<p>
+								2. Debugging/Integration: If I used some off-the-shelf IC, the chance I will fully understand how it works on a deep level within the timeline is practically impossible.
+								With this fully analog control if there's something wrong with it, I can identify it quite easily as I designed the whole thing.
+								Op-amps have well-defined operating characteristics.
+							</p>
+							<p>
+								3. Looking at it from a time-efficient manner, having to integrate a microcontroller on the board and then writing firmware, bringing up drivers takes time.
+								It's all pretty simple stuff, but getting something I am going to trust to operate stably at these high-voltages and perhaps manually tuning the PID gains is not something I deemed worth the hassle.
+							</p>
+							<p>
+								4. It's cool and I wanted to test it out.
+								This might be the best reason, and one that swayed me the most.
+								I like analog electronics, I like control systems.
+								It's very rare that either of these fields are really practical in the real world, now everything is digital and advanced controls is just ML based or guess and checked PID gains.
+								It was a fun project, it worked and I got to apply a whole bunch of different fields to get this result.								
+							</p>
+							<div id="understand" class="subsubheading">Understanding Analog Control Topology</div>
 							<p>
 								Just looking at it, it is quite daunting to take in, but once you break it down it is quite simple.
 								I go into some mathematics in this section.
@@ -281,7 +311,7 @@
 							<figcaption class="writing-fig">Annotated Schematic of Control Topology</figcaption>
 							</figure>
 						</body>
-					<div class="subsubheading">Triangle Reference</div>
+					<div id="triangle" class="subsubheading">Triangle Reference</div>
 						<div class="body">
 							<p>
 								The way one typically does DC-DC control is they have a reference waveform ("chopper")
@@ -593,6 +623,14 @@
 								Though due to stage loading and non-idealities in op-amps you should run simulations to get a more accurate result.
 								Our result is really about 10kHz switching frequency, but the exact number is not that important for us.
 							</p>
+							<p>
+								<b>Combined Stages<br></b>
+								When you combine the 2 stages, you get an op-amp which is always integrating it's input.
+								So given a DC voltage from the Schmitt trigger it's creating a linear slope based on that.
+								The Schmitt trigger reads the integrator output and when it reaches a certain threshold it flips it's own output HIGH/LOW.
+								The integrator receives that output and changes direction of it's integration.
+								This creates a perfect triangle wave as the stages are constantly reacting to each other.
+							</p>
 						</div>
 					</div>
 					<div id="input" class="subsubheading">Input</div>
@@ -645,6 +683,7 @@
 						</mrow>
 						</math>
 						Careful effort must be used here to ensure that there is proper spacings between the multiple resistors to prevent damaging and over-volting them.
+						See more <a href="#hvs">here</a>.
 					</div>
 
 					<div id="regulator" class="subsubheading">Regulator</div>
@@ -676,7 +715,7 @@
 						</p>
 						<p>
 							You'll notice there's a MOSFET (Q3) there.
-							It serves a very simple purpose, when ENABLE is low, Q3 enters the cutoff region, which pulls our reference voltage low, and subsequently our regulator will begin to cutoff.
+							It serves a very simple purpose, when ENABLE is low, Q3 enters the cutoff region, which due to the pull-down resistor pulls our reference voltage low, and subsequently our regulator will begin to cutoff.
 						</p>
 						
 						<p>
@@ -700,7 +739,8 @@
 							<br>
 							<b>Technical Version</b><br>
 							The Type II compensator was selected to give stronger control over the transient response while maintaining high stability.
-							There's a zero placement at ~2Hz to speed up the transient response, while a pole is placed at ~15kHz.
+							There is a pole at the origin to give good steady-state tracking.
+							There's a zero placement at ~2Hz to speed up the transient response, while a pole is placed at ~15kHz to try and dampen out the high frequency noise and switching action.
 							In hindsight, the pole should have probably been placed quite a bit slower to smooth out more of the switching action.
 							I was tuning control loops in simulation very late in the night and was planning on tuning parameters in person at some point.
 						</p>
@@ -709,7 +749,7 @@
 						</p>
 						<figure>
 						<img class="writing-fig" src="dcdc_breakdown/bode.png"></img>
-						<figcaption class="writing-fig">Quick sample bode plot to show where the poles and zeros are</figcaption>
+						<figcaption class="writing-fig">Quick sample bode plot to show where the poles and zeros are. (Solid is magnitude, dotted is phase)</figcaption>
 						</figure>
 						<b>Op-amp Comparator</b><br>
 						<p>
@@ -747,7 +787,7 @@
 						<p>
 							The over-voltage protection circuit is also quite simple.
 							All it is, is a comparator circuit that triggers HIGH when the sensed input voltage rises above 3.33V which corresponds to an output voltage of ~404V.
-							When it outputs HIGH it drives the MOSFET Q4 LOW which effectivelly turns the regulator OFF as it pulls the reference for the comparator to 0.
+							When it outputs HIGH it drives the MOSFET Q4 gate which pulls acts as a pull-down which turns the regulator OFF as it pulls the reference for the comparator to 0.
 						</p>
 					</div>
 					<div id="gd" class="subsubheading">Gate Drive</div>
@@ -757,14 +797,15 @@
 						<figcaption class="writing-fig">Gate Drive Circuit</figcaption>
 						</figure>
 						<p>
-							The gate driver circuit is really simple and could result in some issues, but didn't during my time working with it.
-							I performed practically 0 analysis on this, I just trusted GaN Systems' writings that you can drive these GaN chips using a standard Si driver (see <a href="https://gansystems.com/wp-content/uploads/2022/03/GN012_Gate-Driver-Design-with-GaN-E-HEMTs_220308.pdf">here</a> for more details).
+							The gate driver circuit is really simple.
+							GaN HEMT driving can typically be very tricky and require advanced circuits, but I had no issues during my testing with this topology.
+							I performed very little analysis, I just trusted GaN Systems' writings that you can drive these GaN chips using a standard Si driver (see <a href="https://gansystems.com/wp-content/uploads/2022/03/GN012_Gate-Driver-Design-with-GaN-E-HEMTs_220308.pdf">here</a> for more details).
 						</p>
 						<p>
 							There's not much to say here it's a very simple topology. Isolated DC-DC module to supply the power for the gate drive unit.
-							10 ohm resistor is used to slow the rise time of the gate of the FET. Not much analysis was done, simply that this is a GaN FET
-							it has very high rise times, and we don't have a ton of time to do in-depth parasitic inductance analysis.
-							If it's an issue we'll have to settle that when we come to bringup and testing and tune the gate resistor.
+							10 ohm resistor is used to slow the rise time of the gate of the FET. 
+							This is a GaN FET
+							it has very high rise times, and we don't have a ton of time to do in-depth parasitic inductance analysis so we'll just slow down the rise times and if switching losses become an issue we can tune those later.
 						</p>
 					</div>
 					<div id="powere" class="subheading">Power Electronics</div>
@@ -804,6 +845,7 @@
 						</figure>
 						<p>
 							If you run the calculations from above you end up with a ripple voltage of <1V, which is pretty good for our use case.
+							Should also be noted that the 2nd stage DC-DC itself has a ton of input capacitance which will help shrink our ripple.
 						</p>
 					</div>
 					<div id="fetsel" class="subsubheading">FET Selection</div>
