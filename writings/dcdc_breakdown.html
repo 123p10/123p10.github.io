@@ -55,6 +55,9 @@
 				<div class="toc-3"><a href="#hvs">HV Spacings</a></div>
 				<div class="toc-2"><a href="#fusing">Fusing</a></div>
 				<div class="toc-2"><a href="#render">Rendered PCB</a></div>
+				<div class="toc-2"><a href="#assembly">Assembled PCB</a></div>
+				<div class="toc-2"><a href="#testing">Testing</a></div>
+				<div class="toc-2"><a href="#final">Final Words</a></div>
 			</div>
 			<main class="writing-main-text">
 				<div class="grouped-heading">
@@ -64,6 +67,10 @@
 						The date is January 7, 2024. I am in my 4B term of Mechatronics Engineering at the University of Waterloo.
 						That is my final year and means I have a full course load as well as a capstone project.
 						</p>
+						<figure>
+						<img class="writing-fig" src="dcdc_breakdown/steinmetz.png"></img>
+						<figcaption class="writing-fig">Screenshot from my capstone project</figcaption>
+						</figure>
 						<p>
 						I am also the Technical Lead of the Waterloo Formula Electric.
 						Which means I'm responsible for everything that goes on the vehicle: mechanical, electrical and software.
@@ -852,6 +859,73 @@
 					<img class="writing-fig" src="dcdc_breakdown/render.png"></img>
 					<figcaption class="writing-fig">Altium 3D view of PCB</figcaption>
 					</figure>
+					<div id="assembly" class="subheading">Assembled PCB</div>
+					<figure>
+					<img class="writing-fig" src="dcdc_breakdown/assembly_2.png"></img>
+					<figcaption class="writing-fig">Fully Assembled PCB</figcaption>
+					</figure>
+					<div id="testing" class="subheading">Testing</div>
+					<p>
+					Post-assembly I performed some basic checkouts, made sure the triangle wave generator worked well (it worked spectacularly! I wish I had some scope shots).
+					Made sure all the circuits were functioning as expected.
+					I also performed some basic insulation tests using a Fluke. Just making sure nothing was going to arc or explode.
+					</p>
+					<figure>
+					<img class="writing-fig" src="dcdc_breakdown/fluke.webp"></img>
+					<figcaption class="writing-fig"><a href="https://www.fluke.com/en-ca/product/electrical-testing/insulation-testers/fluke-1507">Fluke 1507 Insulation Resistance Tester</a></figcaption>
+					</figure>
+					<p>
+					I then plugged the device into Waterloo SSDC's High Voltage DC Power Supply.
+					I slowly increased the input voltage to the DC-DC board and was ecstatic when the output voltage rose in tandem.
+					This was as expected as the analog control loop will effectively rail and have a near constant duty cycle to try to reach a higher output voltage.
+					</p>
+					<p>
+					Once the input voltage rose above ~300V it maintained a regulated 300V and never rose past that.
+					This was a great success, it demonstrated the control loop worked properly.
+					It was amazing.
+					</p>
+					<p>
+					I would have loved to push this further, run load testing see the limits of this device.
+					Alas, my time was taken up with other things.
+					I never got the opportunity to push this as my role as Technical Lead for the team took over.
+					Additionally my capstone project work further meant I had fully 0 free-time in my last year of undergrad.
+					</p>
+					<p>
+					The device never got in the car and I suspect it was scrapped for future years. 
+					Hopefully someone else can learn from this work or design a new from scratch DC-DC with more effort and time for future Waterloo Formula Electric vehicles.
+					</p>
+					<div id="final" class="subheading">Final Words</div>
+					<div style="display:flex;justify-content:center;gap:1rem;">
+					<figure style=";">
+						<img class="writing-fig" style="height:35rem;" src="dcdc_breakdown/night.jpg"></img>
+					</figure>
+					<figure style=";">
+						<img class="writing-fig" style="height:35rem;"src="dcdc_breakdown/day.jpg"></img>
+					</figure>
+					</div>
+					<figcaption class="writing-fig" style="text-align: center;">Late night testing before competition</figcaption>
+					<p>
+						In the end, one could say that the 24 hour binge to get that DC-DC converter out was a waste of time.
+						The converter was never used for anything to my knowledge.
+					</p>
+					<p>
+						To me that's a defeatist attitude.
+						This converter only took ~24 hours of my time but I learned so much and how often can you say that in such a short timespan you produced something of such complexity that worked?
+					</p>
+					<p>
+						As I've written and talked about pretty extensively (<a href="../writings/fsae_purpose_excerpt.html">here</a> and <a href="../writings/2024_hybrid_review.pdf">here</a>)
+						the purpose of FSAE was never really about producing a cool, running vehicle (though it is a possible byproduct).
+						The real purpose of FSAE is to learn and build your character.
+
+					</p>
+					<p>
+					That 24 hour binge during the insane crunch time of that era was intense and I came out a more resilient person.
+					It's almost unimaginable to me right now (on vacation) that I could have been that productive, it's inhuman, it was all a result of me saying "yes".
+					Another person or perhaps a younger version of myself might have said "we will scrap this project, we don't have time", but I'm proud to say I knuckled down and tried.
+					</p>
+					<p>
+					I learned a lot from this, and I hope someday, someone else is able to gather some knowledge from this as well.
+					</p>
 				</div>
 				</div>
 			</main>
