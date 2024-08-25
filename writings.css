@@ -3,6 +3,11 @@
 	font-size: 2.5rem;
 }
 
+.heading {
+	font-weight: bold;
+	font-size: 2rem;
+}
+
 .subheading {
 	font-weight: bold;
 	font-size: 1.5rem;
@@ -24,8 +29,37 @@
 
 figcaption.writing-fig {
 	text-align: center;
-	font-size: 1.25rem;
+	font-size: 1.0rem;
+	color: #3F3F3F;
 }
 img.writing-fig {
 	width: 100%;
+}
+.toc {
+	border-radius: 0.5rem;
+	background-color: #efefef;
+	padding-left: 3rem;
+	padding-right: 15rem;
+	padding-top: 1.5rem;
+	padding-bottom: 1.5rem;
+}
+.toc-toc {
+	font-size: 1.75rem;
+	font-weight: bold;
+	color: #333333;
+	text-decoration: underline;
+}
+.toc-1 {
+	padding-top: 1rem;
+}
+.toc-2 {
+	margin-left:2rem;
+	padding-top: 0.25rem;
+}
+.toc-3 {
+	margin-left:4rem;
+}
+.toc > div > a {
+	text-decoration: none;
+	font-size: 1.35rem;
 }
