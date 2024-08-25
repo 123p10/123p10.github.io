@@ -1,0 +1,864 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8"/>
+		<link rel="stylesheet" href="../styles.css">
+		<link rel="stylesheet" href="../writings.css">
+		<link rel="stylesheet" href="dcdc_breakdown/main.css">
+		<title>Designing a 600V Buck Converter in 24 Hours</title>
+	</head>
+	<body>
+		<div class="container">
+			<span class="banner-name">
+				Owen Brake
+			</span>
+			<span class="resume-link">
+				<a href="../index.html">Résumé</a>
+			</span>
+			<span class="blog-link">
+				<a href="../writings.html">Writings</a>
+			</span>
+		</div>
+		<div class="container">
+			<header>
+				<div class="text-titles">
+					<span class="writings-title">Designing a 600V Buck Converter in 24 Hours</span>
+				</div>
+				August 24, 2024
+				<hr class="line-large">
+			</header>
+			<div class="toc">
+				<div class="toc-toc">Table of Contents</div>
+				<div class="toc-1"><a href="#bg">Background</a></div>
+				<div class="toc-2"><a href="#what-is">What is Formula Electric</a></div>
+				<div class="toc-2"><a href="#context">Context on Waterloo Formula Electric</a></div>
+				<div class="toc-2"><a href="#why-24">Why 24 Hours?</a></div>
+				<div class="toc-2"><a href="#purpose">Purpose</a></div>
+				<div class="toc-2"><a href="#topology">DC-DC Topology</a></div>
+
+				<div class="toc-1"><a href="#design">Design</a></div>
+				<div class="toc-2"><a href="#disclaimer">Disclaimer</a></div>
+				<div class="toc-2"><a href="#init">Initial Design Decisions</a></div>
+				<div class="toc-2"><a href="#overview">Overview</a></div>
+				<div class="toc-2"><a href="#control">Control Topology</a></div>
+				<div class="toc-3"><a href="#input">Input</a></div>
+				<div class="toc-3"><a href="#regulator">Regulator</a></div>
+				<div class="toc-3"><a href="#enablec">Enable Control</a></div>
+				<div class="toc-3"><a href="#ovp">Over-Voltage Protection (OVP)</a></div>
+				<div class="toc-3"><a href="#gd">Gate Drive</a></div>
+				<div class="toc-2"><a href="#powere">Power Electronics</a></div>
+				<div class="toc-3"><a href="#icsel">Inductor and Capacitor Selection</a></div>
+				<div class="toc-3"><a href="#fetsel">FET Selection</a></div>
+				
+				<div class="toc-1"><a href="#results">Result/Conclusions</a></div>
+				<div class="toc-2"><a href="#routing">Routing</a></div>
+				<div class="toc-3"><a href="#hvs">HV Spacings</a></div>
+				<div class="toc-2"><a href="#fusing">Fusing</a></div>
+				<div class="toc-2"><a href="#render">Rendered PCB</a></div>
+			</div>
+			<main class="writing-main-text">
+				<div class="grouped-heading">
+					<div id="bg" class="heading">Background</div>
+					<div class="body">
+						<p>
+						The date is January 7, 2024. I am in my 4B term of Mechatronics Engineering at the University of Waterloo.
+						That is my final year and means I have a full course load as well as a capstone project.
+						</p>
+						<p>
+						I am also the Technical Lead of the Waterloo Formula Electric.
+						Which means I'm responsible for everything that goes on the vehicle: mechanical, electrical and software.
+						</p>
+						<div id="what-is" class="subheading">What is Formula Electric</div>
+						<p>
+						Every year a whole bunch of teams from across the world compete in Formula One style events with fully electric racecars.
+						The goal is to design and assemble a new car every year to compete against other teams.
+						</p>
+						
+						<div id="context" class="subheading">Context on Waterloo Formula Electric</div>
+						<figure>
+						<img class="writing-fig" src="dcdc_breakdown/car_front.jpg"></img>
+						<figcaption class="writing-fig"> Front View of the Formula Electric Vehicle in the Ford Wind Tunnel</figcaption>
+						</figure>
+						<p>
+						Waterloo Formula Electric is a team that has had some troubles in the past.
+						Due to the unique nature of co-op and certain academic administrative conflicts the team has not been in a great spot.
+						From 2018-2022 there was no working vehicle.
+						In the years from 2021-2024 when I was technical lead of the team I worked hard to try and turn the team around.
+						Redesigning much of the vehicle to get a FSAE Michigan compliant vehicle so we could run at competition.
+						</p>
+						<div id="why-24" class="subheading">Why 24 Hours?</div>
+						<p>
+						Initially I had given the task to one of the electrical leads on the team.
+						The goal was to have a first revision in the fall of 2023, but by December 2023 no schematics were even drawn up.
+						The vehicle deadlines were slipping and I was full gear on other work, but decided we needed something for our DC-DC.
+						Due to lead-times the idea of doing it 1 month before competition was not really feasible.
+						</p>
+					</div>
+					<div id="purpose" class="subheading">Purpose</div>
+						<div class="body">
+							<figure>
+							<img class="writing-fig" src="dcdc_breakdown/ts_schem.png"></img>
+							<figcaption class="writing-fig">HV Schematic of the Formula Electric Vehicle with the DC-DC Highlighted</figcaption>
+							</figure>
+							The DC-DC converter sits inside our HV (High-Voltage) battery electronics box.
+							It's idea is to step down the full battery voltage (min 350V, max 588V) to 12V.
+							The idea is to support the small low-voltage batteries we use to power the low voltage systems on our car.
+							In particular to supplement the high loads from the pumps and fans for motor, motor controller and battery.
+						</div>
+					<div id="topology" class="subheading">DC-DC Topology</div>
+						<div class="body">
+							<figure>
+							<img class="writing-fig" src="dcdc_breakdown/buck.png"></img>
+							<figcaption class="writing-fig">Basic topology of a buck converter</figcaption>
+							</figure>
+							We'll just quickly brush up on the simple buck converter topology. We have our high-voltage source on the left.
+							The switch is on our case just a MOSFET.
+							We need to switch the MOSFET faster than the resonant frequency of the LC time constant to get a smooth output voltage.
+							The duty cycle of the MOSFET controls the output voltage.
+							<math display="block">
+								<semantics>
+									<mtable>
+										<mtr>
+											<mtd>
+												<msub>
+													<mi>V</mi>
+													<mi>out</mi>
+												</msub>
+											</mtd>
+											<mtd>=</mtd>
+											<mtd>d<msub>
+													<mi>V</mi>
+													<mi>in</mi>
+												</msub>
+											</mtd>
+										</mtr>
+										<mtr>
+											<mtd>
+												<msub>
+													<mi>&Delta;V</mi>
+													<mi>out</mi>
+												</msub>
+											</mtd>
+											<mtd><mo>=</mo></mtd>
+											<mtd>
+												<mfrac>
+													<mrow>
+													<mi>d</mi>
+													(
+													<msub><mi>V</mi><mi>in</mi></msub>
+													<mo>-</mo>
+													<msub><mi>V</mi><mi>out</mi></msub>
+													)
+													</mrow>
+													<mrow>
+													<mn>8</mn>
+													<msubsup><mi>f</mi><mi>s</mi><mn>2</mn></msubsup>
+													<mi>L</mi>
+													<msub><mi>C</mi><mi>out</mi></msub>
+													</mrow>
+												</mfrac>
+											</mtd>
+										</mtr>
+									</mtable>
+								</semantic>
+							</math>
+							There are a few other equations and the voltage ripple estimate doesn't factor in capacitor ESR, but this covers the general concepts.
+							Output voltage is proportional to duty cycle. Higher capacitance, inductance and especially switching frequency will result in lower output voltage ripple.
+							This is important as mass is a big factor in the design as you will see.
+						</div>
+				</div>
+				
+				<div class="grouped-heading">
+					<div id="design" class="heading">Design</div>
+					<div id="disclaimer" class="subheading">Disclaimer</div>
+						<div class="body">
+							<p>
+							I want to make a disclaimer before going further.
+							This is not a good design.
+							Don't go repeating this unless you want to learn more about DC-DCs and want to experiment with failure modes.
+							</p>
+							<p>
+							I designed this in 24 hours, with lots of caffeine, no sleep and lot's of stress.
+							Most design decisions were made for: lower mass, quicker debugging/iterations.
+							</p>
+						</div>
+					<div id="init" class="subheading">Initial Design Decisions</div>
+						<p>
+							As stated previously the battery pack voltage goes from 350V-588V, so in practice we need to design a DC-DC
+							that can handle ~600V+ and maintain regulation down to about 350V.
+							We want to achieve a power output as high as possible but in practice at least 120W (12V, 10A).
+							But a big factor is weight and volume, we have to package this inside our tight electronics box and mass is important
+							for Formula SAE vehicles.
+						</p>
+						<p>
+							The first thing you should always consider is can we buy this off the shelf.
+							Vendors can get significantly better packaging than we can with custom components and huge testing efforts.
+							Attempts were made, and subsequently failed to get anything off the shelf that would meet our needs.
+						</p>
+						<p>
+							Designing a 600V to 12V isolated DC-DC is quite a challenge, and one has to be honest with themselves, doing any advanced
+							topology in tight packaging is not feasible in the limited time we have. Likely we will get the first iteration and it will not work.
+						</p>
+						<p>
+							So, what we do have is in 2018 someone did design a 300V-12V isolated DC-DC board using Vicor's <a href="https://product.tdk.com/en/search/power/switching-power/dc-dc-converter/info?part_no=PAF600F280-12">PAF600F280-12</a> module.
+							The board does work, it's been validated under load and IIRC it has EMI issues and some choppy output but it will work for our needs.
+						</p>
+						<figure>
+						<img class="writing-fig" src="dcdc_breakdown/paf.avif"></img>
+						<figcaption class="writing-fig">PAF600F280-12 module from Vicor</figcaption>
+						</figure>
+						<p>
+							Given we have a 300V-12V DC-DC board which has some pretty wide operating voltage range and a fairly tight power density.
+							All we have to do is design a 600V-300V design with some caveats.
+							
+						</p>
+						<p>
+							1. We must ensure that <math><msub><mi>V</mi><mi>out</mi></msub><mo><</mo><mn>400V</mn></mo></math>
+							under any situation lest we risk damaging the 2nd stage DC-DC.
+						</p>
+						<p>
+							2. We must ensure that properly enable the 2nd stage DC-DC when the 1st stage is ready.
+						</p>
+
+						<p>
+							3. We must aim for high power density given we already have a fairly chunky 2nd stage DC-DC in the box.
+						</p>
+					</div>
+					<div id="overview" class="subheading">Overview</div>
+						<div class="body">
+							<p>
+								If you sketch out the high level overview the following schematic is how it looks.
+							</p>
+							<figure id="overview_schem">
+							<img class="writing-fig" src="dcdc_breakdown/top.png"></img>
+							<figcaption class="writing-fig">Overview Schematic for DC-DC</figcaption>
+							</figure>
+							<p>
+								It's quite messy due to the rushed manner in which it is done.
+								But you can pretty much make out the various blocks of the original buck converter as presented above.
+							</p>
+							<p>
+								I'll try to cover all the interesting components going forward.
+							</p>
+							<p>
+								<b>Note</b>: You will notice throughout the schematics there are various net classes I define (TSV, GLV, etc.)
+								these are all spacing net classes to ensure clear seperation between the high voltages and prevent any arcing.
+							</p>
+						</div>
+					<div id="control" class="subheading">Control Topology</div>
+						<div class="body">
+							<figure>
+							<img class="writing-fig" src="dcdc_breakdown/schem.png"></img>
+							<figcaption class="writing-fig">Analog Control Topology for DC-DC</figcaption>
+							</figure>
+							<p>
+								This is probably the real interesting part of the project and one which people care the most about.
+								I did a full analog control topology for this DC-DC converter.
+							</p>
+							<p>
+								Just looking at it, it is quite daunting to take in, but once you break it down it is quite simple.
+								I go into some mathematics in this section.
+								But one thing I've learned in EE design from mentors and especially from the <a href="https://artofelectronics.net/">"Art of Electronics"</a> is don't get bogged down in the math.
+								When you're starting out design, think through it logically as blocks, run simulations for some proof and if you have to do deep analysis then bring out the math.
+							</p>
+							<figure>
+							<img class="writing-fig" src="dcdc_breakdown/artofee.jpg" style="width: 20%;display:block;margin-left:auto;margin-right:auto;"></img>
+							<figcaption class="writing-fig">The Art of Electronics Book (Highly Recommend)</figcaption>
+							</figure>
+							<p>
+								We'll begin as with any system by breaking it down into sub-sections.
+							</p>
+							
+							<figure>
+							<img class="writing-fig" src="dcdc_breakdown/schem_annotated.png"></img>
+							<figcaption class="writing-fig">Annotated Schematic of Control Topology</figcaption>
+							</figure>
+						</body>
+					<div class="subsubheading">Triangle Reference</div>
+						<div class="body">
+							<p>
+								The way one typically does DC-DC control is they have a reference waveform ("chopper")
+								and when the reference waveform rises above some threshold it will trigger "on" the MOSFET and when it's below
+								the threshold is turns "off".
+							</p>
+							<p>
+								I've done this by using an analog triangle wave generator as shown.
+							</p>
+							<figure>
+								<img class="writing-fig" src="dcdc_breakdown/triangle.png"></img>
+								<figcaption class="writing-fig">Triangle Wave Generator</figcaption>
+							</figure>
+							<p>
+								One way to think about this, is as 2 different stages of op-amps.
+							</p>
+							<p>
+								<b>Non-Zero Reference Schmitt Trigger<br></b>
+								The first op-amp (U3) is effectively a non-zero reference schmitt trigger, when the input rises above a threshold it drives HIGH,
+								and remains HIGH until it reaches a low threshold in which case it drives LOW.
+								The characteristics equations for this are shown here:
+							</p>
+							<math display="block">
+								<semantics>
+									<mtable>
+										<mtr>
+											<mtd>
+												<msub>
+													<mi>V</mi>
+													<mi>ref</mi>
+												</msub>
+											</mtd>
+											<mtd>=</mtd>
+											<mtd><mn>2.5V</mn>
+											</mtd>
+										</mtr>
+										<mtr>
+											<mtd>
+												<msub>
+													<mi>R</mi>
+													<mn>1</mn>
+												</msub>
+											</mtd>
+											<mtd>=</mtd>
+											<mtd><mn>69.8k&Omega;</mn>
+											</mtd>
+										</mtr>
+										<mtr>
+											<mtd>
+												<msub>
+													<mi>R</mi>
+													<mn>2</mn>
+												</msub>
+											</mtd>
+											<mtd>=</mtd>
+											<mtd><mn>100k&Omega;</mn>
+											</mtd>
+										</mtr>
+										<mtr>
+											<mtd>
+												<msub>
+													<mi>V</mi>
+													<mi>o+</mi>
+												</msub>
+											</mtd>
+											<mtd>~</mtd>
+											<mtd><mn>5V</mn>
+											</mtd>
+										</mtr>
+										<mtr>
+											<mtd>
+												<msub>
+													<mi>V</mi>
+													<mi>o-</mi>
+												</msub>
+											</mtd>
+											<mtd>~</mtd>
+											<mtd><mn>0V</mn>
+											</mtd>
+										</mtr>
+										<mtr>
+											<mtd>
+													<msub>
+													<mi>V</mi>
+													<mrow>
+														<mi>T</mi>
+														<mi>L</mi>
+													</mrow>
+													</msub>
+											</mtd>
+											<mtd>=</mtd>
+											<mtd>
+												<mrow>
+													<mfrac>
+													<mrow>
+														<msub>
+														<mi>R</mi>
+														<mn>1</mn>
+														</msub>
+														<mo>+</mo>
+														<msub>
+														<mi>R</mi>
+														<mn>2</mn>
+														</msub>
+													</mrow>
+													<msub>
+														<mi>R</mi>
+														<mn>2</mn>
+													</msub>
+													</mfrac>
+													<msub>
+													<mi>V</mi>
+													<mrow>
+														<mi>r</mi>
+														<mi>e</mi>
+														<mi>f</mi>
+													</mrow>
+													</msub>
+													<mo>−</mo>
+													<mfrac>
+													<msub>
+														<mi>R</mi>
+														<mn>1</mn>
+													</msub>
+													<msub>
+														<mi>R</mi>
+														<mn>2</mn>
+													</msub>
+													</mfrac>
+													<msub>
+													<mi>V</mi>
+													<mrow>
+														<mi>o</mi>
+														<mo lspace="0em" rspace="0em">−</mo>
+													</mrow>
+													</msub>
+												</mrow>
+											</mtd>
+										</mtr>
+
+										<mtr>
+											<mtd>
+													<msub>
+													<mi>V</mi>
+													<mrow>
+														<mi>T</mi>
+														<mi>H</mi>
+													</mrow>
+													</msub>
+											</mtd>
+											<mtd>=</mtd>
+											<mtd>
+												<mrow>
+													<mfrac>
+													<mrow>
+														<msub>
+														<mi>R</mi>
+														<mn>1</mn>
+														</msub>
+														<mo>+</mo>
+														<msub>
+														<mi>R</mi>
+														<mn>2</mn>
+														</msub>
+													</mrow>
+													<msub>
+														<mi>R</mi>
+														<mn>2</mn>
+													</msub>
+													</mfrac>
+													<msub>
+													<mi>V</mi>
+													<mrow>
+														<mi>r</mi>
+														<mi>e</mi>
+														<mi>f</mi>
+													</mrow>
+													</msub>
+													<mo>+</mo>
+													<mfrac>
+													<msub>
+														<mi>R</mi>
+														<mn>1</mn>
+													</msub>
+													<msub>
+														<mi>R</mi>
+														<mn>2</mn>
+													</msub>
+													</mfrac>
+													<msub>
+													<mi>V</mi>
+													<mrow>
+														<mi>o</mi>
+														<mo lspace="0em" rspace="0em">+</mo>
+													</mrow>
+													</msub>
+												</mrow>
+											</mtd>
+										</mtr>
+									</mtable>
+								</semantic>
+							</math>
+							<p>
+							The result is you get a LOW threshold of ~0.75V and a HIGH threshold of ~4.25V.
+							</p>
+							<p>
+								<b>Integrator<br></b>
+								The second op-amp (U4) is an inverting integrator.
+								When the input to this stage is greater than 2.5V, the op-amp will integrate in the negative direction.
+								When the input to this stage is less than 2.5V the op-amp will integrate in the positive direction.
+							</p>
+							<figure>
+								<img class="writing-fig" src="dcdc_breakdown/triangle_screen.png"></img>
+								<figcaption class="writing-fig">Inverting Integrator Simulation</figcaption>
+							</figure>
+							<p>
+								The RC combination are selected to set the slope of the integration.
+								This directly sets the switching frequency for the device.
+								The characteristic equation for an inverting op-amp integrator is shown below.
+							</p>
+							<math xmlns="http://www.w3.org/1998/Math/MathML" display="block" class="tml-display" style="display:block math;">
+							<mrow>
+								<msub>
+								<mi>V</mi>
+								<mi>o</mi>
+								</msub>
+								<mo>=</mo>
+								<mo form="prefix" stretchy="false">−</mo>
+								<mfrac>
+								<mn>1</mn>
+								<mrow>
+									<mi>R</mi>
+									<mi>C</mi>
+								</mrow>
+								</mfrac>
+								<msubsup>
+								<mo movablelimits="false">∫</mo>
+								<mn>0</mn>
+								<mi>t</mi>
+								</msubsup>
+								<msub>
+								<mi>V</mi>
+								<mrow>
+									<mi>i</mi>
+									<mi>n</mi>
+								</mrow>
+								</msub>
+								<mi>d</mi>
+								<mi>t</mi>
+							</mrow>
+							</math>
+							<p>You can then simplify to get the rate of change of the output voltage which gives you the slope of your triangle wave.</p>
+							<math xmlns="http://www.w3.org/1998/Math/MathML" display="block" class="tml-display" style="display:block math;">
+							<mrow>
+								<mfrac>
+								<mrow>
+									<mi>d</mi>
+									<msub>
+									<mi>V</mi>
+									<mi>o</mi>
+									</msub>
+								</mrow>
+								<mrow>
+									<mi>d</mi>
+									<mi>t</mi>
+								</mrow>
+								</mfrac>
+								<mo>=</mo>
+								<mo form="prefix" stretchy="false">−</mo>
+								<mfrac>
+								<mn>1</mn>
+								<mrow>
+									<mi>R</mi>
+									<mi>C</mi>
+								</mrow>
+								</mfrac>
+								<mo form="prefix" stretchy="false">(</mo>
+								<mn>2.5</mn>
+								<mo form="postfix" stretchy="false">)</mo>
+							</mrow>
+							</math>
+							<p>
+								You can rearrange to do the math and you get the following result for switching frequency.
+							</p>
+								<math xmlns="http://www.w3.org/1998/Math/MathML" display="block" class="tml-display" style="display:block math;">
+								<mrow>
+									<msub>
+									<mi>f</mi>
+									<mrow>
+										<mi>s</mi>
+										<mi>w</mi>
+									</mrow>
+									</msub>
+									<mo>=</mo>
+									<mfrac>
+									<mn>2.5</mn>
+									<mrow>
+										<mn>2</mn>
+										<mi>R</mi>
+										<mi>C</mi>
+										<mi>V</mi>
+									</mrow>
+									</mfrac>
+								</mrow>
+								</math>
+							<p>
+								In this case "V" is your peak-peak voltage of your schmidt trigger.
+								In our case it's approximately 3.5 (4.25-0.75), you solve that and you get a switching frequency of ~12kHz.
+								Though due to stage loading and non-idealities in op-amps you should run simulations to get a more accurate result.
+								Our result is really about 10kHz switching frequency, but the exact number is not that important for us.
+							</p>
+						</div>
+					</div>
+					<div id="input" class="subsubheading">Input</div>
+					<div class="body">
+						<p>
+						This part is pretty simple. Effectively for our regulator, to control our reference we need some concept of input.
+						</p>
+						<figure>
+						<img class="writing-fig" src="dcdc_breakdown/input.png"style="width: 20%;display:block;margin-left:auto;margin-right:auto;"></img>
+						<figcaption class="writing-fig"> Input Schematic </figcaption>
+						</figure>
+						<p>
+						This is a dead simple voltage divider, it takes in the output voltage and steps it down such that 300V output ~2.5V in to the op-amp.
+						</p>
+						<math display="block" class="tml-display" style="display:block math;">
+						<mrow>
+							<msub>
+							<mi>V</mi>
+							<mi>o</mi>
+							</msub>
+							<mo>=</mo>
+							<mfrac>
+							<mrow>
+								<mn>49.9</mn>
+								<mi>k</mi>
+								<mrow>
+								<mi mathvariant="normal">Ω</mi>
+								</mrow>
+							</mrow>
+							<mrow>
+								<mn>49.9</mn>
+								<mi>k</mi>
+								<mrow>
+								<mi mathvariant="normal">Ω</mi>
+								</mrow>
+								<mo>+</mo>
+								<mn>6</mn>
+								<mo>×</mo>
+								<mn>1</mn>
+								<mi>M</mi>
+								<mrow>
+								<mi mathvariant="normal">Ω</mi>
+								</mrow>
+							</mrow>
+							</mfrac>
+							<msub>
+							<mi>V</mi>
+							<mi>i</mi>
+							</msub>
+						</mrow>
+						</math>
+						Careful effort must be used here to ensure that there is proper spacings between the multiple resistors to prevent damaging and over-volting them.
+					</div>
+
+					<div id="regulator" class="subsubheading">Regulator</div>
+					<div class="body">
+						<p>
+							The regulator part is perhaps the coolest part.
+						</p>
+						<div style="display:flex;justify-content:center;gap:1rem;">
+						<figure style=";">
+							<img class="writing-fig" style="height:35rem;" src="dcdc_breakdown/regulator_1.png"></img>
+						</figure>
+						<figure style=";">
+							<img class="writing-fig" style="height:15rem;"src="dcdc_breakdown/regulator_2.png"></img>
+						</figure>
+						</div>
+						<figcaption class="writing-fig" style="text-align: center;">Regulator Blocks</figcaption>
+
+						<p>
+							<b>Resistor Ladder Input</b><br>
+							We'll start with the left part. As stated we have the resistor ladder which steps down our measured output voltage from 300V to ~2.5V.
+							This gets buffered and passed into one side of our feedback regulator (U6).
+						</p>
+						<p>
+							<b id="ref_input">Reference Input</b><br>
+							On the other side we have a simple resistor ladder (R25, R33).
+							All this really is, is it sets our reference voltage we want to achieve.
+							As I stated before the input get's scalled from 300V to ~2.5V.
+							Our desired reference voltage is set to be at ~2.5V.
+						</p>
+						<p>
+							You'll notice there's a MOSFET (Q3) there.
+							It serves a very simple purpose, when ENABLE is low, Q3 enters the cutoff region, which pulls our reference voltage low, and subsequently our regulator will begin to cutoff.
+						</p>
+						
+						<p>
+							You'll also notice there's a capacitor (C22) there.
+							This acts as a soft-start, the RC circuit has a time constant of ~0.1s, so in about 0.5s the reference will have reached steady state.
+						</p>
+
+						<b>Feedback Regulator</b><br>
+						<p>
+							The real complicated bit comes with the main regulator (U6).
+							What is implemented here is a Type II compensator. 
+							I don't quite have the time to an in-depth analysis of the stability of the Type II compensator and performing selection of the components.
+							If you're curious TI has a pretty good article <a href="https://www.ti.com/lit/an/slva662/slva662.pdf?ts=1724516636039&ref_url=https%253A%252F%252Fwww.google.com%252F">here</a>.
+						</p>
+						<p>
+							<b>Less-Technical Version</b><br>
+							This regulator toplogy is trying to minimize the error between it's 2 input terminals.
+							It will try to set it's output such that the input from SENSE_V is equal to the reference voltage divider.
+							We can tune the various component values to get good tradeoffs between stability and response time.
+							If we say increased C3, we would have a slower, more stable response but a longer response time to changes in the system.
+							<br>
+							<b>Technical Version</b><br>
+							The Type II compensator was selected to give stronger control over the transient response while maintaining high stability.
+							There's a zero placement at ~2Hz to speed up the transient response, while a pole is placed at ~15kHz.
+							In hindsight, the pole should have probably been placed quite a bit slower to smooth out more of the switching action.
+							I was tuning control loops in simulation very late in the night and was planning on tuning parameters in person at some point.
+						</p>
+						<p>
+							I've sketched up a quick bode plot as shown below, so you can see the frequency response of the system.
+						</p>
+						<figure>
+						<img class="writing-fig" src="dcdc_breakdown/bode.png"></img>
+						<figcaption class="writing-fig">Quick sample bode plot to show where the poles and zeros are</figcaption>
+						</figure>
+						<b>Op-amp Comparator</b><br>
+						<p>
+							Finally there is the op-amp comparator (U5).
+							This is a very simple comparator that outputs HIGH when the triangle wave output is above the reference voltage set by our Type II compensator (U6).
+							It outputs LOW when the triangle wave output is below said reference voltage.
+							This is effectively triggering the MOSFET for the DC-DC switching action ON and OFF.
+						</p>
+					</div>
+					<div id="enablec" class="subsubheading">Enable Control</div>
+					<div class="body">
+						<figure>
+						<img class="writing-fig" src="dcdc_breakdown/enable.png"></img>
+						<figcaption class="writing-fig">Enable Passthrough Circuit</figcaption>
+						</figure>
+						<p>
+						We already discussed briefly the enable MOSFET, so I will skip over that for now. You can learn more about it <a href="#ref_input">here</a>.
+						</p>
+						<p>
+						This circuit here is really simple. It simply takes the voltage measurement stepped down from the output voltage.
+						It then buffers it, filters it a bit and sends it through a comparator. 
+						In this case, ENABLE_OUT gets driven HIGH if the input voltage is ~1.666V which refers to an output voltage of ~200V.	
+						</p>
+						<p>
+						ENABLE_OUT get's sent through an optocoupler device to isolate the HV referenced electronics.
+						This is then used to trigger ENABLE on the 2nd stage DC-DC. You can get more context in the high-level schematic <a href="#overview_schem">here</a>.
+						</p>
+					</div>
+					<div id="ovp" class="subsubheading">Over-Voltage Protection (OVP)</div>
+					<div class="body">
+						<figure>
+						<img class="writing-fig" src="dcdc_breakdown/ovp.png"></img>
+						<figcaption class="writing-fig">Over-Voltage Protection Circuit</figcaption>
+						</figure>
+						<p>
+							The over-voltage protection circuit is also quite simple.
+							All it is, is a comparator circuit that triggers HIGH when the sensed input voltage rises above 3.33V which corresponds to an output voltage of ~404V.
+							When it outputs HIGH it drives the MOSFET Q4 LOW which effectivelly turns the regulator OFF as it pulls the reference for the comparator to 0.
+						</p>
+					</div>
+					<div id="gd" class="subsubheading">Gate Drive</div>
+					<div class="body">
+						<figure>
+						<img class="writing-fig" src="dcdc_breakdown/gatedrive.png"></img>
+						<figcaption class="writing-fig">Gate Drive Circuit</figcaption>
+						</figure>
+						<p>
+							The gate driver circuit is really simple and could result in some issues, but didn't during my time working with it.
+							I performed practically 0 analysis on this, I just trusted GaN Systems' writings that you can drive these GaN chips using a standard Si driver (see <a href="https://gansystems.com/wp-content/uploads/2022/03/GN012_Gate-Driver-Design-with-GaN-E-HEMTs_220308.pdf">here</a> for more details).
+						</p>
+						<p>
+							There's not much to say here it's a very simple topology. Isolated DC-DC module to supply the power for the gate drive unit.
+							10 ohm resistor is used to slow the rise time of the gate of the FET. Not much analysis was done, simply that this is a GaN FET
+							it has very high rise times, and we don't have a ton of time to do in-depth parasitic inductance analysis.
+							If it's an issue we'll have to settle that when we come to bringup and testing and tune the gate resistor.
+						</p>
+					</div>
+					<div id="powere" class="subheading">Power Electronics</div>
+					<div id="icsel" class="subsubheading">Inductor and Capacitor Selection</div>
+					<div class="body">
+						<p>
+							<b>Note:</b>I'm going to breeze through inductor and capacitor selection, it's not very interesting.
+						</p>
+						<p>
+							In sum, for capacitor and inductor selection, you need to ensure you have low output ripple, proper voltage ratings, low mass, low losses and ensuring the system remains in continuous conduction mode.
+						</p>
+						<figure>
+						<img class="writing-fig" style="width: 33%;display:block;margin-left:auto;margin-right:auto;"src="dcdc_breakdown/inductor.jpg"></img>
+						<figcaption class="writing-fig">Bourns 1140-222K-RC (2.2mH inductor)</figcaption>
+						</figure>
+						<p>
+						For the inductor I found a fairly compact and very high inductance inductor (2.2mH) that could still handle the current I hoped for (~2A) (<a href="https://www.bourns.com/docs/Product-Datasheets/1140_series.pdf">here</a>).
+						I stuck 3 of those in series, while ensuring that I stuck a connector across them so we could add more in the future if that was deemed necessary.
+						</p>
+						<figure>
+						<img class="writing-fig" src="dcdc_breakdown/induct_schem.png"></img>
+						<figcaption class="writing-fig">Inductor Schematic</figcaption>
+						</figure>
+						<p>
+						For the input capacitance I selected a 650V 20uF film capacitor (<a href="https://content.kemet.com/datasheets/KEM_F3114_C4AQ.pdf">this one</a>).
+						</p>
+						<figure>
+						<img class="writing-fig" style="width: 33%;display:block;margin-left:auto;margin-right:auto;" src="dcdc_breakdown/input_cap.png"></img>
+						<figcaption class="writing-fig">KEMET C4AQ 20uF 650V capacitor</figcaption>
+						</figure>
+						<p>
+						For the output capacitance I selected 4 450V 10uF aluminum capacitors (<a href="https://www.we-online.com/components/products/datasheet/865061462004.pdf">these ones</a>).
+						</p>
+						<figure>
+						<img class="writing-fig" style="width: 33%;display:block;margin-left:auto;margin-right:auto;" src="dcdc_breakdown/output_cap.jpg"></img>
+						<figcaption class="writing-fig">Wurth Elektronik WCAP-ASLL 450V 10uF capacitor</figcaption>
+						</figure>
+						<p>
+							If you run the calculations from above you end up with a ripple voltage of <1V, which is pretty good for our use case.
+						</p>
+					</div>
+					<div id="fetsel" class="subsubheading">FET Selection</div>
+					<div class="body">
+						<p>
+							I wanted to minimize mass for this design.
+							Setting up a huge heatsink and having to worry about the creepage issues as we'd have to properly ground to the chassis this heatsink was not something I was interested in doing.
+						</p>
+						<p>
+							What I opted to do was, get a GaN HEMT, this would cost a bit extra but it would save on volume, it would yield very low switching losses while still having fairly low on-state resistance.
+						</p>
+						<figure>
+						<img class="writing-fig" style="width: 33%;display:block;margin-left:auto;margin-right:auto;" src="dcdc_breakdown/gan.webp"></img>
+						<figcaption class="writing-fig">GaN HEMT (GS66516T)</figcaption>
+						</figure>
+						<p>
+						The <a href="https://gansystems.com/gan-transistors/gs66516t/">GS65516T</a> has a low RDS(on) of 25m&Omega; and tiny gate charge of 14.2nC.
+						It also has a VDS(max) of 650V.
+						All in all it works great for our application, at our low switching frequency of 10kHz switching with this should not generate high losses, and at a maximum current of only about 2A you're looking at most 100mW conduction loss.
+						</p>
+						<p>
+						The plan was to put this under load and see if purely natural convection of this fairly significant thermal pad would yield a fairly decent operating margin.
+						Perhaps we'd have to put a fan near it, or worst case a very tiny heatsink.
+						</p>
+					</div>
+				<div class="grouped-heading">
+					<div id="results" class="heading">Result/Conclusion</div>
+					<div id="routing" class="subheading">Routing</div>
+					<p>I won't go too much into the details of the routing as it was a long time ago, and a fairly poor job was done given the time.</p>
+					<div id="hvs" class="subsubheading">HV Spacings</div>
+					<p>
+						One thing that's quite important when designing PCBs with large voltages (>60V) is maintaining proper spacings between the traces.
+						If too high of a potential develops between close traces they could arc and cause a short between each other.
+					</p>
+					<figure>
+					<img class="writing-fig" src="dcdc_breakdown/ipc.png"></img>
+					<figcaption class="writing-fig">IPC Standard Breakdown</figcaption>
+					</figure>
+					<p>
+						A generally accepted standard that I use is the <a href="https://www-eng.lbl.gov/~shuman/NEXT/CURRENT_DESIGN/TP/MATERIALS/IPC-2221A(L).pdf">IPC-2221</a> standard.
+						Many suggest that it's perhaps too conservative, although this may be true, I prefer to play it safe when it comes to safety and reliability even if it means sacrificing a few mm.
+						For anything over about 300V I'll typically use about 3-4mm spacing with conformal coating always.
+						If the system is certainly below ~400V I'll use ~3-4mm spacing without conformal coating if it's too much of a burden.
+					</p>
+					<div id="fusing" class="subheading">Fusing</div>
+					<p>
+						I did not place any fusing on board, this was done to the extreme volume constraints imposed by the project.
+						If you're going to use a board like this you must ensure proper fusing off-board.
+						Ensure each fuse is rated for the maximum possible voltage (i.e 600V+).
+					</p>
+					<div id="render" class="subheading">Rendered PCB</div>
+					<figure>
+					<img class="writing-fig" src="dcdc_breakdown/render.png"></img>
+					<figcaption class="writing-fig">Altium 3D view of PCB</figcaption>
+					</figure>
+				</div>
+				</div>
+			</main>
+		</div>
+
+	</body>
+</html>
+<link rel="preconnect" href="https://fonts.gstatic.com">
+<link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet">
+<link rel="shortcut icon" type="image/jpg" href="../favicon.ico"/>
