@@ -1,0 +1,19 @@
+.grouped-heading { 
+	font-size: 1.25rem;
+}
+
+#fireworks {
+	display:block;
+	margin:auto;
+	object-fit:cover;
+	width: 500pt;
+	height: 240pt;
+}
+
+.connect {
+	display:block;
+	margin:auto;
+	width:200pt;
+	height:5rem;
+	font-size:2rem;
+}
