@@ -85,7 +85,7 @@
 					<b>Step 3.</b> Select pre-configured modes below.
 				</div>
 				<div id="modebtns">
-					<button id="raindowbtn" class="modebtn">
+					<button id="rainbowbtn" class="modebtn">
 						Rainbow	
 					</button>
 					<button id="snakebtn" class="modebtn">
@@ -98,7 +98,18 @@
 						Pong
 					</button>
 				</div>
-
+				<div id="modecontrol">
+					<div class="mcontrol" id="rainbowcontrol">
+						<div>
+							<label style="padding-right:5rem;">Luminance</label>
+							<input type="range" id="rainbowluminance" name="rainbowluminance" min="0" max="0.7" step="0.001" value="0.05">
+						</div>
+						<div>
+							<label style="padding-right:5rem;">Speed</label>
+							<input type="range" id="rainbowspeed" name="rainbowspeed" min="1" max="30" step="0.5" value="7.5">
+						</div>
+					</div>
+				</div>
 			</main>
 		</div>
 
