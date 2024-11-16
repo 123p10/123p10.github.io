@@ -10,10 +10,41 @@
 	height: 240pt;
 }
 
-.connect {
+#connectbtn {
 	display:block;
 	margin:auto;
 	width:200pt;
 	height:5rem;
 	font-size:2rem;
+}
+
+#connection-sts {
+	display:block;
+	margin:auto;
+	text-align: center;
+	margin-top:1rem;
+	color: red;
+	padding-bottom: 1rem;
+}
+#ack-sts {
+	display:block;
+	margin:auto;
+	text-align: center;
+	color: red;
+}
+
+
+.modebtn {
+	width:100pt;
+	height:3rem;
+	font-size:1.5rem;
+	margin: 1rem 1rem 1rem 1rem;
+}
+
+#modebtns {
+	display: block;
+	margin:auto;
+	width:45rem;
+	display: flex;
+	justify-content: center;
 }
