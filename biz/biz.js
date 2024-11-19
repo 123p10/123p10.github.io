@@ -20,6 +20,7 @@ STATE_WAITING_ACK = 0x81;
 STATE_IDLE = 0x82;
 STATE_RAINBOW = 0x83;
 STATE_SNAKE = 0x84;
+STATE_WAVE = 0x85;
 state = 0;
 
 counter = 0;
@@ -40,6 +41,12 @@ document.getElementById("snakebtn").addEventListener("click", async () => {
 	ball_position = [4, 4];
 	snake_lost = 0;
 	snake_direction = [0, 0];
+});
+
+
+document.getElementById("wavebtn").addEventListener("click", async () => {
+	state = STATE_WAVE;
+	counter = 0;
 });
 
 document.addEventListener('keydown', function (e) {
@@ -135,6 +142,9 @@ var intervalId = setInterval(async function() {
 			} else if (state == STATE_SNAKE) {
 				document.getElementById("snakecontrol").style.display = "flex";
 				await snake_game();
+			} else if (state == STATE_WAVE) {
+				document.getElementById("wavecontrol").style.display = "flex";
+				await wave_animation();			
 			}
 
 			if (state != STATE_RAINBOW) {
@@ -142,6 +152,9 @@ var intervalId = setInterval(async function() {
 			}
 			if (state != STATE_SNAKE) {
 				document.getElementById("snakecontrol").style.display = "none";
+			}
+			if (state != STATE_WAVE) {
+				document.getElementById("wavecontrol").style.display = "none";
 			}
 		}
 		lock = 0;
@@ -300,3 +313,43 @@ function random_ball() {
 	let p = Math.floor(Math.random() * filled.length);
 	ball_position = filled[p];	
 }
+
+async function wave_animation() {
+	const lum_floor = 10;
+	let speed = document.getElementById("wavespeed").value;
+	lum_max = document.getElementById("waveluminance").value;
+	function hsl2rgb(h,s,l) 
+	{
+		let a=s*Math.min(l,1-l);
+		let f= (n,k=(n+h/30)%12) => l - a*Math.max(Math.min(k-3,9-k,1),-1);
+		return [f(0),f(8),f(4)];
+	}
+	let output_buff = [];
+	for (let i = 0; i < BUFF_LEN; i++) {
+		let led_grid = [];
+		for(let y = 0; y < 6; y++) {
+			for(let x = 0; x < 6; x++) {
+				let ind = speed*(counter*2+x+i);
+				let rem = ind % lum_max;
+				let lum = 0;
+				if (Math.floor(ind / lum_max) % 2 == 1) {
+					lum = rem;
+				} else {
+					lum = lum_max - rem;
+				}
+				lum = lum + lum_floor;
+				let rgb = hsl2rgb(220,1,lum/100);
+				let st = {
+					red: Math.floor(rgb[0]*255),
+					green: Math.floor(rgb[1]*255),
+					blue: Math.floor(rgb[2]*255)
+				}
+				led_grid.push(st);
+			}
+		}
+		output_buff.push(led_grid);
+	}
+	await write_data(output_buff);
+	counter = counter + 1;
+}
+
