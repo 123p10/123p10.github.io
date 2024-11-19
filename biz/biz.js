@@ -19,13 +19,42 @@ STATE_DC = 0x00;
 STATE_WAITING_ACK = 0x81;
 STATE_IDLE = 0x82;
 STATE_RAINBOW = 0x83;
+STATE_SNAKE = 0x84;
 state = 0;
 
 counter = 0;
+snake_position = [[2, 2]];
+ball_position = [4, 4];
+snake_direction = [0, 0];
+snake_lost = 0;
 
 document.getElementById("rainbowbtn").addEventListener("click", async () => {
 	state = STATE_RAINBOW;
 	counter = 0;
+});
+
+document.getElementById("snakebtn").addEventListener("click", async () => {
+	state = STATE_SNAKE;
+	counter = 0;
+	snake_position = [[2, 2]];
+	ball_position = [4, 4];
+	snake_lost = 0;
+	snake_direction = [0, 0];
+});
+
+document.addEventListener('keydown', function (e) {
+	if (event.key == 'ArrowUp') {
+		snake_direction = [0, -1];
+	}
+	if (event.key == 'ArrowDown') {
+		snake_direction = [0, 1];
+	}
+	if (event.key == 'ArrowLeft') {
+		snake_direction = [-1, 0];
+	}
+	if (event.key == 'ArrowRight') {
+		snake_direction = [1, 0];
+	}
 });
 
 async function serial_read(buffer) {
@@ -103,17 +132,23 @@ var intervalId = setInterval(async function() {
 			} else if (state == STATE_RAINBOW) {
 				document.getElementById("rainbowcontrol").style.display = "flex";
 				await rainbow_animation();			
+			} else if (state == STATE_SNAKE) {
+				document.getElementById("snakecontrol").style.display = "flex";
+				await snake_game();
 			}
 
 			if (state != STATE_RAINBOW) {
 				document.getElementById("rainbowcontrol").style.display = "none";
+			}
+			if (state != STATE_SNAKE) {
+				document.getElementById("snakecontrol").style.display = "none";
 			}
 		}
 		lock = 0;
 	}
 
 
-}, 100);
+}, 66);
 
 async function write_data(led_data) {
 	const x_y_map = [0, 1, 2, 3, 4, 5,
@@ -146,19 +181,122 @@ async function rainbow_animation() {
 		let f= (n,k=(n+h/30)%12) => l - a*Math.max(Math.min(k-3,9-k,1),-1);
 		return [f(0),f(8),f(4)];
 	}
-	let led_grid = [];
-	for(let y = 0; y < 6; y++) {
-		for(let x = 0; x < 6; x++) {
-			let rgb = hsl2rgb((speed*(counter+x)) % 360,1,lum);
-			let st = {
-				red: Math.floor(rgb[0]*255),
-				green: Math.floor(rgb[1]*255),
-				blue: Math.floor(rgb[2]*255)
+	let output_buff = [];
+	for (let i = 0; i < BUFF_LEN; i++) {
+		let led_grid = [];
+		for(let y = 0; y < 6; y++) {
+			for(let x = 0; x < 6; x++) {
+				let rgb = hsl2rgb((speed*(counter*2+x+i)) % 360,1,lum);
+				let st = {
+					red: Math.floor(rgb[0]*255),
+					green: Math.floor(rgb[1]*255),
+					blue: Math.floor(rgb[2]*255)
+				}
+				led_grid.push(st);
 			}
-			led_grid.push(st);
 		}
+		output_buff.push(led_grid);
 	}
-	output_buff = [led_grid, led_grid]
 	await write_data(output_buff);
 	counter = counter + 1;
+}
+
+async function snake_game() {
+	counter = counter + 1;
+	if (counter == 5) {
+		counter = 0;
+		let output_buff = [];
+		if (snake_position.length == 35) {
+			// You win
+			for (let i = 0; i < 36; i++) {
+				output_buff.push(
+					{
+						red: 0,
+						green: 30,
+						blue: 0
+					}
+				);
+			}
+			output_buff = [output_buff, output_buff];
+			await write_data(output_buff);
+			return;
+		} else if (snake_lost == 1) {
+			for (let i = 0; i < 36; i++) {
+				output_buff.push(
+					{
+						red: 15,
+						green: 0,
+						blue: 0
+					}
+				);
+			}
+			output_buff = [output_buff, output_buff];
+			await write_data(output_buff);
+			return;
+		}
+		let old_pos = snake_position[0].slice();
+		let ate = 0;
+		snake_position[0][0] += snake_direction[0];
+		snake_position[0][1] += snake_direction[1];
+		if (snake_position[0][0] >= 6 || snake_position[0][0] < 0 || snake_position[0][1] >= 6 || snake_position[0][1] < 0) {
+			snake_lost = 1;
+			return;
+		}
+		for (let i = 1; i < snake_position.length; i++) {
+			if (snake_position[0][0] == snake_position[i][0] && snake_position[0][1] == snake_position[i][1]) {
+				snake_lost = 1;
+				return;
+			}
+		}
+		if (snake_position[0][0] == ball_position[0] && snake_position[0][1] == ball_position[1]) {
+			random_ball();
+			snake_position.splice(1, 0, old_pos);
+		} else {
+			if (snake_position.length > 1) {
+				for (let i = snake_position.length-1; i > 1; i--) {
+					snake_position[i] = snake_position[i-1].slice();
+				}
+				snake_position[1] = old_pos;
+			}
+		}	
+		for (let y = 0; y < 6; y++) {
+			for (let x = 0; x < 6; x++) {
+				output_buff.push({red: 0, green: 0, blue: 0});
+			}
+		}
+		output_buff[ball_position[1] * 6 + ball_position[0]] = {
+			red: 50,
+			green: 50,
+			blue: 0
+		};
+		for (let i = 0; i < snake_position.length; i++) {
+			output_buff[snake_position[i][1] * 6 + snake_position[i][0]] = {
+				red: 0,
+				green: 30,
+				blue: 0
+			};
+		}
+		output_buff = [output_buff, output_buff];
+		await write_data(output_buff);
+	}
+}
+
+
+function random_ball() {
+	let filled = [];
+	for(let y = 0; y < 6; y++) {
+		for(let x = 0; x < 6; x++) {
+			filled.push([x, y]);
+		}
+	}
+	for(let i = 0; i < snake_position.length; i++) {
+		for(let j = 0; j < filled.length; j++) {
+			if (snake_position[i][0] == filled[j][0] && snake_position[i][1] == filled[j][1]) {
+				filled.splice(j, 1);				
+				break;
+			}
+		}
+	}
+	let p = Math.floor(Math.random() * filled.length);
+	ball_position = filled[p];	
 }

@@ -56,8 +56,13 @@
 	display: flex;
 	justify-content:center;
 }
+
 .mcontrol {
 	display:none;
 	align-items: center;
 	flex-direction:column;
+}
+
+#snakecontrol {
+	text-align: center;
 }
