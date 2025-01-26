@@ -32,7 +32,7 @@
 	text-decoration: none;
 }
 .experience-block {
-	height: 15rem;
+	height: 10rem;
 	background-color: #eaeaea;
 	border-radius: 10px;
 	display: flex;
@@ -44,8 +44,8 @@
 	background-color: #d2d2d2;
 	border-radius: 15px;
 	margin-left: 1rem;
-	width: 10rem;
-	height: 10rem;
+	width: 7.5rem;
+	height: 7.5rem;
 	display: flex;
   	flex-flow: row nowrap;
   	align-items: center;
@@ -69,8 +69,44 @@
 .experience-institution {
 	font-size: 1.5rem;
 }
+
+.experience-title {
+	font-size: 3rem;
+	font-weight: bold;
+}
+.experience-position {
+	font-size: 1.75rem;
+}
+
+.experience-date {
+	font-size: 2rem;
+	text-align: right;
+	padding-right: 2%;
+}
+.experience-headline {
+	display: flex;
+	justify-content: center;
+	flex-direction: column; 
+}
+.experience-details {
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: flex-end;
+	flex:1;
+}
+
+.experience-location {
+	font-size: 1.25rem;
+	text-align: right;
+	padding-right: 2%;
+}
 .experience-body {
-	padding-top: 0.25rem;
+	padding-left: 2rem;
+	flex: 1;
+	display: flex;
+	flex-direction: row;
+	justify-content: space-between
 }
 .experience-body > ul > li {
 	padding-bottom: 0.5rem;
