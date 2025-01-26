@@ -1,15 +1,22 @@
 nameMap = [
 	"work-experience",
 	"projects",
-	"education"
+	"education",
 ];
 statusMap = [
-	true,
-	true,
-	true,
+	false,
+	false,
+	false,
 ];
-for(let i = 0;i < nameMap.length;i++){
-	expand(i);
+
+if (window.matchMedia("(max-width: 768px)").matches) {
+	for(let i = 0;i < nameMap.length;i++){
+		expand(i);
+	}
+} else {
+	for(let i = 0;i < nameMap.length;i++){
+		collapse(i);
+	}
 }
 
 function toggle(id){
