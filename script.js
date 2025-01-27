@@ -9,7 +9,7 @@ statusMap = [
 	false,
 ];
 
-if (window.matchMedia("(max-width: 768px)").matches) {
+if (window.matchMedia("(max-width: 1024px)").matches) {
 	for(let i = 0;i < nameMap.length;i++){
 		expand(i);
 	}
