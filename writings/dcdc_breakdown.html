@@ -310,7 +310,6 @@
 							<img class="writing-fig" src="dcdc_breakdown/schem_annotated.png"></img>
 							<figcaption class="writing-fig">Annotated Schematic of Control Topology</figcaption>
 							</figure>
-						</body>
 					<div id="triangle" class="subsubheading">Triangle Reference</div>
 						<div class="body">
 							<p>
@@ -799,7 +798,7 @@
 						<p>
 							The gate driver circuit is really simple.
 							GaN HEMT driving can typically be very tricky and require advanced circuits, but I had no issues during my testing with this topology.
-							I performed very little analysis, I just trusted GaN Systems' writings that you can drive these GaN chips using a standard Si driver (see <a href="https://gansystems.com/wp-content/uploads/2022/03/GN012_Gate-Driver-Design-with-GaN-E-HEMTs_220308.pdf">here</a> for more details).
+							I performed very little analysis, I just trusted GaN Systems' writings that you can drive these GaN chips using a standard Si driver (see <a href="https://www.mouser.com/pdfDocs/GN012_Gate-Driver-Design-with-GaN-E-HEMTs_200525.pdf?srsltid=AfmBOorMFFN8DC2KfPWptzYsEuUYwXVapxaHB_e_NmEZNNLeSierawCQ">here</a> for more details).
 						</p>
 						<p>
 							There's not much to say here it's a very simple topology. Isolated DC-DC module to supply the power for the gate drive unit.
@@ -862,7 +861,7 @@
 						<figcaption class="writing-fig">GaN HEMT (GS66516T)</figcaption>
 						</figure>
 						<p>
-						The <a href="https://gansystems.com/gan-transistors/gs66516t/">GS65516T</a> has a low RDS(on) of 25m&Omega; and tiny gate charge of 14.2nC.
+						The <a href="https://www.infineon.com/part/GS66516T-TR">GS65516T</a> has a low RDS(on) of 25m&Omega; and tiny gate charge of 14.2nC.
 						It also has a VDS(max) of 650V.
 						All in all it works great for our application, at our low switching frequency of 10kHz switching with this should not generate high losses, and at a maximum current of only about 2A you're looking at most 100mW conduction loss.
 						</p>
@@ -885,7 +884,7 @@
 					<figcaption class="writing-fig">IPC Standard Breakdown</figcaption>
 					</figure>
 					<p>
-						A generally accepted standard that I use is the <a href="https://www-eng.lbl.gov/~shuman/NEXT/CURRENT_DESIGN/TP/MATERIALS/IPC-2221A(L).pdf">IPC-2221</a> standard.
+						A generally accepted standard that I use is the <a href="https://www.tortai-tech.com/wp-content/uploads/2023/09/IPC-2221-Generic-Standard-on-Printed-Board-Design.pdf">IPC-2221</a> standard.
 						Many suggest that it's perhaps too conservative, although this may be true, I prefer to play it safe when it comes to safety and reliability even if it means sacrificing a few mm.
 						For anything over about 300V I'll typically use about 3-4mm spacing with conformal coating always.
 						If the system is certainly below ~400V I'll use ~3-4mm spacing without conformal coating if it's too much of a burden.
